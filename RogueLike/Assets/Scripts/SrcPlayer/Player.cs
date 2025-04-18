@@ -50,13 +50,12 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        #region Movement
-        /*
+        
+        #region Movement in Update / Get Input
         //Input.GetAxisRaw() retorna -1 0 ou 1, sem a suavizacao
         dirPlayer = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), transform.position.z).normalized;
-        transform.Translate(dirPlayer * speed * Time.deltaTime, Space.World);
-        */
     	#endregion
+        
 
         #region Mouse and wand tranform
         if(wand != null){
@@ -94,6 +93,10 @@ public class Player : MonoBehaviour
     }
     void FixedUpdate()
     {
+        #region Movment in FixedUpdate / aplicate velocity
+        rig.velocity = dirPlayer * speed;
+        #endregion
+
         #region Itens colision
         Collider2D[] circleCollect = Physics2D.OverlapCircleAll(transform.position, rayCollect, layerForCollect);
         if(circleCollect.Length > 0){
@@ -153,6 +156,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(timeDeleyForUsingMagic);
         allowedForUsingMagic = true;
     }
+    
     /* //Fiz para brincar
     Collider2D[] selectSortForPhysics2D(Collider2D[] list){
         for(int i = 0; i < list.Length - 1 ; i++){ // menos 1 pois nao tem necessidade verificar se o ultimo é o menor do que os da direita, pois nao tem mais
