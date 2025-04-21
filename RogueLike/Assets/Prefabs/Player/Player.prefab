@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2453629205326414855}
   - component: {fileID: 5708540903363684571}
   - component: {fileID: 8816200943754828401}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,7 +173,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 979915421349839613}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: HandForWand
   m_TagString: Untagged
   m_Icon: {fileID: 0}

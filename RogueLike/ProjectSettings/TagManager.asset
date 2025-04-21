@@ -6,11 +6,12 @@ TagManager:
   tags:
   - wand
   - Wall
+  - Door
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
   - Collectible
