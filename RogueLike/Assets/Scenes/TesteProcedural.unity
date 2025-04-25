@@ -282,11 +282,11 @@ PrefabInstance:
     - target: {fileID: 5403123632324273270, guid: 8bbf48d4d33c98e48a67caff392bd798, type: 3}
       propertyPath: listRooms.Array.data[0]
       value: 
-      objectReference: {fileID: 1416766669697208116, guid: 7e75fe0b9d3f2a74082dcecc34e0d1a5, type: 3}
+      objectReference: {fileID: 8183117315886477104, guid: d7c0be0dce627d448a5d2d0008e2f3a9, type: 3}
     - target: {fileID: 5403123632324273270, guid: 8bbf48d4d33c98e48a67caff392bd798, type: 3}
       propertyPath: listRooms.Array.data[1]
       value: 
-      objectReference: {fileID: 1416766669697208116, guid: 7e75fe0b9d3f2a74082dcecc34e0d1a5, type: 3}
+      objectReference: {fileID: 2646448392674062187, guid: e2b7a2cb0604c014e83e09c8625f881f, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

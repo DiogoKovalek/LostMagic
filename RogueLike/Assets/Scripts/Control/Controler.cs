@@ -31,7 +31,7 @@ public class Controler : MonoBehaviour
         for(int y = 0; y<mapGenerated.GetLength(0); y++){ // Y
             for(int x = 0; x<mapGenerated.GetLength(1); x++){ // X
                 if(mapGenerated[x,y] != null){
-                    GameObject room = listRooms[mapGenerated[x,y].IdRoom - 1];
+                    GameObject room = listRooms[mapGenerated[x,y].IdRoom];
                     Vector3 pos = new Vector3(roomWidth*x, roomHeight*(mapSize2D - 1 - y));
                     room = Instantiate(room, pos, Quaternion.Euler(0,0,0));
                     room.transform.SetParent(floor.transform);

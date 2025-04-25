@@ -11,6 +11,8 @@ public class Procedural
 
     private float chanceForCreateTrapRoom = 30.0f; // number Between 0 and 100
     private float chanceForCreateDoubleTrapRoom = 15.0f;
+    private float chanceForAddNewDoorInRoom = 45.0f;
+    private float chanceForAddExtraNewDoorInRoom = 20.0f;
     public RoomConfig[,] generateMapProcedural(int size2D, int numberOfRooms, int numberOfRoomsList){
         // cria o array
         mapGenerateRooms = new RoomConfig[size2D,size2D];
@@ -18,7 +20,7 @@ public class Procedural
         int pointx = (int) size2D/2;
         int pointy = (int) size2D/2;
         
-        mapGenerateRooms[pointx,pointy] = createRoom(1); // A sala 1 será a sala que que o player ira iniciar
+        mapGenerateRooms[pointx,pointy] = createRoom(0); // A sala 0 será a sala que que o player ira iniciar
         // A sala 1 tera 4 portas de saida, depois disso devese criar entao 4 ramificacoes de caminhos aleatorios
         // init branch
         List<posXY> seeds = new List<posXY>(); // cada ponto representa uma ramificacao
@@ -94,7 +96,42 @@ public class Procedural
                     }
                 }
                 #endregion
-
+                
+                #region Check if have a room near to have chance add door
+                if(UnityEngine.Random.Range(0.0f,100.0f) <= chanceForAddNewDoorInRoom){
+                    List<posXY> roomsNear = new List<posXY>();
+                    if(seeds[j].Y - 1 >= 0 && mapGenerateRooms[seeds[j].X, seeds[j].Y - 1] != null && seeds[j].Y - 1 != previousRoom.Y){ // Cima
+                        posXY pos = new posXY(seeds[j].X, seeds[j].Y - 1);
+                        pos.DirectionDoor |= 0b1000;
+                        roomsNear.Add(pos);
+                    }
+                    if(seeds[j].X + 1 < (size2D - 1) && mapGenerateRooms[seeds[j].X + 1, seeds[j].Y] != null && seeds[j].X + 1 != previousRoom.X){ // Direita
+                        posXY pos = new posXY(seeds[j].X + 1, seeds[j].Y);
+                        pos.DirectionDoor |= 0b0100;
+                        roomsNear.Add(pos);
+                    }
+                    if(seeds[j].Y + 1 < (size2D - 1) && mapGenerateRooms[seeds[j].X, seeds[j].Y + 1] != null && seeds[j].Y + 1 != previousRoom.Y){ // Baixo 
+                        posXY pos = new posXY(seeds[j].X, seeds[j].Y + 1);
+                        pos.DirectionDoor |= 0b0010;
+                        roomsNear.Add(pos);
+                    }
+                    if(seeds[j].X - 1 >= 0 && mapGenerateRooms[seeds[j].X - 1, seeds[j].Y] != null && seeds[j].X - 1 != previousRoom.X){ // Esquerda
+                        posXY pos = new posXY(seeds[j].X - 1, seeds[j].Y);
+                        pos.DirectionDoor |= 0b0001;
+                        roomsNear.Add(pos);
+                    }
+                    
+                    while(roomsNear.Count > 0){
+                        int numRoomChange = UnityEngine.Random.Range(0, roomsNear.Count);
+                        posXY roomChange = roomsNear[numRoomChange];
+                        mapGenerateRooms[seeds[j].X, seeds[j].Y].DirectionDoors |= roomChange.DirectionDoor;
+                        mapGenerateRooms[roomChange.X, roomChange.Y].DirectionDoors |= getOpositeDoor(roomChange.DirectionDoor);
+                        if(UnityEngine.Random.Range(0.0f, 100.0f) >= chanceForAddExtraNewDoorInRoom){
+                            break;
+                        }
+                    }
+                }
+                #endregion
                 
             }
         }
