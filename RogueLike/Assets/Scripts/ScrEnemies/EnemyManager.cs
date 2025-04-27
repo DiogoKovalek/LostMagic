@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
+    /*
     public List<EnemyBase> listEnemy = new List<EnemyBase>();
     void Start(){
         foreach(var enemy in listEnemy){
@@ -15,4 +16,5 @@ public class EnemyManager : MonoBehaviour
             enemy.UpdateEnemy();
         }
     }
+    */
 }

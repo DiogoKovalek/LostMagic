@@ -2,15 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBase : MonoBehaviour
+[CreateAssetMenu(fileName = "Enemy", menuName = "Base/Enemy")]
+public class EnemyBase : ScriptableObject
 {
-    protected int life = 3;
-    protected float speed = 2;
+    public string nameEnemy;
+    public RuntimeAnimatorController rumAnim;
+    public int life;
+    public float speed;
 
-    public virtual void StartEnemy(){}
-    public virtual void UpdateEnemy(){}
-    
-    public void CauseDamageInEnemy(int damage){
-        life -= damage;
-    }
 }
