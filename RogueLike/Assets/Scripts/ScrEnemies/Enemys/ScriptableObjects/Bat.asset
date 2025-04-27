@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Bat
   m_EditorClassIdentifier: 
   nameEnemy: Bat
-  rumAnim: {fileID: 0}
+  rumAnim: {fileID: 9100000, guid: d7edc82bcc22b9e48ac9dc0b82cfdb39, type: 2}
   life: 1
   speed: 5
+  action: 0

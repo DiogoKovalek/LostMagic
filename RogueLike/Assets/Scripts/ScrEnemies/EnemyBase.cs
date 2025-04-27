@@ -9,5 +9,6 @@ public class EnemyBase : ScriptableObject
     public RuntimeAnimatorController rumAnim;
     public int life;
     public float speed;
-
+    public ActionEnemyBehavior action;
 }
+

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: FireSpirit
   m_EditorClassIdentifier: 
   nameEnemy: FireSpirit
-  rumAnim: {fileID: 0}
+  rumAnim: {fileID: 9100000, guid: 42779d1ec6e017f45bd6b10bed869a06, type: 2}
   life: 3
   speed: 5
+  action: 0
