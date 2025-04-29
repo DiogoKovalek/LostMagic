@@ -12,3 +12,9 @@ public class EnemyBase : ScriptableObject
     public ActionEnemyBehavior action;
 }
 
+public enum ActionEnemyBehavior{
+        SlimeBehavior,
+        Teleport,
+        Atack
+}
+

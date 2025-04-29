@@ -24,6 +24,7 @@ public class WandTest : MonoBehaviour, IActionsWand
             GameObject project = projectilesConjured[0];
             projectilesConjured.Remove(project);
             project.transform.position = transform.position;
+            project.GetComponent<CircleCollider2D>().enabled = true;
             project.GetComponent<Rigidbody2D>().AddForce(transform.right * speedProjectile, ForceMode2D.Impulse);
         }
         
@@ -51,6 +52,7 @@ public class WandTest : MonoBehaviour, IActionsWand
         if(projectilesConjured.Count == 0) return;
         foreach(var project in projectilesConjured){
             Vector2 direction = (project.transform.position - playerOwner.transform.position).normalized;
+            project.GetComponent<CircleCollider2D>().enabled = true;
             project.GetComponent<Rigidbody2D>().AddForce(direction*speedProjectile, ForceMode2D.Impulse);
         }
         projectilesConjured.Clear();

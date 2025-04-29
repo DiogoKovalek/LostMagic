@@ -6,8 +6,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     // Enemy Base =======================
-    [SerializeField] EnemyBase enemyBase;
-    private string nameEnemy;
+    public EnemyBase enemyBase;
     private int life;
     private float speed;
     //===================================
@@ -16,18 +15,17 @@ public class Enemy : MonoBehaviour
     private Dictionary<ActionEnemyBehavior, Action> actions;
 
     private Transform player;
+    private bool isFreeForMove = true;
     void Awake()
-    {
-        
+    {    
         actions = new Dictionary<ActionEnemyBehavior, Action>
         {
-            {ActionEnemyBehavior.Move, Move},
+            {ActionEnemyBehavior.SlimeBehavior, SlimeBehavior},
             {ActionEnemyBehavior.Teleport, Teleport},
             {ActionEnemyBehavior.Atack, Atack}
         };
         
-
-        nameEnemy = enemyBase.name;
+        gameObject.name = enemyBase.name;
         anim = GetComponent<Animator>();
         anim.runtimeAnimatorController = enemyBase.rumAnim;
         life = enemyBase.life;
@@ -42,14 +40,37 @@ public class Enemy : MonoBehaviour
     void Update(){
         ExecuteActionBehavior();
     }
-    public void CauseDamageInEnemy(int damage){
-        this.life -= damage;
+
+    void OnCollisionEnter2D(Collision2D other){
+        if(other.gameObject.tag == "Player"){
+            Debug.Log("colidiu");
+            isFreeForMove = false;
+        }
+    }
+    void OnCollisionExit2D(Collision2D other){
+        if(other.gameObject.tag == "Player"){
+            Debug.Log("Saiu");
+            isFreeForMove = true;
+        }
     }
 
-    public void getPlayer(){ // Melhorar depois
+    public void CauseDamageInEnemy(int damage){
+        this.life -= damage;
+        if(life < 0){ // Criar outro metodo para destruir o inimigo para ficar mais dianmico
+            Destroy(this.gameObject);
+        }
+    }
+    /*
+    private void CauseDamageInPlayerPerAPRO(int damage){
+        Collider2D cirecleDamage = Physics2D.OverlapCircle(transform.position, GetComponent<CircleCollider2D>().radius, playerLayer);
+        if(cirecleDamage != null){ // player colidiu
+            Debug.Log("Colidiu");
+        }
+    }*/
+
+    private void getPlayer(){ // Melhorar depois
         player = FindObjectOfType<Player>().transform;
     }
-    #region  Action Behavior Enemy
     
     private void ExecuteActionBehavior(){
         if(actions.TryGetValue(enemyBase.action, out var action)){ // Paga o Action dentro do dicionario
@@ -60,11 +81,14 @@ public class Enemy : MonoBehaviour
         }
     }
     
-    private void Move(){
-        Vector2 direction = (player.position - transform.position).normalized;
-        rig.velocity = direction *speed;
+    #region Slime Behavior
+    private void SlimeBehavior(){
+        if(isFreeForMove){ // movement
+            Vector2 direction = (player.position - transform.position).normalized;
+            rig.velocity = direction *speed;
+        }
     }
-
+    #endregion
     private void Teleport(){
         Debug.Log("Teleport");
     }
@@ -72,9 +96,3 @@ public class Enemy : MonoBehaviour
         Debug.Log("Atack");
     }
 }
-public enum ActionEnemyBehavior{
-        Move,
-        Teleport,
-        Atack
-}
-#endregion

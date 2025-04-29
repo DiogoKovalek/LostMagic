@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] float speed;
     private Vector3 dirPlayer;
     private Rigidbody2D rig;
+    private int life;
 
     // Varibles for Wand ==================
     private GameObject wand;
@@ -133,6 +134,9 @@ public class Player : MonoBehaviour
             }
         }
     }
+    public void CauseDamageInPlayer(int attack){
+        this.life -= attack;
+    }
     Collider2D getColNearFromThePlayer(Collider2D[] list){
         var near = list[0];
         for(int i = 1; i < list.Length; i++){
@@ -156,8 +160,8 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(timeDeleyForUsingMagic);
         allowedForUsingMagic = true;
     }
-    
-    /* //Fiz para brincar
+}
+/* //Fiz para brincar
     Collider2D[] selectSortForPhysics2D(Collider2D[] list){
         for(int i = 0; i < list.Length - 1 ; i++){ // menos 1 pois nao tem necessidade verificar se o ultimo é o menor do que os da direita, pois nao tem mais
             var itemNear = list[i];
@@ -191,4 +195,3 @@ public class Player : MonoBehaviour
         }
     }
     */
-}
