@@ -7,53 +7,43 @@ public class Enemy : MonoBehaviour
 {
     // Enemy Base =======================
     public EnemyBase enemyBase;
-    private int life;
-    private float speed;
+    public int life;
     //===================================
     private Animator anim;
-    private Rigidbody2D rig;
-    private Dictionary<ActionEnemyBehavior, Action> actions;
-
-    private Transform player;
-    private bool isFreeForMove = true;
+    private Dictionary<ActionEnemyBehavior, IEnemyBehavior> behaviors;
+    public Transform TargetPlayer; // Provisorio
     void Awake()
     {    
-        actions = new Dictionary<ActionEnemyBehavior, Action>
+        behaviors = new Dictionary<ActionEnemyBehavior, IEnemyBehavior>
         {
-            {ActionEnemyBehavior.SlimeBehavior, SlimeBehavior},
-            {ActionEnemyBehavior.Teleport, Teleport},
-            {ActionEnemyBehavior.Atack, Atack}
+            {ActionEnemyBehavior.SlimeBehavior, new SlimeBehavior()},
         };
         
         gameObject.name = enemyBase.name;
         anim = GetComponent<Animator>();
         anim.runtimeAnimatorController = enemyBase.rumAnim;
-        life = enemyBase.life;
-        speed = enemyBase.speed;
+        life = enemyBase.totalLife;
 
-        rig = GetComponent<Rigidbody2D>();
+        
     }
     void Start()
     {
-        getPlayer();      
+        TargetPlayer = FindObjectOfType<Player>().transform;
+        getEnemyBehavior()?.StartBehavior(this);
     }
-    void Update(){
-        ExecuteActionBehavior();
+    void Update()
+    {
+        getEnemyBehavior()?.UpdateBehavior(this);
     }
-
-    void OnCollisionEnter2D(Collision2D other){
-        if(other.gameObject.tag == "Player"){
-            Debug.Log("colidiu");
-            isFreeForMove = false;
+    private IEnemyBehavior getEnemyBehavior(){
+        if(behaviors.TryGetValue(enemyBase.behavior , out var enemyBehavior)){
+            return enemyBehavior;
+        }else{
+            Debug.LogError($"Erro ao acessar o Behavior >>> {enemyBase.behavior}");
         }
-    }
-    void OnCollisionExit2D(Collision2D other){
-        if(other.gameObject.tag == "Player"){
-            Debug.Log("Saiu");
-            isFreeForMove = true;
-        }
-    }
+        return null;
 
+    }
     public void CauseDamageInEnemy(int damage){
         this.life -= damage;
         if(life < 0){ // Criar outro metodo para destruir o inimigo para ficar mais dianmico
@@ -68,6 +58,7 @@ public class Enemy : MonoBehaviour
         }
     }*/
 
+    /*
     private void getPlayer(){ // Melhorar depois
         player = FindObjectOfType<Player>().transform;
     }
@@ -95,4 +86,5 @@ public class Enemy : MonoBehaviour
     private void Atack(){
         Debug.Log("Atack");
     }
+    */
 }

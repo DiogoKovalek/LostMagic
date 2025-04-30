@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameEnemy: Slime
   rumAnim: {fileID: 9100000, guid: b5a52ea8671c5c944b0c087ac6f79fca, type: 2}
-  life: 5
+  totalLife: 5
   speed: 2
-  action: 0
+  atack: 1
+  behavior: 0

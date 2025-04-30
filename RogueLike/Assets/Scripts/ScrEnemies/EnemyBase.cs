@@ -7,9 +7,10 @@ public class EnemyBase : ScriptableObject
 {
     public string nameEnemy;
     public RuntimeAnimatorController rumAnim;
-    public int life;
+    public int totalLife;
     public float speed;
-    public ActionEnemyBehavior action;
+    public int atack;
+    public ActionEnemyBehavior behavior;
 }
 
 public enum ActionEnemyBehavior{

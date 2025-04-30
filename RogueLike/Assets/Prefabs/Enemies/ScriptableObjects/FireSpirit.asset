@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   nameEnemy: FireSpirit
   rumAnim: {fileID: 9100000, guid: 42779d1ec6e017f45bd6b10bed869a06, type: 2}
-  life: 3
+  totalLife: 2
   speed: 5
-  action: 0
+  atack: 1
+  behavior: 0
