@@ -16,5 +16,5 @@ MonoBehaviour:
   rumAnim: {fileID: 9100000, guid: b5a52ea8671c5c944b0c087ac6f79fca, type: 2}
   totalLife: 5
   speed: 2
-  atack: 1
+  attack: 3
   behavior: 0

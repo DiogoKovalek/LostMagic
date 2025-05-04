@@ -12,6 +12,10 @@ public class Player : MonoBehaviour
     private Vector3 dirPlayer;
     private Rigidbody2D rig;
     private int life;
+    private bool isInvunerable = false;
+    private bool freeForMove = true;
+    private float timeForInvunerable = 1.1f;
+    private float timeRecoil = 0.1f;
 
     // Varibles for Wand ==================
     private GameObject wand;
@@ -95,7 +99,9 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         #region Movment in FixedUpdate / aplicate velocity
-        rig.velocity = dirPlayer * speed;
+        if(freeForMove){
+            rig.velocity = dirPlayer * speed;
+        }
         #endregion
 
         #region Itens colision
@@ -135,7 +141,16 @@ public class Player : MonoBehaviour
         }
     }
     public void CauseDamageInPlayer(int attack){
-        this.life -= attack;
+        if(!isInvunerable){
+            this.life -= attack;
+            StartCoroutine(delayForInvunerable());
+        }
+    }
+    public void RecoilAttack(Vector2 posE, float force){
+        if(!isInvunerable){
+            Debug.Log("Aqui");
+            StartCoroutine(recoilAttack(posE, force));
+        }
     }
     Collider2D getColNearFromThePlayer(Collider2D[] list){
         var near = list[0];
@@ -159,6 +174,21 @@ public class Player : MonoBehaviour
         allowedForUsingMagic = false;
         yield return new WaitForSeconds(timeDeleyForUsingMagic);
         allowedForUsingMagic = true;
+    }
+    private IEnumerator delayForInvunerable(){
+        isInvunerable = true;
+        Debug.Log("invuneravel");
+        yield return new WaitForSeconds(timeForInvunerable);
+        isInvunerable = false;
+        Debug.Log("Normal");
+    }
+
+    private IEnumerator recoilAttack(Vector2 posE, float force){
+        freeForMove = false;
+        Vector2 direction = ((Vector2) transform.position - posE).normalized;
+        rig.velocity = direction * force;
+        yield return new WaitForSeconds(timeRecoil);
+        freeForMove = true;
     }
 }
 /* //Fiz para brincar

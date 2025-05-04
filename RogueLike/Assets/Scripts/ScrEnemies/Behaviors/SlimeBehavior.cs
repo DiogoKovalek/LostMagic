@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class SlimeBehavior : IEnemyBehavior
@@ -12,13 +14,16 @@ public class SlimeBehavior : IEnemyBehavior
     //============================================
 
     private const float raiForAtack = 3.0f;
-    private const float timeForAtack = 3.0f;
-    private const float delayForBackWalk = 1.5f;
-    private const float delayForBackAtack = 1.0f;
-    private const float forceJump = 3.0f;
+    private const float timeForAtack = 1.3f;
+    private const float delayForAttack = 0.2f;
+    private const float delayForBackWalk = 1.0f;
+    private const float delayForBackAtack = 3.0f;
+    private const float forceJump = 25.0f;
+    private const float forceRecoilPlayer = 15.0f;
     private bool nearPlayer = false;
-    private bool prepareForAtack = false;
-    private bool freeForAtack = true;
+    private bool freeForAttack = true; // trocar para true
+    private bool freeForMove = true; // aqui trocar para true
+    private bool isAttaking = false;
     public void StartBehavior(Enemy enemy){
         enemyBase = enemy.enemyBase;
         rig = enemy.GetComponent<Rigidbody2D>();
@@ -28,29 +33,32 @@ public class SlimeBehavior : IEnemyBehavior
     }
 
     public void UpdateBehavior(Enemy enemy){
-        if(!nearPlayer || !prepareForAtack){
+        if(freeForMove){
             Vector2 direction = (targetPlayer.position - enemy.transform.position).normalized;
             rig.velocity = direction * enemyBase.speed;
-        }else if(!prepareForAtack){
-            enemy.StartCoroutine(atack(enemy));
         }
+        if(freeForAttack && nearPlayer){
+            enemy.StartCoroutine(attack(enemy));
+        }
+        attackColision(enemy);
+    }
 
-        /*
-        ?Proximo
-        se(!Proximo)
-            andar()
-        senao(!Proximo)
-            PrepararParaAtacar()
-
-        PrepararParaAtacar()
-            espera x segundos
-            addForce(direcaoDoPlayer)
-        */
+    private void attackColision(Enemy enemy){
+        Collider2D areaAttack = Physics2D.OverlapCircle(enemy.transform.position, enemy.GetComponent<CircleCollider2D>().radius, 1 << targetPlayer.gameObject.layer);
+        if(areaAttack != null){
+            Player scriptPlayer = areaAttack.GetComponent<Player>();
+            // Se estiver atacando
+            if(isAttaking){
+                scriptPlayer.CauseDamageInPlayer(enemyBase.attack);
+            }else{
+                scriptPlayer.RecoilAttack(enemy.transform.position, forceRecoilPlayer);
+                scriptPlayer.CauseDamageInPlayer(enemyBase.attack / 3); // se auto transforma em int
+            }
+        }
     }
 
     private IEnumerator calcDistanceForPlayer(Enemy enemy){
         float distEnemyForPlayer = Vector2.Distance(enemy.transform.position, targetPlayer.position);
-        Debug.Log(distEnemyForPlayer);
         if(distEnemyForPlayer <= raiForAtack){
             nearPlayer = true;
         }
@@ -58,14 +66,25 @@ public class SlimeBehavior : IEnemyBehavior
         enemy.StartCoroutine(calcDistanceForPlayer(enemy));
     }
 
-    private IEnumerator atack(Enemy enemy){
-        prepareForAtack = true;
+    private IEnumerator attack(Enemy enemy){
+        // Prepara for attack
+        freeForMove = false;
+        freeForAttack = false;
+        rig.velocity = new Vector2(0,0); // zera a velocidade
         yield return new WaitForSeconds(timeForAtack);
+        // Attack
+        isAttaking = true;
         Vector2 direction = (targetPlayer.position - enemy.transform.position).normalized;
         rig.AddForce(direction*forceJump, ForceMode2D.Impulse);
+        yield return new WaitForSeconds(delayForAttack);
+        rig.velocity = new Vector2(0,0); // para o pulo
+        isAttaking = false;
         yield return new WaitForSeconds(delayForBackWalk);
-
+        // BackWalk
+        freeForMove = true;
         yield return new WaitForSeconds(delayForBackAtack);
+        // BackAttack
+        freeForAttack = true;
     }
 
     /*

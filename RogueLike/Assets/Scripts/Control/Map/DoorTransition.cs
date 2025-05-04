@@ -6,10 +6,15 @@ using UnityEngine;
 public class DoorTransition : MonoBehaviour
 {
     private float deslocPlayer = 3;
+
+    // Provisorio, deve pegar no controler====
+    private byte widthRoom = 26;
+    private byte heightRoom = 14;
+    //========================================
     void OnTriggerEnter2D(Collider2D other){
         if(other.gameObject.tag == "Player"){
             short[] direction = getDirectionDoor();
-            Camera.main.transform.position += new Vector3(26*direction[0],14*direction[1],-10);
+            Camera.main.transform.position += new Vector3(widthRoom*direction[0],heightRoom*direction[1],-10);
             other.transform.position = transform.position + new Vector3(deslocPlayer*direction[0], deslocPlayer*direction[1], 0);
         }
     }
