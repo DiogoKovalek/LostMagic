@@ -184,3 +184,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyBase: {fileID: 0}
+  life: 0
+  TargetPlayer: {fileID: 0}
+  layerEnemy:
+    serializedVersion: 2
+    m_Bits: 128
+  layerEnemyIgoreCollision:
+    serializedVersion: 2
+    m_Bits: 1024

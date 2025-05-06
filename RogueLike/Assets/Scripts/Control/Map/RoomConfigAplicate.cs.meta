@@ -3,7 +3,9 @@ guid: 3efc01022b9a84f47831f79ac9e48a78
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - doorOrWall: {fileID: 4467297481785419488, guid: 6abeb6527329cb24abc49cda62ca4e31, type: 3}
+  - enemyRoomManage: {fileID: 7608430666468071994, guid: d7ed0c1b8801dd044b34d4a7341601e8, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

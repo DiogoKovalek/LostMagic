@@ -24,6 +24,7 @@ public class SlimeBehavior : IEnemyBehavior
     private bool freeForAttack = true; // trocar para true
     private bool freeForMove = true; // aqui trocar para true
     private bool isAttaking = false;
+
     public void StartBehavior(Enemy enemy){
         enemyBase = enemy.enemyBase;
         rig = enemy.GetComponent<Rigidbody2D>();
@@ -59,7 +60,7 @@ public class SlimeBehavior : IEnemyBehavior
 
     private IEnumerator calcDistanceForPlayer(Enemy enemy){
         float distEnemyForPlayer = Vector2.Distance(enemy.transform.position, targetPlayer.position);
-        if(distEnemyForPlayer <= raiForAtack){
+        if(distEnemyForPlayer <= raiForAtack && freeForAttack){
             nearPlayer = true;
         }
         yield return new WaitForFixedUpdate();
@@ -68,15 +69,18 @@ public class SlimeBehavior : IEnemyBehavior
 
     private IEnumerator attack(Enemy enemy){
         // Prepara for attack
+        nearPlayer = false;
         freeForMove = false;
         freeForAttack = false;
         rig.velocity = new Vector2(0,0); // zera a velocidade
+        enemy.gameObject.layer = (int) Math.Log(enemy.layerEnemyIgoreCollision, 2);
         yield return new WaitForSeconds(timeForAtack);
         // Attack
         isAttaking = true;
         Vector2 direction = (targetPlayer.position - enemy.transform.position).normalized;
         rig.AddForce(direction*forceJump, ForceMode2D.Impulse);
         yield return new WaitForSeconds(delayForAttack);
+        enemy.gameObject.layer = (int) Math.Log(enemy.layerEnemy, 2);
         rig.velocity = new Vector2(0,0); // para o pulo
         isAttaking = false;
         yield return new WaitForSeconds(delayForBackWalk);

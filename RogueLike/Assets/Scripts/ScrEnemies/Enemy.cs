@@ -12,6 +12,9 @@ public class Enemy : MonoBehaviour
     private Animator anim;
     private Dictionary<ActionEnemyBehavior, IEnemyBehavior> behaviors;
     public Transform TargetPlayer; // Provisorio
+    public LayerMask layerEnemy;
+    public LayerMask layerEnemyIgoreCollision;
+    
     void Awake()
     {    
         behaviors = new Dictionary<ActionEnemyBehavior, IEnemyBehavior>

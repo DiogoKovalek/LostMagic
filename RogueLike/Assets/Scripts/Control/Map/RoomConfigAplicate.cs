@@ -1,18 +1,22 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RoomConfigAplicate : MonoBehaviour
 {
     [SerializeField] GameObject doorOrWall;
-    
+    [SerializeField] GameObject enemyRoomManage;
     private byte mapSizeX; // Deve estar apenas em controler / depois alterar em doorTransition
     private byte mapSizeY;
+    private TypeRoom[] roomsWithEnemy = {TypeRoom.basic, TypeRoom.basicWithChest};
 
     public void ApplySettings(byte roomWidth, byte roomHeight, RoomConfig roomConfig){
         mapSizeX = roomWidth;
         mapSizeY = roomHeight;
+
+        #region Add Door
         String doorsInRoom = Convert.ToString(roomConfig.DirectionDoors,2);
         if(doorsInRoom.Length < 4){
             doorsInRoom = new String('0', 4 - doorsInRoom.Length) + doorsInRoom;
@@ -34,6 +38,15 @@ public class RoomConfigAplicate : MonoBehaviour
             }
             obj.transform.SetParent(this.transform);
         }
+        #endregion
+
+        #region Add Enemy Room Manager
+        if(roomsWithEnemy.Contains(roomConfig.TypeRoom)){ // if have an enemy
+            GameObject enemyRM = Instantiate(enemyRoomManage, this.transform.position, this.transform.rotation);
+            EnemyRoomManage srcEnemyRM = enemyRM.GetComponent<EnemyRoomManage>();
+            
+        }
+        #endregion
     }
     private GameObject getChildPerTag(String tag, GameObject obj){
         foreach(Transform child in obj.transform){

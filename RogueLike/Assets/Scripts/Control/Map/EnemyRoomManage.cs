@@ -8,23 +8,26 @@ public class EnemyRoomManage : MonoBehaviour
     [SerializeField] GameObject enemyPref;
     [SerializeField] EnemyBase[] listEnemyBase;
     private List<GameObject> listOfEnemysInRoom = new List<GameObject>();
-    private int layerForCollider = 1 << 9 ; //Wall, Player, Enemy
+    //private int layerForCollider = 1 << 9 ; //Wall, Player, Enemy
 
     // Para teste, deve pegar o tamanho de controler, o mesmo deve ser feito no doorTransition
     private byte widthRoom = 26;
     private byte heightRoom = 14;
 
-    [SerializeField] GameObject testePos;
     //===============================================
 
+    /*
     void Start()
     {
         //teste
         createListOfEnemysInRoom(11);
         instantiateEnemys();
     }
+    */
+    public void initEnemyRoomManage(){
 
-    private void createListOfEnemysInRoom(int level){
+    }
+    public void createListOfEnemysInRoom(int level ,RoomConfig roomConfig = null){
         byte maxOfEnemys;
         if(level < 5){
             maxOfEnemys = 3;
@@ -43,7 +46,7 @@ public class EnemyRoomManage : MonoBehaviour
         }
     }
 
-    private void instantiateEnemys(){
+    public void instantiateEnemys(){
         int widthSpawn = widthRoom/2 - 2;
         int heightSpawn = heightRoom/2 - 2;
         while(listOfEnemysInRoom.Count > 0){

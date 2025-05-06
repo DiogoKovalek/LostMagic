@@ -35,7 +35,7 @@ public class Controler : MonoBehaviour
                     Vector3 pos = new Vector3(roomWidth*x, roomHeight*(mapSize2D - 1 - y));
                     room = Instantiate(room, pos, Quaternion.Euler(0,0,0));
                     room.transform.SetParent(floor.transform);
-                    RoomConfigAplicate rca = FindObjectOfType<RoomConfigAplicate>();
+                    RoomConfigAplicate rca = room.GetComponent<RoomConfigAplicate>();
                     if(rca != null){
                         rca.ApplySettings(roomWidth, roomHeight, mapGenerated[x,y]); // Futuramente colocar o Room config como parametro
                     }

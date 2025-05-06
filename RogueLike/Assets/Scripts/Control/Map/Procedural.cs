@@ -74,6 +74,10 @@ public class Procedural
                 seeds[j] = emptySpace[chosenPath];
                 emptySpace.Remove(emptySpace[chosenPath]);
                 #endregion
+
+                #region Type Room
+
+                #endregion
                 
                 #region Create new Room
                 int roomNumber = UnityEngine.Random.Range(1,numberOfRoomsList);
@@ -82,12 +86,12 @@ public class Procedural
                 #endregion
 
                 #region If Trap Room 
-                if(i != 0 && UnityEngine.Random.Range(0.0f,100.0f) <= chanceForCreateTrapRoom && emptySpace.Count > 0){ // Nao pode ter trapRoom na primeira sala, e como esta no final tambem nao pode ter na ultima, e tambem dever ter salas para adicionar
-                    Byte maxOfTrapRooms = 1;
+                if(i != 0 && UnityEngine.Random.Range(0.0f,100.0f) <= chanceForCreateTrapRoom && emptySpace.Count > 0){ // Nao pode ter trapRoom na primeira sala, e como está no final tambem nao pode ter na ultima, e tambem dever ter salas para adicionar
+                    byte maxOfTrapRooms = 1;
                     if(emptySpace.Count == 2 && UnityEngine.Random.Range(0.0f,100.0f) <= chanceForCreateDoubleTrapRoom){ // Se for duas salas, roda o loop
                         maxOfTrapRooms = 2;
                     }
-                    for(Byte s = 0; s < maxOfTrapRooms; s++){
+                    for(byte s = 0; s < maxOfTrapRooms; s++){
                         int numRoomChange = UnityEngine.Random.Range(0,emptySpace.Count);
                         posXY roomChange = emptySpace[numRoomChange];
                         mapGenerateRooms[previousRoom.X, previousRoom.Y].DirectionDoors |= roomChange.DirectionDoor;// Atualiza a antiga sala
@@ -137,7 +141,7 @@ public class Procedural
         }
         return mapGenerateRooms;
     }
-    private Byte getOpositeDoor(Byte door){
+    private byte getOpositeDoor(byte door){
         switch(door){
             case 0b1000: return 0b0010;
             case 0b0100: return 0b0001;
@@ -146,11 +150,11 @@ public class Procedural
             default: return 0b0000;
         }
     }
-    private RoomConfig createRoom(int id, Byte directionDoors = 0b0000, bool isChest = false){
+    private RoomConfig createRoom(int id, byte directionDoors = 0b0000, TypeRoom typeRoom = TypeRoom.initial){
         RoomConfig room = new RoomConfig();
         room.IdRoom = id;
         room.DirectionDoors = directionDoors;
-        room.IsChest = isChest;
+        room.TypeRoom = typeRoom;
         return room;
     }
 }
@@ -162,7 +166,7 @@ public class posXY{
     }
     private int x;
     private int y;
-    private Byte directionDoor; // 0000 cima, direita, baixo, esquerda
+    private byte directionDoor; // 0000 cima, direita, baixo, esquerda
     public int X{
         get => x;
         set => x = value;
@@ -171,7 +175,7 @@ public class posXY{
         get => y;
         set => y = value;
     }
-    public Byte DirectionDoor{
+    public byte DirectionDoor{
         get => directionDoor;
         set => directionDoor = value;
     }
