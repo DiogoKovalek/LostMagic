@@ -9,12 +9,9 @@ public class EnemyRoomManage : MonoBehaviour
     [SerializeField] EnemyBase[] listEnemyBase;
     private List<GameObject> listOfEnemysInRoom = new List<GameObject>();
     //private int layerForCollider = 1 << 9 ; //Wall, Player, Enemy
-
-    // Para teste, deve pegar o tamanho de controler, o mesmo deve ser feito no doorTransition
-    private byte widthRoom = 26;
-    private byte heightRoom = 14;
-
-    //===============================================
+    [SerializeField] LayerMask layerPlayer;
+    private byte widthRoom;
+    private byte heightRoom;
 
     /*
     void Start()
@@ -24,10 +21,24 @@ public class EnemyRoomManage : MonoBehaviour
         instantiateEnemys();
     }
     */
-    public void initEnemyRoomManage(){
-
+    private IEnumerator logicRoom(){
+        while(true){ // Verifica se o player entrou na sala
+            yield return new WaitForFixedUpdate();
+            Collider2D detectedPlayer = Physics2D.OverlapBox(this.transform.position, new Vector2(widthRoom, heightRoom), 0f, layerPlayer);
+            if(detectedPlayer != null){
+                break;
+            }
+        }
+        instantiateEnemys();
     }
-    public void createListOfEnemysInRoom(int level ,RoomConfig roomConfig = null){
+    public void initEnemyRoomManage(byte widthRoom, byte heightRoom, int level, RoomConfig roomConfig){ // Depois tem que colocar as portas
+        this.widthRoom = widthRoom;
+        this.heightRoom = heightRoom;
+
+        createListOfEnemysInRoom(level, roomConfig);
+        StartCoroutine(logicRoom());
+    }
+    private void createListOfEnemysInRoom(int level ,RoomConfig roomConfig = null){
         byte maxOfEnemys;
         if(level < 5){
             maxOfEnemys = 3;
@@ -46,7 +57,7 @@ public class EnemyRoomManage : MonoBehaviour
         }
     }
 
-    public void instantiateEnemys(){
+    private void instantiateEnemys(){
         int widthSpawn = widthRoom/2 - 2;
         int heightSpawn = heightRoom/2 - 2;
         while(listOfEnemysInRoom.Count > 0){
@@ -58,7 +69,8 @@ public class EnemyRoomManage : MonoBehaviour
                 float posY = Random.Range(transform.position.y - (heightSpawn - eneCircleRadius), transform.position.y + (heightSpawn - eneCircleRadius));
                 Vector2 posSpaw = new Vector2(posX,posY);
                 if(Physics2D.OverlapCircle(posSpaw, eneCircleRadius - 0.05f) == null){
-                    Instantiate(ene, posSpaw, ene.transform.rotation);
+                    GameObject e = Instantiate(ene, posSpaw, ene.transform.rotation);
+                    e.transform.SetParent(this.transform);
                     listOfEnemysInRoom.Remove(ene);
                     break;
                 }else{

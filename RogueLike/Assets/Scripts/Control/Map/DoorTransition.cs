@@ -6,11 +6,9 @@ using UnityEngine;
 public class DoorTransition : MonoBehaviour
 {
     private float deslocPlayer = 3;
-
-    // Provisorio, deve pegar no controler====
-    private byte widthRoom = 26;
-    private byte heightRoom = 14;
-    //========================================
+    public byte widthRoom;
+    public byte heightRoom;
+    
     void OnTriggerEnter2D(Collider2D other){
         if(other.gameObject.tag == "Player"){
             short[] direction = getDirectionDoor();
@@ -18,7 +16,13 @@ public class DoorTransition : MonoBehaviour
             other.transform.position = transform.position + new Vector3(deslocPlayer*direction[0], deslocPlayer*direction[1], 0);
         }
     }
-
+    
+    
+    
+    public void IntiDoor(byte whidthRoom, byte heightRoom){
+        this.widthRoom = whidthRoom;
+        this.heightRoom = heightRoom;
+    }
     private short[] getDirectionDoor(){ // [x,y]
         Transform father = transform.parent;
         switch(father.eulerAngles.z){
@@ -29,5 +33,10 @@ public class DoorTransition : MonoBehaviour
             default: return new short[2] {0,0};
         }
     }
+    public void OpenOrCloseDoor(){
+
+    }
+
+    
     
 }

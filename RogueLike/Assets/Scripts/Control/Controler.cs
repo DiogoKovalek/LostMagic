@@ -14,10 +14,16 @@ public class Controler : MonoBehaviour
     private byte roomHeight = 14;
     private int mapSize2D = 10;
     private int lengthBranch = 5;
+    private int level = 1;
+    //==============================================
+    //Teste ========================================
+    [SerializeField] GameObject wand;
     //==============================================
     void Start()
     {
         createMapProcedural();
+        Vector2 posWand = new Vector2(mapSize2D/2*roomWidth, (mapSize2D/2-1)*roomHeight);
+        Instantiate(wand, posWand, wand.transform.rotation);
     }
 
     /*
@@ -37,7 +43,7 @@ public class Controler : MonoBehaviour
                     room.transform.SetParent(floor.transform);
                     RoomConfigAplicate rca = room.GetComponent<RoomConfigAplicate>();
                     if(rca != null){
-                        rca.ApplySettings(roomWidth, roomHeight, mapGenerated[x,y]); // Futuramente colocar o Room config como parametro
+                        rca.ApplySettings(roomWidth, roomHeight, level, mapGenerated[x,y]);
                     }
                 }
             }

@@ -268,6 +268,10 @@ PrefabInstance:
       value: Controler
       objectReference: {fileID: 0}
     - target: {fileID: 5403123632324273270, guid: 8bbf48d4d33c98e48a67caff392bd798, type: 3}
+      propertyPath: wand
+      value: 
+      objectReference: {fileID: 4926015767782907712, guid: 76ee5aaf55fd0e440bc328232f951083, type: 3}
+    - target: {fileID: 5403123632324273270, guid: 8bbf48d4d33c98e48a67caff392bd798, type: 3}
       propertyPath: DoorTest
       value: 
       objectReference: {fileID: 6490220984066974034, guid: f7e8cf76c298fc94e8901fbaa286f213, type: 3}

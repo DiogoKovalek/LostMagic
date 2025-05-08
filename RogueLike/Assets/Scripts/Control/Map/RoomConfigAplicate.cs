@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public class RoomConfigAplicate : MonoBehaviour
@@ -10,9 +11,10 @@ public class RoomConfigAplicate : MonoBehaviour
     [SerializeField] GameObject enemyRoomManage;
     private byte mapSizeX; // Deve estar apenas em controler / depois alterar em doorTransition
     private byte mapSizeY;
+    private List<DoorTransition> listDoorsInRoom = new List<DoorTransition>();
     private TypeRoom[] roomsWithEnemy = {TypeRoom.basic, TypeRoom.basicWithChest};
 
-    public void ApplySettings(byte roomWidth, byte roomHeight, RoomConfig roomConfig){
+    public void ApplySettings(byte roomWidth, byte roomHeight, int level ,RoomConfig roomConfig){
         mapSizeX = roomWidth;
         mapSizeY = roomHeight;
 
@@ -24,17 +26,22 @@ public class RoomConfigAplicate : MonoBehaviour
         //Cima / Direita / Baixo / Esquerda
         char[] aux = doorsInRoom.ToCharArray();
         int[,] pos = {{0, (mapSizeX - 2)/2, 0, -(mapSizeX - 2)/2}, {(mapSizeY - 2)/2, 0, -(mapSizeY - 2)/2, 0}}; // X Y
+        
         for(int i = 0; i < aux.Length; i++){
             GameObject obj = Instantiate(doorOrWall, this.transform.position + new Vector3(pos[0,i], pos[1,i],0), Quaternion.Euler(0,0,i*-90));
-
             if(aux[i] == '1'){
                 GameObject wall = getChildPerTag("Wall", obj);
                 if(wall == null) continue;
                 wall.gameObject.SetActive(false);
+                GameObject door = getChildPerTag("Door", obj);
+                DoorTransition dt = door.GetComponent<DoorTransition>();
+                dt.IntiDoor(mapSizeX,mapSizeY);
+                listDoorsInRoom.Add(dt);
             }else{
                 GameObject door = getChildPerTag("Door", obj);
                 if(door == null) continue;
                 door.gameObject.SetActive(false);
+                
             }
             obj.transform.SetParent(this.transform);
         }
@@ -44,7 +51,10 @@ public class RoomConfigAplicate : MonoBehaviour
         if(roomsWithEnemy.Contains(roomConfig.TypeRoom)){ // if have an enemy
             GameObject enemyRM = Instantiate(enemyRoomManage, this.transform.position, this.transform.rotation);
             EnemyRoomManage srcEnemyRM = enemyRM.GetComponent<EnemyRoomManage>();
-            
+            if(srcEnemyRM != null){
+                srcEnemyRM.transform.SetParent(this.transform);
+                srcEnemyRM.initEnemyRoomManage(mapSizeX, mapSizeY, level, roomConfig);
+            }
         }
         #endregion
     }

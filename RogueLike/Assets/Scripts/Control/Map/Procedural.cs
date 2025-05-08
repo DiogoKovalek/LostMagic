@@ -74,14 +74,11 @@ public class Procedural
                 seeds[j] = emptySpace[chosenPath];
                 emptySpace.Remove(emptySpace[chosenPath]);
                 #endregion
-
-                #region Type Room
-
-                #endregion
                 
                 #region Create new Room
                 int roomNumber = UnityEngine.Random.Range(1,numberOfRoomsList);
-                mapGenerateRooms[seeds[j].X, seeds[j].Y] = createRoom(roomNumber, seeds[j].DirectionDoor);
+                TypeRoom tyr = sortTypeRoom(roomNumber, true, numberOfRooms - 1 - i);
+                mapGenerateRooms[seeds[j].X, seeds[j].Y] = createRoom(roomNumber, seeds[j].DirectionDoor, tyr);
                 //Debug.Log($"Room new({seeds[j].X},{seeds[j].Y}) Doors: {Convert.ToString(mapGenerateRooms[seeds[j].X,seeds[j].Y].DirectionDoors, 2).PadLeft(4, '0')}");
                 #endregion
 
@@ -95,7 +92,9 @@ public class Procedural
                         int numRoomChange = UnityEngine.Random.Range(0,emptySpace.Count);
                         posXY roomChange = emptySpace[numRoomChange];
                         mapGenerateRooms[previousRoom.X, previousRoom.Y].DirectionDoors |= roomChange.DirectionDoor;// Atualiza a antiga sala
-                        mapGenerateRooms[roomChange.X,roomChange.Y] = createRoom(UnityEngine.Random.Range(1,numberOfRoomsList), getOpositeDoor(roomChange.DirectionDoor)); // Cria a nova sala
+                        roomNumber = UnityEngine.Random.Range(1,numberOfRoomsList);
+                        tyr = sortTypeRoom(roomNumber, false, numberOfRooms - 1 - i);
+                        mapGenerateRooms[roomChange.X,roomChange.Y] = createRoom(roomNumber, getOpositeDoor(roomChange.DirectionDoor), tyr); // Cria a nova sala
                         emptySpace.Remove(emptySpace[numRoomChange]);
                     }
                 }
@@ -140,6 +139,10 @@ public class Procedural
             }
         }
         return mapGenerateRooms;
+    }
+    private TypeRoom sortTypeRoom(int roomNumber, bool isPrincipalSeed, int countRemainigRooms){
+        // Simplificar por enquanto
+        return TypeRoom.basic;
     }
     private byte getOpositeDoor(byte door){
         switch(door){
