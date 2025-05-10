@@ -53,7 +53,7 @@ public class RoomConfigAplicate : MonoBehaviour
             EnemyRoomManage srcEnemyRM = enemyRM.GetComponent<EnemyRoomManage>();
             if(srcEnemyRM != null){
                 srcEnemyRM.transform.SetParent(this.transform);
-                srcEnemyRM.initEnemyRoomManage(mapSizeX, mapSizeY, level, roomConfig);
+                srcEnemyRM.initEnemyRoomManage(mapSizeX, mapSizeY, level, roomConfig, this);
             }
         }
         #endregion
@@ -65,5 +65,10 @@ public class RoomConfigAplicate : MonoBehaviour
             }
         }
         return null;
+    }
+    public void OpenOrCloseAllDoors(){
+        for(byte i = 0; i < listDoorsInRoom.Count; i++){
+            listDoorsInRoom[i].OpenOrCloseDoor();
+        }
     }
 }

@@ -49,7 +49,7 @@ public class Enemy : MonoBehaviour
     }
     public void CauseDamageInEnemy(int damage){
         this.life -= damage;
-        if(life < 0){ // Criar outro metodo para destruir o inimigo para ficar mais dianmico
+        if(life < 0){
             Destroy(this.gameObject);
         }
     }

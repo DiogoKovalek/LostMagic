@@ -6,8 +6,9 @@ using UnityEngine;
 public class DoorTransition : MonoBehaviour
 {
     private float deslocPlayer = 3;
-    public byte widthRoom;
-    public byte heightRoom;
+    private byte widthRoom;
+    private byte heightRoom;
+    [SerializeField] GameObject doorOfClose;
     
     void OnTriggerEnter2D(Collider2D other){
         if(other.gameObject.tag == "Player"){
@@ -34,7 +35,7 @@ public class DoorTransition : MonoBehaviour
         }
     }
     public void OpenOrCloseDoor(){
-
+        doorOfClose.SetActive(!doorOfClose.activeSelf);
     }
 
     

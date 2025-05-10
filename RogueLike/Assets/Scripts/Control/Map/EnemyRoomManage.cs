@@ -13,6 +13,8 @@ public class EnemyRoomManage : MonoBehaviour
     private byte widthRoom;
     private byte heightRoom;
 
+    private RoomConfigAplicate controlerRoomConfig;
+
     /*
     void Start()
     {
@@ -26,14 +28,20 @@ public class EnemyRoomManage : MonoBehaviour
             yield return new WaitForFixedUpdate();
             Collider2D detectedPlayer = Physics2D.OverlapBox(this.transform.position, new Vector2(widthRoom, heightRoom), 0f, layerPlayer);
             if(detectedPlayer != null){
+                controlerRoomConfig.OpenOrCloseAllDoors();
                 break;
             }
         }
         instantiateEnemys();
+        while(transform.childCount > 0){ // espera todos os inimigos morrerem
+            yield return new WaitForFixedUpdate();
+        }
+        controlerRoomConfig.OpenOrCloseAllDoors();
     }
-    public void initEnemyRoomManage(byte widthRoom, byte heightRoom, int level, RoomConfig roomConfig){ // Depois tem que colocar as portas
+    public void initEnemyRoomManage(byte widthRoom, byte heightRoom, int level, RoomConfig roomConfig, RoomConfigAplicate controler){ // Depois tem que colocar as portas
         this.widthRoom = widthRoom;
         this.heightRoom = heightRoom;
+        this.controlerRoomConfig = controler;
 
         createListOfEnemysInRoom(level, roomConfig);
         StartCoroutine(logicRoom());
