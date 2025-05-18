@@ -6,16 +6,15 @@ public class CricleSpawnPlayer : MonoBehaviour
 {
     private float timeToStay = 2.0f;
     [SerializeField] GameObject prefPlayer;
+
     IEnumerator Start()
     {
         yield return new WaitForSeconds(timeToStay);
         Instantiate(prefPlayer,transform.position,transform.rotation);
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        //Teste =========
+        GameObject controler = GameObject.Find("Controler");
+        controler.GetComponent<Controler>().EventStartPlayer();
+        //===============
     }
-
 }

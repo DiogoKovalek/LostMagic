@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     [SerializeField] float speed;
     private Vector3 dirPlayer;
     private Rigidbody2D rig;
+    private int maxLife = 10;
     private int life;
     private bool isInvunerable = false;
     private bool freeForMove = true;
@@ -34,9 +35,15 @@ public class Player : MonoBehaviour
     private float timeDeleyForGetItem = 0.8f;
     //====================================
 
+    // UI ================================
+    public delegate void UpdateBar(int value, int maxValue, HPorMana op);
+    public event UpdateBar UpdatedBar;
+    //====================================
+
     // Start is called before the first frame update
     void Awake(){
         rig = GetComponent<Rigidbody2D>();
+        life = maxLife;
     }
     void Start()
     {
@@ -50,6 +57,10 @@ public class Player : MonoBehaviour
         Collider2D wandNear = getColNearFromThePlayer(circleCollect);
         Debug.Log(wandNear.name);
         */
+
+        if(UpdatedBar != null){
+            UpdatedBar(life, maxLife, HPorMana.HP);
+        }
     }
 
     // Update is called once per frame
@@ -143,12 +154,14 @@ public class Player : MonoBehaviour
     public void CauseDamageInPlayer(int attack){
         if(!isInvunerable){
             this.life -= attack;
+            if(UpdatedBar != null){
+                UpdatedBar(life,maxLife,HPorMana.HP);
+            }
             StartCoroutine(delayForInvunerable());
         }
     }
     public void RecoilAttack(Vector2 posE, float force){
         if(!isInvunerable){
-            Debug.Log("Aqui");
             StartCoroutine(recoilAttack(posE, force));
         }
     }

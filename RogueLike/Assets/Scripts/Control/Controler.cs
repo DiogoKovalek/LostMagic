@@ -16,6 +16,11 @@ public class Controler : MonoBehaviour
     private int lengthBranch = 5;
     private int level = 1;
     //==============================================
+
+    // EventManager ================================
+    [SerializeField] EventManager eventManager;
+    //==============================================
+
     //Teste ========================================
     [SerializeField] GameObject wand;
     //==============================================
@@ -49,5 +54,13 @@ public class Controler : MonoBehaviour
             }
         }
         Camera.main.transform.position = new Vector3(roomWidth*mapSize2D/2,roomHeight*(mapSize2D-2)/2,-10); // Teste
+    }
+
+    public void EventStartPlayer(){
+        //Teste ===============
+        UIManager ui = FindObjectOfType<UIManager>();
+        Player player = FindObjectOfType<Player>();
+        //=====================
+        eventManager.startConectionPlayerWithUI(player,ui);
     }
 }

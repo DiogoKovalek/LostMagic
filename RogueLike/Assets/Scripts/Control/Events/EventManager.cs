@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
+    private Player player;
+    private UIManager ui;
+    public void startConectionPlayerWithUI(Player player, UIManager ui){
+        this.player = player;
+        this.ui = ui;
 
-    void Start()
-    {
-
+        player.UpdatedBar += ui.OnUpdateBar;
     }
 }
