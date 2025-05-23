@@ -40,6 +40,15 @@ public class Player : MonoBehaviour
     public event UpdateBar UpdatedBar;
     //====================================
 
+    // Inventory =========================
+    private ItemBase[] inventory = new ItemBase[20];
+    private ItemBase staffEquiped;
+    private ItemBase[] grimoresEquiped = new ItemBase[3];
+    private ItemBase consumableEquiped;
+    private ItemBase[] equipaments = new ItemBase[5];
+    private ItemBase[] rings = new ItemBase[10];
+    //====================================
+
     // Start is called before the first frame update
     void Awake(){
         rig = GetComponent<Rigidbody2D>();
@@ -85,10 +94,13 @@ public class Player : MonoBehaviour
         #endregion
 
         #region GetItem and drop
-        if(allowedForGetItem && itemNear != null && Input.GetKey(KeyCode.E)){
-            if(itemNear.tag == "wand"){
-                if(wand != null){ // dropa a wanda atual
-                    wand.transform.rotation = Quaternion.Euler(0,0,0);
+        if (allowedForGetItem && itemNear != null && Input.GetKey(KeyCode.E))
+        {
+            if (itemNear.tag == "wand")
+            {
+                if (wand != null)
+                { // dropa a wanda atual
+                    wand.transform.rotation = Quaternion.Euler(0, 0, 0);
                     wand.transform.position = transform.position;
                     wand.GetComponent<IActionsWand>().dropWand();
                     wand.GetComponent<CircleCollider2D>().enabled = true;
@@ -117,9 +129,12 @@ public class Player : MonoBehaviour
 
         #region Itens colision
         Collider2D[] circleCollect = Physics2D.OverlapCircleAll(transform.position, rayCollect, layerForCollect);
-        if(circleCollect.Length > 0){
+        if (circleCollect.Length > 0)
+        {
             itemNear = getColNearFromThePlayer(circleCollect).gameObject;
-        }else{
+        }
+        else
+        {
             itemNear = null;
         }
         #endregion
