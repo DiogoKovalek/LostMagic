@@ -16,7 +16,7 @@ public interface IEquipment
     void init();
     void update();
 }
-public interface Grimore
+public interface IGrimore
 {
     void conjure();
 }

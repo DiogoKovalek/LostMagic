@@ -2,10 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Item : MonoBehaviour
+public class ItemForColect : MonoBehaviour
 {
     public ItemBase itemBase;
     
+    /*
     void Awake()
     {
         switch (itemBase.TypeItem)
@@ -20,4 +21,5 @@ public class Item : MonoBehaviour
                 break;
         }
     }
+    */
 }

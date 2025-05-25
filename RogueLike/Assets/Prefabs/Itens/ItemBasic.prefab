@@ -11,9 +11,10 @@ GameObject:
   - component: {fileID: 5411008029783734017}
   - component: {fileID: 2373137928132067803}
   - component: {fileID: 2940513163799018162}
-  - component: {fileID: 8240810195034362643}
+  - component: {fileID: 3155420082759983609}
+  - component: {fileID: 5695137922938575263}
   m_Layer: 6
-  m_Name: ItemBase
+  m_Name: ItemBasic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,7 +122,28 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &8240810195034362643
+--- !u!95 &3155420082759983609
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1466501468225121871}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5695137922938575263
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -133,4 +155,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96a1aa6558ace0940928197c7b62b6d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemBase: {fileID: 11400000, guid: faa5cfc7deb598549beef8bcc608666b, type: 2}
+  itemBase: {fileID: 0}

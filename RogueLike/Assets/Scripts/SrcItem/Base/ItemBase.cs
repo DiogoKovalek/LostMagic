@@ -19,3 +19,27 @@ public enum TypeItem
     Equipment,
     Comsumable
 }
+public enum Element
+{
+    Void,
+    Earth,
+    Fire,
+    Wind,
+    Water,
+    Magma,
+    Electric,
+    Ice,
+    Leaf,
+    Blood,
+    Iron,
+    Soul,
+    Poison
+}
+public enum categoryEquipment{
+    Hat,
+    Necklace,
+    Cloak,
+    Pants,
+    Boot,
+    Ring
+}
