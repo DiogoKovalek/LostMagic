@@ -6,8 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class Player : MonoBehaviour
-{
+public class Player : MonoBehaviour {
     [SerializeField] float speed;
     private Vector3 dirPlayer;
     private Rigidbody2D rig;
@@ -38,6 +37,8 @@ public class Player : MonoBehaviour
     // UI ================================
     public delegate void UpdateBar(int value, int maxValue, HPorMana op);
     public event UpdateBar UpdatedBar;
+    public delegate void OpenCloseInventory();
+    public event OpenCloseInventory OpenedClosedInventory;
     //====================================
 
     // Inventory =========================
@@ -50,56 +51,45 @@ public class Player : MonoBehaviour
     //====================================
 
     // Start is called before the first frame update
-    void Awake(){
+    void Awake() {
         rig = GetComponent<Rigidbody2D>();
         life = maxLife;
     }
-    void Start()
-    {
-        //Collider2D[] circleCollect = Physics2D.OverlapCircleAll(transform.position, rayCollect, layerForCollect);
-        /*circleCollect = selectSortForPhysics2D(circleCollect);
-        foreach(var wand in circleCollect){
-            Debug.Log(wand.name);
-            //Debug.Log(distForPlayer(wand));
-        }*/
-        /*
-        Collider2D wandNear = getColNearFromThePlayer(circleCollect);
-        Debug.Log(wandNear.name);
-        */
+    void Start() {
+        // inty Events =========================================
+        GameObject controler = GameObject.Find("Controler");
+        controler.GetComponent<Controler>().EventStartPlayer();
+        //======================================================
 
-        if(UpdatedBar != null){
+        if (UpdatedBar != null) {
             UpdatedBar(life, maxLife, HPorMana.HP);
         }
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        
+    void Update() {
+
         #region Movement in Update / Get Input
         //Input.GetAxisRaw() retorna -1 0 ou 1, sem a suavizacao
         dirPlayer = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), transform.position.z).normalized;
-    	#endregion
-        
+        #endregion
+
 
         #region Mouse and wand tranform
-        if(wand != null){
+        if (wand != null) {
             mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 circleInMouseForPlayer = (mousePosition - (Vector2) handForWand.transform.position).normalized;
+            Vector2 circleInMouseForPlayer = (mousePosition - (Vector2)handForWand.transform.position).normalized;
 
-            wand.transform.position = (Vector2) handForWand.transform.position + circleInMouseForPlayer * distanWand;
+            wand.transform.position = (Vector2)handForWand.transform.position + circleInMouseForPlayer * distanWand;
             float angleMouse = Mathf.Atan2(circleInMouseForPlayer.y, circleInMouseForPlayer.x) * Mathf.Rad2Deg;
-            wand.transform.rotation = Quaternion.Euler(0,0,angleMouse);
+            wand.transform.rotation = Quaternion.Euler(0, 0, angleMouse);
         }
         #endregion
 
         #region GetItem and drop
-        if (allowedForGetItem && itemNear != null && Input.GetKey(KeyCode.E))
-        {
-            if (itemNear.tag == "wand")
-            {
-                if (wand != null)
-                { // dropa a wanda atual
+        if (allowedForGetItem && itemNear != null && Input.GetKey(KeyCode.E)) {
+            if (itemNear.tag == "wand") {
+                if (wand != null) { // dropa a wanda atual
                     wand.transform.rotation = Quaternion.Euler(0, 0, 0);
                     wand.transform.position = transform.position;
                     wand.GetComponent<IActionsWand>().dropWand();
@@ -118,23 +108,26 @@ public class Player : MonoBehaviour
         #region using wand
         usingWand();
         #endregion
+
+        #region Open and close inventory
+        if (Input.GetKeyDown(KeyCode.Tab)) {
+            OpenedClosedInventory();
+        }
+        #endregion
     }
-    void FixedUpdate()
-    {
+    void FixedUpdate() {
         #region Movment in FixedUpdate / aplicate velocity
-        if(freeForMove){
+        if (freeForMove) {
             rig.velocity = dirPlayer * speed;
         }
         #endregion
 
         #region Itens colision
         Collider2D[] circleCollect = Physics2D.OverlapCircleAll(transform.position, rayCollect, layerForCollect);
-        if (circleCollect.Length > 0)
-        {
+        if (circleCollect.Length > 0) {
             itemNear = getColNearFromThePlayer(circleCollect).gameObject;
         }
-        else
-        {
+        else {
             itemNear = null;
         }
         #endregion
@@ -147,63 +140,66 @@ public class Player : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, rayCollect);
     }
     */
-    private void usingWand(){
-        if(allowedForUsingMagic && wand != null){
+    private void usingWand() {
+        if (allowedForUsingMagic && wand != null) {
             IActionsWand wandInter = wand.GetComponent<IActionsWand>();
-            if(wandInter == null) return;
-            if(Input.GetKey(KeyCode.Mouse0)){
+            if (wandInter == null) return;
+            if (Input.GetKey(KeyCode.Mouse0)) {
                 wandInter.attack();
                 StartCoroutine(delayForUsingMagic());
-            }else if(Input.GetKey(KeyCode.Mouse1)){
+            }
+            else if (Input.GetKey(KeyCode.Mouse1)) {
                 wandInter.conjure();
                 StartCoroutine(delayForUsingMagic());
-            }else if(Input.GetKey(KeyCode.Space)){
+            }
+            else if (Input.GetKey(KeyCode.Space)) {
                 wandInter.defense();
                 StartCoroutine(delayForUsingMagic());
-            }else if(Input.GetKey(KeyCode.Q)){
+            }
+            else if (Input.GetKey(KeyCode.Q)) {
                 wandInter.grimoreMagic();
                 StartCoroutine(delayForUsingMagic());
             }
         }
     }
-    public void CauseDamageInPlayer(int attack){
-        if(!isInvunerable){
+    public void CauseDamageInPlayer(int attack) {
+        if (!isInvunerable) {
             this.life -= attack;
-            if(UpdatedBar != null){
-                UpdatedBar(life,maxLife,HPorMana.HP);
+            if (UpdatedBar != null) {
+                UpdatedBar(life, maxLife, HPorMana.HP);
             }
             StartCoroutine(delayForInvunerable());
         }
     }
-    public void RecoilAttack(Vector2 posE, float force){
-        if(!isInvunerable){
+    public void RecoilAttack(Vector2 posE, float force) {
+        if (!isInvunerable) {
             StartCoroutine(recoilAttack(posE, force));
         }
     }
-    Collider2D getColNearFromThePlayer(Collider2D[] list){
+    Collider2D getColNearFromThePlayer(Collider2D[] list) {
         var near = list[0];
-        for(int i = 1; i < list.Length; i++){
-            if(distForPlayer(near) > distForPlayer(list[i])){
-                near = list[i]; 
-            } 
-        } 
+        for (int i = 1; i < list.Length; i++) {
+            if (distForPlayer(near) > distForPlayer(list[i])) {
+                near = list[i];
+            }
+        }
         return near;
     }
-    double distForPlayer(Collider2D col){
+    double distForPlayer(Collider2D col) {
         return Math.Sqrt(Math.Pow(col.transform.position.x - this.transform.position.x, 2) + Math.Pow(col.transform.position.y - this.transform.position.y, 2));
     }
 
-    private IEnumerator delayForGetItem(){
+    private IEnumerator delayForGetItem() {
         allowedForGetItem = false;
         yield return new WaitForSeconds(timeDeleyForGetItem);
         allowedForGetItem = true;
     }
-    private IEnumerator delayForUsingMagic(){
+    private IEnumerator delayForUsingMagic() {
         allowedForUsingMagic = false;
         yield return new WaitForSeconds(timeDeleyForUsingMagic);
         allowedForUsingMagic = true;
     }
-    private IEnumerator delayForInvunerable(){
+    private IEnumerator delayForInvunerable() {
         isInvunerable = true;
         Debug.Log("invuneravel");
         yield return new WaitForSeconds(timeForInvunerable);
@@ -211,9 +207,9 @@ public class Player : MonoBehaviour
         Debug.Log("Normal");
     }
 
-    private IEnumerator recoilAttack(Vector2 posE, float force){
+    private IEnumerator recoilAttack(Vector2 posE, float force) {
         freeForMove = false;
-        Vector2 direction = ((Vector2) transform.position - posE).normalized;
+        Vector2 direction = ((Vector2)transform.position - posE).normalized;
         rig.velocity = direction * force;
         yield return new WaitForSeconds(timeRecoil);
         freeForMove = true;
@@ -239,17 +235,17 @@ public class Player : MonoBehaviour
         return list;
     }
     */
-    
-    /*
-    void OnTriggerStay2D(Collider2D collider){
-        Debug.Log("presione e");
 
-        if(collider.CompareTag("wand")){
-            if(Input.GetKey(KeyCode.E)){
-                Debug.Log("PRESCIONADO");
-                wand = collider.transform.parent?.gameObject;
-                wand.GetComponentInChildren<CircleCollider2D>().enabled = false;
-            }
+/*
+void OnTriggerStay2D(Collider2D collider){
+    Debug.Log("presione e");
+
+    if(collider.CompareTag("wand")){
+        if(Input.GetKey(KeyCode.E)){
+            Debug.Log("PRESCIONADO");
+            wand = collider.transform.parent?.gameObject;
+            wand.GetComponentInChildren<CircleCollider2D>().enabled = false;
         }
     }
-    */
+}
+*/
