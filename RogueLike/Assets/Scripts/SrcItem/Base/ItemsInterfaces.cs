@@ -5,7 +5,6 @@ using UnityEngine;
 public interface IStaff
 {
     void attack();
-    void defense();
 }
 public interface IConsumable
 {

@@ -9,7 +9,15 @@ public class EventManager : MonoBehaviour {
         this.player = player;
         this.ui = ui;
 
-        player.UpdatedBar += ui.OnUpdateBar;
-        player.OpenedClosedInventory += ui.OnOpenCloseInventory;
+        //Player
+        player.TradedScreen += ui.OnTradeScreen;
+        player.UpdatedBar += ui.uiGameScreen.OnUpdateBar;
+
+        //Game Screen
+        ui.uiGameScreen.SetActivedInput += player.OnSetActiveInput;
+
+        //Inventory Screen
+        ui.uiInventoryScreen.TradedScreen += ui.OnTradeScreen;
+        ui.uiInventoryScreen.GotItemsFromPlayer += player.OnGetItemsFromPlayer;
     }
 }

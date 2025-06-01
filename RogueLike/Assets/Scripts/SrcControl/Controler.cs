@@ -24,6 +24,9 @@ public class Controler : MonoBehaviour {
     //Teste ========================================
     [SerializeField] GameObject wand;
     //==============================================
+    void Awake() {
+        ItemBank.IntiItemBank();
+    }
     void Start() {
         if (isGeneretedProceduralInStart) {
             createMapProcedural();

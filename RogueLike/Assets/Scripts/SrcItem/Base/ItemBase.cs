@@ -1,15 +1,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Item", menuName = "Base/Item")]
 public class ItemBase : ScriptableObject
 {
+    public int id;
     public String NameItem;
     public String Description;
     public TypeItem TypeItem;
     public Sprite Sprite;
+    public float chanceToDrop;
 }
 
 public enum TypeItem

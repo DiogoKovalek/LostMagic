@@ -1,25 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class ItemForColect : MonoBehaviour
 {
-    public ItemBase itemBase;
-    
-    /*
-    void Awake()
-    {
-        switch (itemBase.TypeItem)
-        {
-            case TypeItem.Staff:
-                break;
-            case TypeItem.Grimore:
-                break;
-            case TypeItem.Equipment:
-                break;
-            case TypeItem.Comsumable:
-                break;
-        }
+    public int itemId; 
+
+    void Start() {
+        GetComponent<SpriteRenderer>().sprite = ItemBank.GetItemFromId(itemId).Sprite;
     }
-    */
+    
+    public int GetItem(){
+        Destroy(this.gameObject);
+        return itemId;
+    }
 }

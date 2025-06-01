@@ -2,44 +2,47 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.OnScreen;
 
 public class UIManager : MonoBehaviour {
-    //HP/Mana Bar ====================================
-    public GameObject HPBar;
-    public GameObject ManaBar;
-    public int maxRightHPManaBar = 152;
-    //================================================
+    
     //UIGame / UIInventory ===========================
     public GameObject GameScreen;
     public GameObject InventoryScreen;
     //================================================
 
-    public void OnUpdateBar(int value, int maxValue, HPorMana op) {
-        RectTransform rect;
-        switch (op) {
-            case HPorMana.HP:
-                rect = HPBar.GetComponent<RectTransform>();
+    //References Screens =============================
+    public UIGameScreen uiGameScreen;
+    public UIInventoryScreen uiInventoryScreen;
+    //================================================
+
+    void Start() {
+        uiGameScreen = GameScreen.GetComponent<UIGameScreen>();
+        uiInventoryScreen = InventoryScreen.GetComponent<UIInventoryScreen>();
+    }
+
+    public void OnTradeScreen(UIType uis){
+        switch(uis){
+            case UIType.Game:
+                uiGameScreen.SetScreen(true, true);
+                uiInventoryScreen.SetScreen();
                 break;
-            case HPorMana.Mana:
-                rect = ManaBar.GetComponent<RectTransform>();
+            case UIType.Inventory:
+                uiGameScreen.SetScreen();
+                uiInventoryScreen.SetScreen(true,true);
+                break;
+            case UIType.Pause:
                 break;
             default:
-                rect = null;
+                Debug.LogWarning("UIManager default UIScreen");
                 break;
         }
-
-        float porcent = (float)(value * 100 / maxValue) / 100;
-        if (porcent <= 0) porcent = 0.0f; // Garante que nao vai passar de maxRightHPManaBar
-        float deslocRight = maxRightHPManaBar - maxRightHPManaBar * porcent;
-
-        if (rect != null) {
-            rect.offsetMax = new Vector2(-deslocRight, rect.offsetMax.y);
-        }
     }
-    public void OnOpenCloseInventory() {
-        GameScreen.SetActive(!GameScreen.activeSelf);
-        InventoryScreen.SetActive(!InventoryScreen.activeSelf);
-    }
+}
+public enum UIType{
+    Game,
+    Inventory,
+    Pause
 }
 
 public enum HPorMana {

@@ -12,9 +12,4 @@ public class StaffBasic : MonoBehaviour, IStaff
     {
         
     }
-
-    public void defense()
-    {
-        
-    }
 }

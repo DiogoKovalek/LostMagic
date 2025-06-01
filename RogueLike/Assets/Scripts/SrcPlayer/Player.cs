@@ -1,14 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using System.Xml.Serialization;
 using Unity.Burst.Intrinsics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour {
     [SerializeField] float speed;
-    private Vector3 dirPlayer;
     private Rigidbody2D rig;
     private int maxLife = 10;
     private int life;
@@ -35,24 +37,38 @@ public class Player : MonoBehaviour {
     //====================================
 
     // UI ================================
+    public delegate void TradeScreen(UIType uiType);
+    public event TradeScreen TradedScreen;
     public delegate void UpdateBar(int value, int maxValue, HPorMana op);
     public event UpdateBar UpdatedBar;
-    public delegate void OpenCloseInventory();
-    public event OpenCloseInventory OpenedClosedInventory;
     //====================================
 
     // Inventory =========================
-    private ItemBase[] inventory = new ItemBase[20];
-    private ItemBase staffEquiped;
-    private ItemBase[] grimoresEquiped = new ItemBase[3];
-    private ItemBase consumableEquiped;
-    private ItemBase[] equipaments = new ItemBase[5];
-    private ItemBase[] rings = new ItemBase[10];
+    private int[] inventory = new int[20];
+    private int staffEquiped;
+    private int[] grimoresEquiped = new int[3];
+    private int consumableEquiped;
+    private int[] equipaments = new int[5];
+    private int[] rings = new int[10];
+    //====================================
+
+    // Input Manager =====================
+    private InputActions input;
+    private Vector2 dirPlayer;
+    private bool actAtack;
+    private bool actInteract;
+    private bool actOpenInventory;
+    private bool actGrimore1;
+    private bool actGrimore2;
+    private bool actGrimore3;
+    private bool actConsumable;
+    private bool actPause;
     //====================================
 
     // Start is called before the first frame update
     void Awake() {
         rig = GetComponent<Rigidbody2D>();
+        input = new InputActions();
         life = maxLife;
     }
     void Start() {
@@ -60,20 +76,17 @@ public class Player : MonoBehaviour {
         GameObject controler = GameObject.Find("Controler");
         controler.GetComponent<Controler>().EventStartPlayer();
         //======================================================
+        // inty UI =============================================
+        TradedScreen(UIType.Game);
 
         if (UpdatedBar != null) {
             UpdatedBar(life, maxLife, HPorMana.HP);
         }
+        //======================================================
     }
-
-    // Update is called once per frame
     void Update() {
 
-        #region Movement in Update / Get Input
-        //Input.GetAxisRaw() retorna -1 0 ou 1, sem a suavizacao
-        dirPlayer = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), transform.position.z).normalized;
-        #endregion
-
+        getInput();
 
         #region Mouse and wand tranform
         if (wand != null) {
@@ -87,21 +100,8 @@ public class Player : MonoBehaviour {
         #endregion
 
         #region GetItem and drop
-        if (allowedForGetItem && itemNear != null && Input.GetKey(KeyCode.E)) {
-            if (itemNear.tag == "wand") {
-                if (wand != null) { // dropa a wanda atual
-                    wand.transform.rotation = Quaternion.Euler(0, 0, 0);
-                    wand.transform.position = transform.position;
-                    wand.GetComponent<IActionsWand>().dropWand();
-                    wand.GetComponent<CircleCollider2D>().enabled = true;
-                    wand.transform.SetParent(null);
-                }
-                wand = itemNear;
-                wand.GetComponent<CircleCollider2D>().enabled = false;
-                wand.transform.SetParent(this.transform);
-                wand.GetComponent<IActionsWand>().getWand();
-                StartCoroutine(delayForGetItem());
-            }
+        if (allowedForGetItem && itemNear != null && actInteract) {
+            getItem();
         }
         #endregion
 
@@ -110,8 +110,16 @@ public class Player : MonoBehaviour {
         #endregion
 
         #region Open and close inventory
-        if (Input.GetKeyDown(KeyCode.Tab)) {
-            OpenedClosedInventory();
+        if (actOpenInventory) {
+            /*// Para teste de lotamento no inventario
+            inventory = new int[] {1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2};
+            staffEquiped = 3;
+            grimoresEquiped = new int[] {1,2,3};
+            consumableEquiped = 1;
+            equipaments = new int[] {1,2,3,1,2};
+            rings = new int[] {1,2,3,1,2,3,1,2,3,1};
+            */
+            TradedScreen(UIType.Inventory);
         }
         #endregion
     }
@@ -140,6 +148,16 @@ public class Player : MonoBehaviour {
         Gizmos.DrawWireSphere(transform.position, rayCollect);
     }
     */
+    private void getItem(){
+        if(inventory.Contains(0)){
+            for(int i = 0; i < inventory.Length; i++){
+                if(inventory[i] == 0){
+                    inventory[i] = itemNear.GetComponent<ItemForColect>().GetItem(); // Guarda item no inventory
+                    break;
+                }
+            }
+        }
+    }
     private void usingWand() {
         if (allowedForUsingMagic && wand != null) {
             IActionsWand wandInter = wand.GetComponent<IActionsWand>();
@@ -162,20 +180,7 @@ public class Player : MonoBehaviour {
             }
         }
     }
-    public void CauseDamageInPlayer(int attack) {
-        if (!isInvunerable) {
-            this.life -= attack;
-            if (UpdatedBar != null) {
-                UpdatedBar(life, maxLife, HPorMana.HP);
-            }
-            StartCoroutine(delayForInvunerable());
-        }
-    }
-    public void RecoilAttack(Vector2 posE, float force) {
-        if (!isInvunerable) {
-            StartCoroutine(recoilAttack(posE, force));
-        }
-    }
+    
     Collider2D getColNearFromThePlayer(Collider2D[] list) {
         var near = list[0];
         for (int i = 1; i < list.Length; i++) {
@@ -185,7 +190,7 @@ public class Player : MonoBehaviour {
         }
         return near;
     }
-    double distForPlayer(Collider2D col) {
+    private double distForPlayer(Collider2D col) {
         return Math.Sqrt(Math.Pow(col.transform.position.x - this.transform.position.x, 2) + Math.Pow(col.transform.position.y - this.transform.position.y, 2));
     }
 
@@ -201,10 +206,8 @@ public class Player : MonoBehaviour {
     }
     private IEnumerator delayForInvunerable() {
         isInvunerable = true;
-        Debug.Log("invuneravel");
         yield return new WaitForSeconds(timeForInvunerable);
         isInvunerable = false;
-        Debug.Log("Normal");
     }
 
     private IEnumerator recoilAttack(Vector2 posE, float force) {
@@ -214,38 +217,77 @@ public class Player : MonoBehaviour {
         yield return new WaitForSeconds(timeRecoil);
         freeForMove = true;
     }
+    public void CauseDamageInPlayer(int attack) {
+        if (!isInvunerable) {
+            this.life -= attack;
+            if (UpdatedBar != null) {
+                UpdatedBar(life, maxLife, HPorMana.HP);
+            }
+            StartCoroutine(delayForInvunerable());
+        }
+    }
+    public void RecoilAttack(Vector2 posE, float force) {
+        if (!isInvunerable) {
+            StartCoroutine(recoilAttack(posE, force));
+        }
+    }
+
+    public int[] OnGetItemsFromPlayer(){
+        int[] aux = new int[40];
+        System.Array.Copy(inventory, 0 , aux, 0, inventory.Length); // Copia de array para nao prescisar usar for
+        aux[20] = staffEquiped;
+        System.Array.Copy(grimoresEquiped, 0, aux, 21, grimoresEquiped.Length);
+        aux[24] = consumableEquiped;
+        System.Array.Copy(equipaments, 0, aux, 25, equipaments.Length);
+        System.Array.Copy(rings, 0, aux, 30, rings.Length);
+
+        return aux;
+    }
+
+    #region InputManager
+    private void getInput(){
+        dirPlayer = input.PlayerGame.Movement.ReadValue<Vector2>();
+        actAtack = input.PlayerGame.Atack.WasPressedThisFrame();
+        actInteract = input.PlayerGame.Interaction.WasPressedThisFrame();
+        actOpenInventory = input.PlayerGame.OpenInventory.WasPressedThisFrame();
+        actGrimore1 = input.PlayerGame.Grimore1.WasPressedThisFrame();
+        actGrimore2 = input.PlayerGame.Grimore2.WasPressedThisFrame();
+        actGrimore3 = input.PlayerGame.Grimore3.WasPressedThisFrame();
+        actConsumable = input.PlayerGame.Consumable.WasPressedThisFrame();
+        actPause = input.PlayerGame.Pause.WasPressedThisFrame();
+        
+    }
+    public void OnSetActiveInput(bool isActive){
+        if(isActive){
+            input.PlayerGame.Enable();
+        }else{
+            input.PlayerGame.Disable();
+        }
+    }
+    #endregion
 }
-/* //Fiz para brincar
-    Collider2D[] selectSortForPhysics2D(Collider2D[] list){
-        for(int i = 0; i < list.Length - 1 ; i++){ // menos 1 pois nao tem necessidade verificar se o ultimo é o menor do que os da direita, pois nao tem mais
-            var itemNear = list[i];
-            int pos = i;
-            for(int j = i + 1; j < list.Length; j++){
-                if(distForPlayer(itemNear) > distForPlayer(list[j])){ // verifica se é menor
-                    itemNear = list[j];
-                    pos = j;
+
+
+
+
+
+
+
+
+/* //Codigo para pegar wand
+            if (itemNear.tag == "wand") {
+                if (wand != null) { // dropa a wanda atual
+                    wand.transform.rotation = Quaternion.Euler(0, 0, 0);
+                    wand.transform.position = transform.position;
+                    wand.GetComponent<IActionsWand>().dropWand();
+                    wand.GetComponent<CircleCollider2D>().enabled = true;
+                    wand.transform.SetParent(null);
                 }
+                wand = itemNear;
+                wand.GetComponent<CircleCollider2D>().enabled = false;
+                wand.transform.SetParent(this.transform);
+                wand.GetComponent<IActionsWand>().getWand();
+                StartCoroutine(delayForGetItem());
             }
-            if(pos != i){ // ouve algem menor
-                var itemI = list[i];
-                list[i] = itemNear;
-                list[pos] = itemI;
-            }
-        }
-        return list;
-    }
-    */
+            */
 
-/*
-void OnTriggerStay2D(Collider2D collider){
-    Debug.Log("presione e");
-
-    if(collider.CompareTag("wand")){
-        if(Input.GetKey(KeyCode.E)){
-            Debug.Log("PRESCIONADO");
-            wand = collider.transform.parent?.gameObject;
-            wand.GetComponentInChildren<CircleCollider2D>().enabled = false;
-        }
-    }
-}
-*/
