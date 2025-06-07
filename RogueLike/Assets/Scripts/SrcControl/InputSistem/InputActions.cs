@@ -367,6 +367,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""DropItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""f31e1e55-28d7-4589-a392-d77cbda879fd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -479,6 +488,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""action"": ""GetTrowItem"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a93b4414-6772-43ba-a6e8-1c823cfadf7d"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""DropItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -538,6 +558,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Inventory_LEFT = m_Inventory.FindAction("LEFT", throwIfNotFound: true);
         m_Inventory_RIGHT = m_Inventory.FindAction("RIGHT", throwIfNotFound: true);
         m_Inventory_GetTrowItem = m_Inventory.FindAction("GetTrowItem", throwIfNotFound: true);
+        m_Inventory_DropItem = m_Inventory.FindAction("DropItem", throwIfNotFound: true);
         // Pause
         m_Pause = asset.FindActionMap("Pause", throwIfNotFound: true);
         m_Pause_ExitPause = m_Pause.FindAction("ExitPause", throwIfNotFound: true);
@@ -718,6 +739,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Inventory_LEFT;
     private readonly InputAction m_Inventory_RIGHT;
     private readonly InputAction m_Inventory_GetTrowItem;
+    private readonly InputAction m_Inventory_DropItem;
     public struct InventoryActions
     {
         private @InputActions m_Wrapper;
@@ -728,6 +750,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @LEFT => m_Wrapper.m_Inventory_LEFT;
         public InputAction @RIGHT => m_Wrapper.m_Inventory_RIGHT;
         public InputAction @GetTrowItem => m_Wrapper.m_Inventory_GetTrowItem;
+        public InputAction @DropItem => m_Wrapper.m_Inventory_DropItem;
         public InputActionMap Get() { return m_Wrapper.m_Inventory; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -755,6 +778,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @GetTrowItem.started += instance.OnGetTrowItem;
             @GetTrowItem.performed += instance.OnGetTrowItem;
             @GetTrowItem.canceled += instance.OnGetTrowItem;
+            @DropItem.started += instance.OnDropItem;
+            @DropItem.performed += instance.OnDropItem;
+            @DropItem.canceled += instance.OnDropItem;
         }
 
         private void UnregisterCallbacks(IInventoryActions instance)
@@ -777,6 +803,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @GetTrowItem.started -= instance.OnGetTrowItem;
             @GetTrowItem.performed -= instance.OnGetTrowItem;
             @GetTrowItem.canceled -= instance.OnGetTrowItem;
+            @DropItem.started -= instance.OnDropItem;
+            @DropItem.performed -= instance.OnDropItem;
+            @DropItem.canceled -= instance.OnDropItem;
         }
 
         public void RemoveCallbacks(IInventoryActions instance)
@@ -869,6 +898,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnLEFT(InputAction.CallbackContext context);
         void OnRIGHT(InputAction.CallbackContext context);
         void OnGetTrowItem(InputAction.CallbackContext context);
+        void OnDropItem(InputAction.CallbackContext context);
     }
     public interface IPauseActions
     {

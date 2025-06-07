@@ -345,6 +345,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "DropItem",
+                    "type": "Button",
+                    "id": "f31e1e55-28d7-4589-a392-d77cbda879fd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -455,6 +464,17 @@
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "GetTrowItem",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a93b4414-6772-43ba-a6e8-1c823cfadf7d",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "DropItem",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
