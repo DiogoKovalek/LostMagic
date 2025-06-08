@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,6 +21,8 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
     public event TradeScreen TradedScreen;
     public delegate int[] GetItemsFromPlayer();
     public event GetItemsFromPlayer GotItemsFromPlayer;
+    public delegate void UpdateItemsFromPlayer(int[] itemUpd);
+    public event UpdateItemsFromPlayer UpdatedItemsFromPlayer;
     //==============================================
     //Itens Box ====================================
     [SerializeField] GameObject[] InventoryBoxes = new GameObject[20];
@@ -41,6 +44,7 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
 
     //Item Trow For Move
     private int itemHeld = 0;
+    private byte posPast = 0; // para salvar os items
     //==============================================
     void Start() {
         drawIconSelectByIndex();
@@ -49,7 +53,7 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
         getInput();
 
         if (actCloseInventory) {
-            TradedScreen(UIType.Game);
+            exitScreen();
         }
 
         if (actUP) {
@@ -91,6 +95,10 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
         else {
             this.input.Inventory.Disable();
         }
+    }
+    private void exitScreen(){
+        UpdatedItemsFromPlayer(listItems);
+        TradedScreen(UIType.Game);
     }
     private void insertItems() {
         int[] aux = GotItemsFromPlayer();
@@ -197,28 +205,76 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
         Debug.Log(listItems[itemBoxId] + " pos in list >>" + itemBoxId);
         if (itemHeld == 0 && listItems[itemBoxId] != 0) { // pegar item
             itemHeld = listItems[itemBoxId];
+            posPast = (byte) itemBoxId;
             listItems[itemBoxId] = 0;
             Debug.Log("Pegar");
 
             updateSpriteInBoxByIndex(indexItemX, indexItemY, listItems[itemBoxId]);
         }
         else if (itemHeld != 0 && listItems[itemBoxId] == 0) {// alocar item
-            //Fazer verificacao de caixa se pode alocar
-            listItems[itemBoxId] = itemHeld;
-            itemHeld = 0;
-            Debug.Log("Soltar");
+            if (checkIfBoxTypeItem(itemHeld, itemBoxId)) {
+                listItems[itemBoxId] = itemHeld;
+                itemHeld = 0;
+
+                posPast = 0;
+                Debug.Log("Soltar");
+
+            }
 
             updateSpriteInBoxByIndex(indexItemX, indexItemY, listItems[itemBoxId]);
         }
-        else if (itemHeld != 0 && listItems[itemBoxId] != 0) {// subistituir item
-            //Fazer verificacao de caixa se pode alocar
-            int aux = listItems[itemBoxId];
-            listItems[itemBoxId] = itemHeld;
-            itemHeld = aux;
-            Debug.Log("Trocar");
+        else if (itemHeld != 0 && listItems[itemBoxId] != 0) {// subistituir item, incluindo as posicoes
+            if (checkIfBoxTypeItem(itemHeld, itemBoxId)) {
+                int aux = listItems[itemBoxId];
+                listItems[itemBoxId] = itemHeld;
+                itemHeld = aux;
+
+                posPast = 0;
+                Debug.Log("Trocar");
+            }
 
             updateSpriteInBoxByIndex(indexItemX, indexItemY, listItems[itemBoxId]);
         }
+    }
+    private bool checkIfBoxTypeItem(int idItem, int itemBoxId) {
+        //Verifica o tipo da box
+        //Em inventario e Equipamento é diferente o modo de tratar
+        TypeItem tpItem = ItemBank.GetItemFromId(idItem).TypeItem;
+        if (itemBoxId <= 19) { // Inventario
+            return true;
+        }
+        else if (itemBoxId == 20 && tpItem == TypeItem.Staff) { // Cajado
+            return true;
+        }
+        else if (21 <= itemBoxId && itemBoxId <= 23 && tpItem == TypeItem.Grimore) { // Grimorios
+            return true;
+        }
+        else if (itemBoxId == 24 && tpItem == TypeItem.Comsumable) { // Consumivel
+            return true;
+        }
+        else if (itemBoxId >= 25 && tpItem == TypeItem.Equipment) { // Equipamento
+            // tipo de equipamento
+            CategoryEquipment catItem = ItemBank.GetItemAs<EquipmentBase>(idItem).CategoryEquipment;
+            if (itemBoxId == 25 && catItem == CategoryEquipment.Hat) {
+                return true;
+            }
+            else if (itemBoxId == 26 && catItem == CategoryEquipment.Necklace) {
+                return true;
+            }
+            else if (itemBoxId == 27 && catItem == CategoryEquipment.Cloak) {
+                return true;
+            }
+            else if (itemBoxId == 28 && catItem == CategoryEquipment.Pants) {
+                return true;
+            }
+            else if (itemBoxId == 29 && catItem == CategoryEquipment.Boot) {
+                return true;
+            }
+            else if (itemBoxId >= 30 && idItem <= 39 && catItem == CategoryEquipment.Ring) {
+                return true;
+            }
+        }
+        return false;
     }
     private void drawIconSelectByIndex() {
         getContourBoxByIndex(indexItemX, indexItemY).GetComponent<Image>().color = cSelectIcon;

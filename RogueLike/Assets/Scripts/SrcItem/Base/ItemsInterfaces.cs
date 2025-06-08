@@ -4,6 +4,7 @@ using UnityEngine;
 
 public interface IStaff
 {
+    void initStaff(StaffBase staffBase);
     void attack();
 }
 public interface IConsumable

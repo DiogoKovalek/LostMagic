@@ -19,5 +19,6 @@ public class EventManager : MonoBehaviour {
         //Inventory Screen
         ui.uiInventoryScreen.TradedScreen += ui.OnTradeScreen;
         ui.uiInventoryScreen.GotItemsFromPlayer += player.OnGetItemsFromPlayer;
+        ui.uiInventoryScreen.UpdatedItemsFromPlayer += player.OnUpdateItemsFromPlayer;
     }
 }

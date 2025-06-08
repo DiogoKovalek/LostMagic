@@ -20,7 +20,7 @@ public enum TypeItem
     Staff,
     Grimore,
     Equipment,
-    Comsumable
+    Comsumable,
 }
 public enum Element
 {
@@ -38,11 +38,4 @@ public enum Element
     Soul,
     Poison
 }
-public enum categoryEquipment{
-    Hat,
-    Necklace,
-    Cloak,
-    Pants,
-    Boot,
-    Ring
-}
+

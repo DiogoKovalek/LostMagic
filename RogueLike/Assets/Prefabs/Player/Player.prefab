@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
-  handForWand: {fileID: 3645999741936967587}
+  handForStaff: {fileID: 3645999741936967587}
 --- !u!50 &5708540903363684571
 Rigidbody2D:
   serializedVersion: 4

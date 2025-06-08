@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Equipment", menuName = "Base/Item/Equipment")]
 public class EquipmentBase : ItemBase
 {
+    public CategoryEquipment CategoryEquipment;
     public int HP;
     public int Mana;
     public int Atack;
@@ -16,6 +17,14 @@ public class EquipmentBase : ItemBase
     public int MEarth;
     public int MVoid;
     public EquipmentScript equipmentScript;
+}
+public enum CategoryEquipment{
+    Hat,
+    Necklace,
+    Cloak,
+    Pants,
+    Boot,
+    Ring
 }
 public enum EquipmentScript {
     none

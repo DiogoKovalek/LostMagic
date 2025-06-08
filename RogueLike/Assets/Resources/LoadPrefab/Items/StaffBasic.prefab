@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8061207069422226165}
   - component: {fileID: 7191268363608028602}
   - component: {fileID: 6907715158280801146}
-  - component: {fileID: 9007242214477888685}
+  - component: {fileID: 633379079552835912}
   m_Layer: 11
   m_Name: StaffBasic
   m_TagString: Untagged
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -143,7 +143,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &9007242214477888685
+--- !u!114 &633379079552835912
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -19,13 +19,13 @@ public class Player : MonoBehaviour {
     private float timeForInvunerable = 1.1f;
     private float timeRecoil = 0.1f;
 
-    // Varibles for Wand ==================
-    private GameObject wand;
+    // Varibles for Staff ==================
+    private GameObject staff;
     private Vector2 mousePosition;
-    private float distanWand = 0.4f;
+    private float distanStaff = 0.4f;
     private bool allowedForUsingMagic = true;
     private float timeDeleyForUsingMagic = 0.3f;
-    [SerializeField] GameObject handForWand;
+    [SerializeField] GameObject handForStaff;
     //====================================
 
     // Itens config ======================
@@ -89,13 +89,13 @@ public class Player : MonoBehaviour {
         getInput();
 
         #region Mouse and wand tranform
-        if (wand != null) {
+        if (staff != null) {
             mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 circleInMouseForPlayer = (mousePosition - (Vector2)handForWand.transform.position).normalized;
+            Vector2 circleInMouseForPlayer = (mousePosition - (Vector2)handForStaff.transform.position).normalized;
 
-            wand.transform.position = (Vector2)handForWand.transform.position + circleInMouseForPlayer * distanWand;
+            staff.transform.position = (Vector2)handForStaff.transform.position + circleInMouseForPlayer * distanStaff;
             float angleMouse = Mathf.Atan2(circleInMouseForPlayer.y, circleInMouseForPlayer.x) * Mathf.Rad2Deg;
-            wand.transform.rotation = Quaternion.Euler(0, 0, angleMouse);
+            staff.transform.rotation = Quaternion.Euler(0, 0, angleMouse);
         }
         #endregion
 
@@ -105,8 +105,8 @@ public class Player : MonoBehaviour {
         }
         #endregion
 
-        #region using wand
-        usingWand();
+        #region using Staff
+        usingStaff();
         #endregion
 
         #region Open and close inventory
@@ -158,8 +158,15 @@ public class Player : MonoBehaviour {
             }
         }
     }
-    private void usingWand() {
-        if (allowedForUsingMagic && wand != null) {
+    private void usingStaff() {
+        if(allowedForUsingMagic && staff != null){
+            IStaff staffInter = staff.GetComponent<IStaff>();
+            if(actAtack){
+                staffInter.attack();
+            }
+        }
+        /*
+        if (allowedForUsingMagic && staff != null) {
             IActionsWand wandInter = wand.GetComponent<IActionsWand>();
             if (wandInter == null) return;
             if (Input.GetKey(KeyCode.Mouse0)) {
@@ -179,6 +186,7 @@ public class Player : MonoBehaviour {
                 StartCoroutine(delayForUsingMagic());
             }
         }
+        */
     }
     
     Collider2D getColNearFromThePlayer(Collider2D[] list) {
@@ -243,11 +251,42 @@ public class Player : MonoBehaviour {
 
         return aux;
     }
+    
+    public void OnUpdateItemsFromPlayer(int[] itemUpd){         
+        try{
+            byte count = 0;
+            System.Array.Copy(itemUpd, count, inventory, 0, inventory.Length);
+            count += (byte) inventory.Length;
+            staffEquiped = itemUpd[count];
+            count++;
+            System.Array.Copy(itemUpd, count, grimoresEquiped, 0, grimoresEquiped.Length);
+            count += (byte) grimoresEquiped.Length;
+            consumableEquiped = itemUpd[count];
+            count++;
+            System.Array.Copy(itemUpd, count, equipaments, 0, equipaments.Length);
+            count += (byte) equipaments.Length;
+            System.Array.Copy(itemUpd, count, rings, 0, rings.Length);
+
+            insertItems();
+        }catch{
+            Debug.LogWarning("Erro do tamanho de lista em OnUpdateItemsFromPlayer");
+        }  
+    }
+    private void insertItems(){ // depois que inserir todos os items no inventario, adiciona staff, grimore e outros no jogo
+        // Staff
+        if(staffEquiped != 0){ // Adiciona staff
+            staff = ItemBank.CreateStaffBasicById(staffEquiped);
+        }else if(staff != null){ // Remove staff
+            Destroy(staff);
+            staff = null;
+        }
+    }
+    
 
     #region InputManager
     private void getInput(){
         dirPlayer = input.PlayerGame.Movement.ReadValue<Vector2>();
-        actAtack = input.PlayerGame.Atack.WasPressedThisFrame();
+        actAtack = input.PlayerGame.Atack.IsPressed();
         actInteract = input.PlayerGame.Interaction.WasPressedThisFrame();
         actOpenInventory = input.PlayerGame.OpenInventory.WasPressedThisFrame();
         actGrimore1 = input.PlayerGame.Grimore1.WasPressedThisFrame();

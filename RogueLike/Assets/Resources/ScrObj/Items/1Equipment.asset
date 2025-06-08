@@ -15,9 +15,10 @@ MonoBehaviour:
   id: 1
   NameItem: ChestTest
   Description: Teste
-  TypeItem: 0
+  TypeItem: 2
   Sprite: {fileID: 21300000, guid: 98c553e4b4dadbc4aaedbee555035d58, type: 3}
   chanceToDrop: 0
+  CategoryEquipment: 0
   HP: 9
   Mana: 9
   Atack: 9
