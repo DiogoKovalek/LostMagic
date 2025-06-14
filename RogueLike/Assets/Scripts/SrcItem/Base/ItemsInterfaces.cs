@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IStaff
 {
     void initStaff(StaffBase staffBase);
-    void attack();
+    void attack(GameObject grimore);
 }
 public interface IConsumable
 {
@@ -18,5 +18,6 @@ public interface IEquipment
 }
 public interface IGrimore
 {
-    void conjure();
+    void initGrimore(GrimoreBase grimoreBase);
+    void magic();
 }

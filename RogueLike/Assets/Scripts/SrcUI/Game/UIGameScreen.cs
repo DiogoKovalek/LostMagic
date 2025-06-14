@@ -1,15 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class UIGameScreen : MonoBehaviour, ISetScreen
-{
+public class UIGameScreen : MonoBehaviour, ISetScreen {
     //HP/Mana Bar ====================================
     public GameObject HPBar;
     public GameObject ManaBar;
     public int maxRightHPManaBar = 500;
     //================================================
-
+    //Grimore Bar ====================================
+    public GameObject[] GrimoresBar = new GameObject[3];
+    //================================================
     // event Player ==================================
     public delegate void SetActiveInput(bool isActive);
     public event SetActiveInput SetActivedInput;
@@ -38,6 +41,17 @@ public class UIGameScreen : MonoBehaviour, ISetScreen
         }
     }
 
+    public void OnUpdateGrimore(byte idBox, int idItem) {
+        Image boxSprite = GrimoresBar[idBox].transform.Find("SpriteItem").GetComponent<Image>();
+        if (idItem == 0) {
+            boxSprite.sprite = null;
+            boxSprite.gameObject.SetActive(false);
+        }
+        else {
+            boxSprite.gameObject.SetActive(true);
+            boxSprite.sprite = ItemBank.GetItemFromId(idItem).Sprite;
+        }
+    }
     public void SetScreen(bool active = false, bool input = false) {
         // Ativar ou destivar a UI
         this.gameObject.SetActive(active);

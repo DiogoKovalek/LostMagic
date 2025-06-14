@@ -96,8 +96,12 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
             this.input.Inventory.Disable();
         }
     }
-    private void exitScreen(){
+    private void exitScreen() {
         UpdatedItemsFromPlayer(listItems);
+        eraseIconSelectByIndex();
+        indexItemX = 0;
+        indexItemY = 0;
+        drawIconSelectByIndex();
         TradedScreen(UIType.Game);
     }
     private void insertItems() {
@@ -205,7 +209,7 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
         Debug.Log(listItems[itemBoxId] + " pos in list >>" + itemBoxId);
         if (itemHeld == 0 && listItems[itemBoxId] != 0) { // pegar item
             itemHeld = listItems[itemBoxId];
-            posPast = (byte) itemBoxId;
+            posPast = (byte)itemBoxId;
             listItems[itemBoxId] = 0;
             Debug.Log("Pegar");
 

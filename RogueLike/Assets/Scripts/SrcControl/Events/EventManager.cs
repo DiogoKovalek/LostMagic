@@ -12,6 +12,7 @@ public class EventManager : MonoBehaviour {
         //Player
         player.TradedScreen += ui.OnTradeScreen;
         player.UpdatedBar += ui.uiGameScreen.OnUpdateBar;
+        player.UpdatedGrimore += ui.uiGameScreen.OnUpdateGrimore;
 
         //Game Screen
         ui.uiGameScreen.SetActivedInput += player.OnSetActiveInput;

@@ -28,6 +28,11 @@ public class Player : MonoBehaviour {
     [SerializeField] GameObject handForStaff;
     //====================================
 
+    // Variables for Grimore =============
+    private GameObject[] grimores = new GameObject[3];
+    private byte indexGrimoreActive = 0;
+    //====================================
+
     // Itens config ======================
     private float rayCollect = 2.0f;
     private int layerForCollect = 1 << 6; // or 0b1000000
@@ -41,6 +46,8 @@ public class Player : MonoBehaviour {
     public event TradeScreen TradedScreen;
     public delegate void UpdateBar(int value, int maxValue, HPorMana op);
     public event UpdateBar UpdatedBar;
+    public delegate void UpdateGrimote(byte idBox, int idItem);
+    public event UpdateGrimote UpdatedGrimore;
     //====================================
 
     // Inventory =========================
@@ -148,10 +155,10 @@ public class Player : MonoBehaviour {
         Gizmos.DrawWireSphere(transform.position, rayCollect);
     }
     */
-    private void getItem(){
-        if(inventory.Contains(0)){
-            for(int i = 0; i < inventory.Length; i++){
-                if(inventory[i] == 0){
+    private void getItem() {
+        if (inventory.Contains(0)) {
+            for (int i = 0; i < inventory.Length; i++) {
+                if (inventory[i] == 0) {
                     inventory[i] = itemNear.GetComponent<ItemForColect>().GetItem(); // Guarda item no inventory
                     break;
                 }
@@ -159,10 +166,10 @@ public class Player : MonoBehaviour {
         }
     }
     private void usingStaff() {
-        if(allowedForUsingMagic && staff != null){
+        if (allowedForUsingMagic && staff != null) {
             IStaff staffInter = staff.GetComponent<IStaff>();
-            if(actAtack){
-                staffInter.attack();
+            if (actAtack) {
+                staffInter.attack(grimores[indexGrimoreActive]);
             }
         }
         /*
@@ -188,7 +195,7 @@ public class Player : MonoBehaviour {
         }
         */
     }
-    
+
     Collider2D getColNearFromThePlayer(Collider2D[] list) {
         var near = list[0];
         for (int i = 1; i < list.Length; i++) {
@@ -240,9 +247,9 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public int[] OnGetItemsFromPlayer(){
+    public int[] OnGetItemsFromPlayer() {
         int[] aux = new int[40];
-        System.Array.Copy(inventory, 0 , aux, 0, inventory.Length); // Copia de array para nao prescisar usar for
+        System.Array.Copy(inventory, 0, aux, 0, inventory.Length); // Copia de array para nao prescisar usar for
         aux[20] = staffEquiped;
         System.Array.Copy(grimoresEquiped, 0, aux, 21, grimoresEquiped.Length);
         aux[24] = consumableEquiped;
@@ -251,40 +258,53 @@ public class Player : MonoBehaviour {
 
         return aux;
     }
-    
-    public void OnUpdateItemsFromPlayer(int[] itemUpd){         
-        try{
+
+    public void OnUpdateItemsFromPlayer(int[] itemUpd) {
+        try {
             byte count = 0;
             System.Array.Copy(itemUpd, count, inventory, 0, inventory.Length);
-            count += (byte) inventory.Length;
+            count += (byte)inventory.Length;
             staffEquiped = itemUpd[count];
             count++;
             System.Array.Copy(itemUpd, count, grimoresEquiped, 0, grimoresEquiped.Length);
-            count += (byte) grimoresEquiped.Length;
+            count += (byte)grimoresEquiped.Length;
             consumableEquiped = itemUpd[count];
             count++;
             System.Array.Copy(itemUpd, count, equipaments, 0, equipaments.Length);
-            count += (byte) equipaments.Length;
+            count += (byte)equipaments.Length;
             System.Array.Copy(itemUpd, count, rings, 0, rings.Length);
-
-            insertItems();
-        }catch{
+        }
+        catch {
             Debug.LogWarning("Erro do tamanho de lista em OnUpdateItemsFromPlayer");
-        }  
+        }
+        insertItems();
     }
-    private void insertItems(){ // depois que inserir todos os items no inventario, adiciona staff, grimore e outros no jogo
-        // Staff
-        if(staffEquiped != 0){ // Adiciona staff
+    private void insertItems() { // depois que inserir todos os items no inventario, adiciona staff, grimore e outros no jogo
+        // Staff Prescisa substituir
+        if (staffEquiped != 0 && staff == null) { // Adiciona staff
             staff = ItemBank.CreateStaffBasicById(staffEquiped);
-        }else if(staff != null){ // Remove staff
+        }
+        else if (staffEquiped == 0 && staff != null) { // Remove staff
             Destroy(staff);
             staff = null;
         }
+        // Grimore
+        for (byte i = 0; i < grimoresEquiped.Length; i++) {
+            if (grimoresEquiped[i] != 0 && grimores[i] == null) {
+                UpdatedGrimore(i, grimoresEquiped[i]);
+                grimores[i] = ItemBank.CreateGrimoreBasicById(grimoresEquiped[i]);
+            }
+            else if (grimoresEquiped[i] == 0 && grimores[i] != null) {
+                UpdatedGrimore(i, 0);
+                Destroy(grimores[i]);
+                grimores[i] = null;
+            }
+        }
     }
-    
+
 
     #region InputManager
-    private void getInput(){
+    private void getInput() {
         dirPlayer = input.PlayerGame.Movement.ReadValue<Vector2>();
         actAtack = input.PlayerGame.Atack.IsPressed();
         actInteract = input.PlayerGame.Interaction.WasPressedThisFrame();
@@ -294,12 +314,13 @@ public class Player : MonoBehaviour {
         actGrimore3 = input.PlayerGame.Grimore3.WasPressedThisFrame();
         actConsumable = input.PlayerGame.Consumable.WasPressedThisFrame();
         actPause = input.PlayerGame.Pause.WasPressedThisFrame();
-        
+
     }
-    public void OnSetActiveInput(bool isActive){
-        if(isActive){
+    public void OnSetActiveInput(bool isActive) {
+        if (isActive) {
             input.PlayerGame.Enable();
-        }else{
+        }
+        else {
             input.PlayerGame.Disable();
         }
     }
