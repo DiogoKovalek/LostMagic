@@ -19,5 +19,10 @@ public interface IEquipment
 public interface IGrimore
 {
     void initGrimore(GrimoreBase grimoreBase);
-    void magic();
+    void magic(GameObject staff);
+}
+
+public interface IMagic {
+    void magic(GameObject staff);
+    Magic getEMagic();
 }

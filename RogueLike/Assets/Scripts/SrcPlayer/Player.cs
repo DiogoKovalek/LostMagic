@@ -24,7 +24,6 @@ public class Player : MonoBehaviour {
     private Vector2 mousePosition;
     private float distanStaff = 0.4f;
     private bool allowedForUsingMagic = true;
-    private float timeDeleyForUsingMagic = 0.3f;
     [SerializeField] GameObject handForStaff;
     //====================================
 
@@ -38,7 +37,7 @@ public class Player : MonoBehaviour {
     private int layerForCollect = 1 << 6; // or 0b1000000
     private GameObject itemNear;
     private bool allowedForGetItem = true;
-    private float timeDeleyForGetItem = 0.8f;
+    private float timeDeleyForGetItem = 0.5f;
     //====================================
 
     // UI ================================
@@ -156,10 +155,11 @@ public class Player : MonoBehaviour {
     }
     */
     private void getItem() {
-        if (inventory.Contains(0)) {
+        if (inventory.Contains(0) && allowedForGetItem) {
             for (int i = 0; i < inventory.Length; i++) {
                 if (inventory[i] == 0) {
                     inventory[i] = itemNear.GetComponent<ItemForColect>().GetItem(); // Guarda item no inventory
+                    StartCoroutine(delayForGetItem());
                     break;
                 }
             }
@@ -213,11 +213,6 @@ public class Player : MonoBehaviour {
         allowedForGetItem = false;
         yield return new WaitForSeconds(timeDeleyForGetItem);
         allowedForGetItem = true;
-    }
-    private IEnumerator delayForUsingMagic() {
-        allowedForUsingMagic = false;
-        yield return new WaitForSeconds(timeDeleyForUsingMagic);
-        allowedForUsingMagic = true;
     }
     private IEnumerator delayForInvunerable() {
         isInvunerable = true;

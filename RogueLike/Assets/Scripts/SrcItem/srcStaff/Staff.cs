@@ -10,6 +10,6 @@ public class Staff : MonoBehaviour, IStaff {
         GetComponent<SpriteRenderer>().sprite = staffBase.Sprite;
     }
     public void attack(GameObject grimore) {
-        grimore.GetComponent<IGrimore>().magic();
+        grimore?.GetComponent<IGrimore>().magic(this.gameObject);
     }
 }

@@ -3,17 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Grimore", menuName = "Base/Item/Grimore")]
-public class GrimoreBase : ItemBase
-{
+public class GrimoreBase : ItemBase {
     public Element Element;
     public int MFire;
     public int MWater;
     public int MWind;
     public int MEarth;
     public int MVoid;
-    public GrimoreScript grimoreScript;
+    public Magic GrimoreMagic;
 }
-public enum GrimoreScript
-{
-    
-}
+
+

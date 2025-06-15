@@ -9,6 +9,7 @@ public static class ItemBank {
     private static GameObject ItemBasic;
     private static GameObject staffBasic;
     private static GameObject grimoreBasic;
+    private static Dictionary<Magic, IMagic> magics;
     public static void IntiItemBank() {
         ItemBase[] items = Resources.LoadAll<ItemBase>("ScrObj/Items");//Carrega tudo da pasta Resources/Items
         ItemBase[] aux = new ItemBase[items.Length];
@@ -22,6 +23,7 @@ public static class ItemBank {
         ItemBasic = Resources.Load<GameObject>("LoadPrefab/Items/ItemBasic");
         staffBasic = Resources.Load<GameObject>("LoadPrefab/Items/StaffBasic");
         grimoreBasic = Resources.Load<GameObject>("LoadPrefab/Items/GrimoreBasic");
+        magics = initMagics();
     }
     public static ItemBase GetItemFromId(int id) {
         if (id == 0) {
@@ -59,5 +61,17 @@ public static class ItemBank {
             return grimore;
         }
         return null;
+    }
+
+    public static IMagic getMagicFromEnum(Magic e) {
+        if (magics.TryGetValue(e, out var m)) return m;
+        else return null;
+    }
+    private static Dictionary<Magic,IMagic> initMagics() {
+        Dictionary<Magic, IMagic> dict;
+        dict = new Dictionary<Magic, IMagic> {
+            {Magic.Teste, new MagicTest()}
+        };
+        return dict;
     }
 }
