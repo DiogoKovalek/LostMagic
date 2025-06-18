@@ -68,6 +68,8 @@ public static class ItemBank {
         else return null;
     }
     private static Dictionary<Magic,IMagic> initMagics() {
+        ProjectileBank.IntiProjectileBank();
+        
         Dictionary<Magic, IMagic> dict;
         dict = new Dictionary<Magic, IMagic> {
             {Magic.Teste, new MagicTest()}

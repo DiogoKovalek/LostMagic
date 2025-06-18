@@ -4,13 +4,14 @@ using UnityEngine;
 
 public class MagicTest : MagicBase {
     private Magic EMagic = Magic.Teste;
-    public GameObject projectile;
+    private GameObject projectile = ProjectileBank.GetProject("Fire Ball");
+
     public override Magic getEMagic() {
         return EMagic;
     }
 
     public override void magic(GameObject staff) {
         base.magic(staff);
-        Debug.Log("Ataque");
+        MonoBehaviour.Instantiate(projectile, staff.transform.position, staff.transform.rotation);
     }
 }
