@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -23,6 +24,10 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
     public event GetItemsFromPlayer GotItemsFromPlayer;
     public delegate void UpdateItemsFromPlayer(int[] itemUpd);
     public event UpdateItemsFromPlayer UpdatedItemsFromPlayer;
+    public delegate String[] GetAtributes();
+    public event GetAtributes GotAtributes;
+    public delegate Vector3 GetPosition();
+    public event GetPosition GotPosition;
     //==============================================
     //Itens Box ====================================
     [SerializeField] GameObject[] InventoryBoxes = new GameObject[20];
@@ -31,6 +36,7 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
     [SerializeField] GameObject ConsumableBox;
     [SerializeField] GameObject[] EquipmentBoxes = new GameObject[5];
     [SerializeField] GameObject[] RingBoxes = new GameObject[10];
+    [SerializeField] GameObject HeldBox;
     private int[] listItems = new int[40]; // 20 inventario, 1, staff, 3 grimorio, 1 consumivel, 5 equipamento 10 aneis
 
     //posicao do seletor do jogador
@@ -44,8 +50,15 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
 
     //Item Trow For Move
     private int itemHeld = 0;
-    private byte posPast = 0; // para salvar os items
+
     //==============================================
+
+    // TextBox =====================================
+    public GameObject BoxName;
+    public GameObject BoxDescripition;
+    public GameObject[] BoxesAtribute;
+    //==============================================
+
     void Start() {
         drawIconSelectByIndex();
     }
@@ -58,20 +71,43 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
 
         if (actUP) {
             moveIndexDirection(DirectionM.up);
+            updatePosBoxHeld();
+            writeDescripitionByIndex();
         }
         else if (actDOWN) {
             moveIndexDirection(DirectionM.down);
+            updatePosBoxHeld();
+            writeDescripitionByIndex();
         }
         if (actLEFT) {
             moveIndexDirection(DirectionM.left);
+            updatePosBoxHeld();
+            writeDescripitionByIndex();
         }
         else if (actRIGHT) {
             moveIndexDirection(DirectionM.right);
+            updatePosBoxHeld();
+            writeDescripitionByIndex();
         }
 
         if (actGetTrowItem) {
             GetOrTrowItem();
         }
+
+        if (actDropItem) {
+            dropItem();
+        }
+    }
+    private void exitScreen() {
+        if (itemHeld != 0) {
+            dropItem(true);
+        }
+        UpdatedItemsFromPlayer(listItems);
+        eraseIconSelectByIndex();
+        indexItemX = 0;
+        indexItemY = 0;
+        drawIconSelectByIndex();
+        TradedScreen(UIType.Game);
     }
     private void getInput() {
         actCloseInventory = input.Inventory.CloseInventory.WasPressedThisFrame();
@@ -86,6 +122,8 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
         this.gameObject.SetActive(active);
         if (active == true) {
             insertItems();
+            writeDescripitionByIndex();
+            writeAtributes();
         }
 
         this.input = new InputActions();
@@ -96,14 +134,7 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
             this.input.Inventory.Disable();
         }
     }
-    private void exitScreen() {
-        UpdatedItemsFromPlayer(listItems);
-        eraseIconSelectByIndex();
-        indexItemX = 0;
-        indexItemY = 0;
-        drawIconSelectByIndex();
-        TradedScreen(UIType.Game);
-    }
+
     private void insertItems() {
         int[] aux = GotItemsFromPlayer();
         listItems = aux; // atribui para a variavel de controle dos item
@@ -154,6 +185,9 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
             spriteBox.gameObject.SetActive(true);
             spriteBox.sprite = ItemBank.GetSpriteFromId(idItem);
         }
+        UpdatedItemsFromPlayer(listItems); // Atualiza inventario tambem
+        writeDescripitionByIndex();
+        writeAtributes();
     }
     private void moveIndexDirection(DirectionM dir) {
         eraseIconSelectByIndex();
@@ -204,40 +238,69 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
         }
         drawIconSelectByIndex();
     }
+    private void updateBoxHeld(bool active) {
+        HeldBox.gameObject.SetActive(active);
+        HeldBox.transform.Find("Sprite").GetComponent<Image>().sprite = itemHeld != 0? ItemBank.GetSpriteFromId(itemHeld) : null;
+        updatePosBoxHeld();
+    }
+    private void updatePosBoxHeld() {
+        if (HeldBox.activeSelf == true) {
+            float x = indexItemX <= 4 ? 180 + indexItemX * 170 : 1070 + (indexItemX - 5) * 140;
+            float y = 900 - indexItemY * 140;
+            HeldBox.GetComponent<RectTransform>().anchoredPosition = new Vector2(x, y);
+        }
+    }
     private void GetOrTrowItem() {
-        int itemBoxId = getPosItemByIndex(indexItemX, indexItemY);
-        Debug.Log(listItems[itemBoxId] + " pos in list >>" + itemBoxId);
+        int itemBoxId = getPosItemByIndex(indexItemX, indexItemY); // Id da lista de item
         if (itemHeld == 0 && listItems[itemBoxId] != 0) { // pegar item
             itemHeld = listItems[itemBoxId];
-            posPast = (byte)itemBoxId;
             listItems[itemBoxId] = 0;
-            Debug.Log("Pegar");
+            updateBoxHeld(true);
 
+            activeSpriteTypeItem(itemBoxId, true);
             updateSpriteInBoxByIndex(indexItemX, indexItemY, listItems[itemBoxId]);
         }
         else if (itemHeld != 0 && listItems[itemBoxId] == 0) {// alocar item
             if (checkIfBoxTypeItem(itemHeld, itemBoxId)) {
                 listItems[itemBoxId] = itemHeld;
                 itemHeld = 0;
+                updateBoxHeld(false);
 
-                posPast = 0;
-                Debug.Log("Soltar");
-
+                activeSpriteTypeItem(itemBoxId, false);
+                updateSpriteInBoxByIndex(indexItemX, indexItemY, listItems[itemBoxId]);
             }
-
-            updateSpriteInBoxByIndex(indexItemX, indexItemY, listItems[itemBoxId]);
         }
         else if (itemHeld != 0 && listItems[itemBoxId] != 0) {// subistituir item, incluindo as posicoes
             if (checkIfBoxTypeItem(itemHeld, itemBoxId)) {
                 int aux = listItems[itemBoxId];
                 listItems[itemBoxId] = itemHeld;
                 itemHeld = aux;
+                updateBoxHeld(true);
 
-                posPast = 0;
-                Debug.Log("Trocar");
+                updateSpriteInBoxByIndex(indexItemX, indexItemY, listItems[itemBoxId]);
             }
-
-            updateSpriteInBoxByIndex(indexItemX, indexItemY, listItems[itemBoxId]);
+        }
+    }
+    private void dropItem(bool dropItemHeld = false) {
+        if (dropItemHeld) {
+            GameObject itemDrop = ItemBank.CreateItemBasicById(itemHeld);
+            itemDrop.transform.position = GotPosition();
+            itemHeld = 0;
+            updateBoxHeld(false);
+        }
+        else {
+            int idItem = listItems[getPosItemByIndex(indexItemX, indexItemY)];
+            if (idItem != 0) {
+                GameObject itemDrop = ItemBank.CreateItemBasicById(idItem);
+                itemDrop.transform.position = GotPosition();
+                listItems[getPosItemByIndex(indexItemX, indexItemY)] = 0;
+                updateSpriteInBoxByIndex(indexItemX, indexItemY, 0);
+            }
+        }
+    }
+    private void activeSpriteTypeItem(int id, bool active) {
+        if (id >= 20) {
+            getBoxByIndex(indexItemX, indexItemY).transform.Find("SpriteTypeItem").gameObject.SetActive(active);
         }
     }
     private bool checkIfBoxTypeItem(int idItem, int itemBoxId) {
@@ -320,33 +383,45 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
     private int getPosItemByIndex(byte x, byte y) {
         int id = 0;
         if (x < 5) { // inventario
-            Debug.Log("Inventario");
             id = x + y * 5;
         }
         else if (x >= 7) { // anel
-            Debug.Log("Anel");
             id = 30 + (x - 7) + y * 2;
         }
         else if (x == 6) { // equipamento
-            Debug.Log("Equipamento");
             id = 25 + y;
         }
         else if (x == 5) { // cajado, grimorio e consumivel
             if (y == 0) { // cajado
-                Debug.Log("cajado");
                 id = 20;
             }
             else if (y >= 1 && y <= 3) { // grimorio
-                Debug.Log("Grimorio");
                 id = 20 + y;
-
             }
             else if (y == 4) { // consumivel
-                Debug.Log("Consumivel");
                 id = 24;
             }
         }
         return id;
+    }
+    private void writeDescripitionByIndex() {
+        String strN = "";
+        String strD = "";
+        int item = listItems[getPosItemByIndex(indexItemX, indexItemY)];
+        if (item != 0) {
+            strN = ItemBank.GetItemFromId(item).NameItem;
+            strD = ItemBank.GetItemFromId(item).Description;
+        }
+        BoxName.GetComponent<IText>().UpdateText(strN);
+        BoxDescripition.GetComponent<IText>().UpdateText(strD);
+    }
+    private void writeAtributes() {
+        if (GotAtributes != null) {
+            String[] str = GotAtributes();
+            for (byte i = 0; i < BoxesAtribute.Length; i++) {
+                BoxesAtribute[i].GetComponent<IText>().UpdateText(str[i]);
+            }
+        }
     }
     private enum DirectionM {
         up,

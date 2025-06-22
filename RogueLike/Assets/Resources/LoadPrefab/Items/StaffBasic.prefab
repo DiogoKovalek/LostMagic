@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 633379079552835912}
   m_Layer: 11
   m_Name: StaffBasic
-  m_TagString: Untagged
+  m_TagString: Staff
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

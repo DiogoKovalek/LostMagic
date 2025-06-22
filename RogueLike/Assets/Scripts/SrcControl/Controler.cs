@@ -21,17 +21,13 @@ public class Controler : MonoBehaviour {
     [SerializeField] EventManager eventManager;
     //==============================================
 
-    //Teste ========================================
-    [SerializeField] GameObject wand;
-    //==============================================
     void Awake() {
         ItemBank.IntiItemBank();
+        MagicBank.InitMagics();
     }
     void Start() {
         if (isGeneretedProceduralInStart) {
             createMapProcedural();
-            Vector2 posWand = new Vector2(mapSize2D / 2 * roomWidth, (mapSize2D / 2 - 1) * roomHeight);
-            Instantiate(wand, posWand, wand.transform.rotation);
         }
     }
 

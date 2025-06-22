@@ -5,12 +5,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Grimore", menuName = "Base/Item/Grimore")]
 public class GrimoreBase : ItemBase {
     public Element Element;
-    public int MFire;
-    public int MWater;
-    public int MWind;
-    public int MEarth;
-    public int MVoid;
     public Magic GrimoreMagic;
+    public float DelayMagic;
+    public int ManaExpend;
+
+    private void OValidate() {
+        TypeItem = TypeItem.Grimore;
+    }
 }
 
 

@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49da394581cb0a049ba99c46dc320d69, type: 3}
+  m_Name: 2WaterStaff
+  m_EditorClassIdentifier: 
+  id: 2
+  NameItem: "Cajado de \xC1gua"
+  Description: "Cajado perfeito para magias de \xE1gua."
+  TypeItem: 0
+  Sprite: {fileID: 4561662366866398610, guid: 1d0d2102897bfb145935a95523958ff4, type: 3}
+  chanceToDrop: 0
+  runAnim: {fileID: -2753146534031626556, guid: e6280d1bf503f3d42a62a1d75e8435b6, type: 3}
+  Element: 4
+  MFire: 0
+  MWater: 3
+  MWind: 0
+  MEarth: 0
+  MVoid: 0
+  staffScript: 0

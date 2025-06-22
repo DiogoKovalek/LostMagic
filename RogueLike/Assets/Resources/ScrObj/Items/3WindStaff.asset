@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49da394581cb0a049ba99c46dc320d69, type: 3}
+  m_Name: 3WindStaff
+  m_EditorClassIdentifier: 
+  id: 3
+  NameItem: Cajado de Vento
+  Description: Cajado perfeito para magias de Vento.
+  TypeItem: 0
+  Sprite: {fileID: 3996908502189079786, guid: aa913aae7b7efa547b8080afaa50a460, type: 3}
+  chanceToDrop: 0
+  runAnim: {fileID: -1546774593758772582, guid: 9f2c370691911a44b8393b482972ff20, type: 3}
+  Element: 3
+  MFire: 0
+  MWater: 0
+  MWind: 3
+  MEarth: 0
+  MVoid: 0
+  staffScript: 0

@@ -12,7 +12,9 @@ public class EventManager : MonoBehaviour {
         //Player
         player.TradedScreen += ui.OnTradeScreen;
         player.UpdatedBar += ui.uiGameScreen.OnUpdateBar;
+        player.UpdatedBoxStaff += ui.uiGameScreen.OnUpdateBoxStaff;
         player.UpdatedGrimore += ui.uiGameScreen.OnUpdateGrimore;
+        player.UpdatedGrimoreSelect += ui.uiGameScreen.OnUpdateGrimoreIndex;
 
         //Game Screen
         ui.uiGameScreen.SetActivedInput += player.OnSetActiveInput;
@@ -21,5 +23,7 @@ public class EventManager : MonoBehaviour {
         ui.uiInventoryScreen.TradedScreen += ui.OnTradeScreen;
         ui.uiInventoryScreen.GotItemsFromPlayer += player.OnGetItemsFromPlayer;
         ui.uiInventoryScreen.UpdatedItemsFromPlayer += player.OnUpdateItemsFromPlayer;
+        ui.uiInventoryScreen.GotAtributes += player.OnGetAtributes;
+        ui.uiInventoryScreen.GotPosition += player.OnGetPosition;
     }
 }

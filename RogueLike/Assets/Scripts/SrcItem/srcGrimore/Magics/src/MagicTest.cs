@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MagicTest : MagicBase {
     private Magic EMagic = Magic.Teste;
-    private GameObject projectile = ProjectileBank.GetProject("Fire Ball");
+    private ProjectileBase projectile = ProjectileBank.GetProject("Fire Project");
 
     public override Magic getEMagic() {
         return EMagic;
@@ -12,6 +12,6 @@ public class MagicTest : MagicBase {
 
     public override void magic(GameObject staff) {
         base.magic(staff);
-        MonoBehaviour.Instantiate(projectile, staff.transform.position, staff.transform.rotation);
+        conjure(staff, projectile);
     }
 }

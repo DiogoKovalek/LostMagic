@@ -3,10 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
 using UnityEngine;
+using UnityEngine.InputSystem.Controls;
 
 [CreateAssetMenu(fileName = "Item", menuName = "Base/Item")]
-public class ItemBase : ScriptableObject
-{
+public class ItemBase : ScriptableObject {
     public int id;
     public String NameItem;
     public String Description;

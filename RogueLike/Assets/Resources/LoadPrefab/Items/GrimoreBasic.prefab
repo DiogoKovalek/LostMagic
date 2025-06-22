@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 7674137877411708917}
   - component: {fileID: 541693686262728681}
   - component: {fileID: 5238924312600967699}
-  m_Layer: 11
+  m_Layer: 12
   m_Name: GrimoreBasic
-  m_TagString: Untagged
+  m_TagString: Grimore
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

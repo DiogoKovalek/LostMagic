@@ -4,11 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - wand
   - Wall
   - Door
   - Enemy
   - Projectile
+  - Staff
+  - Item
+  - Grimore
   layers:
   - Default
   - TransparentFX

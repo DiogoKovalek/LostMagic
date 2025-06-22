@@ -9,27 +9,49 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public class Player : MonoBehaviour {
-    [SerializeField] float speed;
+public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
     private Rigidbody2D rig;
-    private int maxLife = 10;
-    private int life;
     private bool isInvunerable = false;
     private bool freeForMove = true;
     private float timeForInvunerable = 1.1f;
     private float timeRecoil = 0.1f;
+
+    // Status ==============================
+    public PlayerBase playerBase;
+    private int maxLife;
+    private int life;
+    private int maxMana;
+    private int mana;
+    private int manaPerSecond;
+    private int atack;
+    private float speed;
+    private int luck;
+    private int MFire;
+    private int MWater;
+    private int MWind;
+    private int MEarth;
+    private int mVoid;
+    //======================================
+
+    //Mana recharge ========================
+    private bool isRechargeMana = false;
+    //======================================
 
     // Varibles for Staff ==================
     private GameObject staff;
     private Vector2 mousePosition;
     private float distanStaff = 0.4f;
     private bool allowedForUsingMagic = true;
-    [SerializeField] GameObject handForStaff;
+    private GameObject handForStaff;
     //====================================
 
     // Variables for Grimore =============
     private GameObject[] grimores = new GameObject[3];
     private byte indexGrimoreActive = 0;
+    private float speedGrimoreInOrbit = 95.0f;
+    private float rayOrbit = 1.2f;
+    private bool inOrbit = false;
+    private GameObject handForGrimores;
     //====================================
 
     // Itens config ======================
@@ -37,7 +59,7 @@ public class Player : MonoBehaviour {
     private int layerForCollect = 1 << 6; // or 0b1000000
     private GameObject itemNear;
     private bool allowedForGetItem = true;
-    private float timeDeleyForGetItem = 0.5f;
+    private float timeDeleyForGetItem = 0.3f;
     //====================================
 
     // UI ================================
@@ -45,8 +67,12 @@ public class Player : MonoBehaviour {
     public event TradeScreen TradedScreen;
     public delegate void UpdateBar(int value, int maxValue, HPorMana op);
     public event UpdateBar UpdatedBar;
+    public delegate void UpdateBoxStaff(int idItem);
+    public event UpdateBoxStaff UpdatedBoxStaff;
     public delegate void UpdateGrimote(byte idBox, int idItem);
     public event UpdateGrimote UpdatedGrimore;
+    public delegate void UpdateGrimoreSelect(byte newInd, byte oldInd = 3);
+    public event UpdateGrimoreSelect UpdatedGrimoreSelect;
     //====================================
 
     // Inventory =========================
@@ -75,7 +101,17 @@ public class Player : MonoBehaviour {
     void Awake() {
         rig = GetComponent<Rigidbody2D>();
         input = new InputActions();
-        life = maxLife;
+        handForStaff = transform.Find("HandForStaff").gameObject;
+        handForGrimores = transform.Find("Grimores").gameObject;
+        awakeStats();
+    }
+    private void awakeStats() {
+        updateAtributes(true);
+
+        //Para teste
+        for (int i = 0; i < 8; i++) {
+            inventory[i] = i+1;
+        }
     }
     void Start() {
         // inty Events =========================================
@@ -85,9 +121,11 @@ public class Player : MonoBehaviour {
         // inty UI =============================================
         TradedScreen(UIType.Game);
 
-        if (UpdatedBar != null) {
-            UpdatedBar(life, maxLife, HPorMana.HP);
-        }
+        UpdatedBar(life, maxLife, HPorMana.HP);
+        UpdatedBar(mana, maxMana, HPorMana.Mana);
+
+        UpdatedGrimoreSelect(0);
+
         //======================================================
     }
     void Update() {
@@ -117,16 +155,11 @@ public class Player : MonoBehaviour {
 
         #region Open and close inventory
         if (actOpenInventory) {
-            /*// Para teste de lotamento no inventario
-            inventory = new int[] {1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2,3,1,2};
-            staffEquiped = 3;
-            grimoresEquiped = new int[] {1,2,3};
-            consumableEquiped = 1;
-            equipaments = new int[] {1,2,3,1,2};
-            rings = new int[] {1,2,3,1,2,3,1,2,3,1};
-            */
             TradedScreen(UIType.Inventory);
         }
+        #endregion
+        #region Grimore Menu
+        switchGrimore();
         #endregion
     }
     void FixedUpdate() {
@@ -172,30 +205,67 @@ public class Player : MonoBehaviour {
                 staffInter.attack(grimores[indexGrimoreActive]);
             }
         }
-        /*
-        if (allowedForUsingMagic && staff != null) {
-            IActionsWand wandInter = wand.GetComponent<IActionsWand>();
-            if (wandInter == null) return;
-            if (Input.GetKey(KeyCode.Mouse0)) {
-                wandInter.attack();
-                StartCoroutine(delayForUsingMagic());
-            }
-            else if (Input.GetKey(KeyCode.Mouse1)) {
-                wandInter.conjure();
-                StartCoroutine(delayForUsingMagic());
-            }
-            else if (Input.GetKey(KeyCode.Space)) {
-                wandInter.defense();
-                StartCoroutine(delayForUsingMagic());
-            }
-            else if (Input.GetKey(KeyCode.Q)) {
-                wandInter.grimoreMagic();
-                StartCoroutine(delayForUsingMagic());
-            }
+    }
+    public void expendMana(int value) {
+        this.mana -= value;
+        UpdatedBar(mana, maxMana, HPorMana.Mana);
+        if (!isRechargeMana) StartCoroutine(rechargeMana());
+    }
+    public int getTotalMana() {
+        return mana;
+    }
+    public IEnumerator rechargeMana() {
+        isRechargeMana = true;      
+        while (mana < maxMana) {
+            yield return new WaitForSeconds(1.0f);
+            if (mana + manaPerSecond > maxMana) mana = maxMana;
+            else mana += manaPerSecond;
+            UpdatedBar(mana, maxMana, HPorMana.Mana);
         }
-        */
+        isRechargeMana = false;
+    }
+    private void switchGrimore() {
+        if (actGrimore1 && indexGrimoreActive != 0) {
+            UpdatedGrimoreSelect(0, indexGrimoreActive);
+            indexGrimoreActive = 0;
+        }
+        else if (actGrimore2 && indexGrimoreActive != 1) {
+            UpdatedGrimoreSelect(1, indexGrimoreActive);
+            indexGrimoreActive = 1;
+        }
+        else if (actGrimore3 && indexGrimoreActive != 2) {
+            UpdatedGrimoreSelect(2, indexGrimoreActive);
+            indexGrimoreActive = 2;
+        }
     }
 
+    private IEnumerator orbitPlayer() {
+        inOrbit = true;
+        float angle = 0;
+        byte cont = howManyGrimoresHave();
+        while (cont >= 1) {
+            angle = (angle + speedGrimoreInOrbit * Time.deltaTime) % 360f;
+            for (int i = 0; i < grimores.Length; i++) {
+                if (grimores[i] != null) {
+                    float rad = (angle + 360f / cont * i) * Mathf.Deg2Rad;
+                    Vector2 direction = new Vector2(Mathf.Cos(rad), Mathf.Sin(rad));
+                    grimores[i].transform.position = (Vector2)this.transform.position + (direction.normalized * rayOrbit);
+                }
+            }
+            yield return null;
+            cont = howManyGrimoresHave();
+        }
+        inOrbit = false;
+    }
+    private byte howManyGrimoresHave() {
+        byte cont = 0;
+        foreach (var g in grimores) {
+            if (g != null) {
+                cont++;
+            }
+        }
+        return cont;
+    }
     Collider2D getColNearFromThePlayer(Collider2D[] list) {
         var near = list[0];
         for (int i = 1; i < list.Length; i++) {
@@ -254,6 +324,7 @@ public class Player : MonoBehaviour {
         return aux;
     }
 
+
     public void OnUpdateItemsFromPlayer(int[] itemUpd) {
         try {
             byte count = 0;
@@ -273,31 +344,140 @@ public class Player : MonoBehaviour {
             Debug.LogWarning("Erro do tamanho de lista em OnUpdateItemsFromPlayer");
         }
         insertItems();
+        updateAtributes();
+    }
+
+    public String[] OnGetAtributes() {
+        String[] str = {maxLife.ToString(),
+        maxMana.ToString(),
+        manaPerSecond.ToString(),
+        atack.ToString(),
+        speed.ToString(),
+        luck.ToString(),
+        MFire.ToString(),
+        MWater.ToString(),
+        MWind.ToString(),
+        MEarth.ToString(),
+        mVoid.ToString()};
+        return str;
+    }
+    public Vector3 OnGetPosition() {
+        return this.transform.position;
     }
     private void insertItems() { // depois que inserir todos os items no inventario, adiciona staff, grimore e outros no jogo
         // Staff Prescisa substituir
         if (staffEquiped != 0 && staff == null) { // Adiciona staff
-            staff = ItemBank.CreateStaffBasicById(staffEquiped);
+            UpdatedBoxStaff(staffEquiped);
+            staff = ItemBank.CreateStaffBasicById(staffEquiped, this.gameObject);
+            staff.transform.SetParent(handForStaff.transform);
         }
         else if (staffEquiped == 0 && staff != null) { // Remove staff
+            UpdatedBoxStaff(0);
             Destroy(staff);
             staff = null;
         }
+        else if (staffEquiped != 0 && staff?.GetComponent<IStaff>().getIdItem() != staffEquiped) { // Atualizar staff se o novo for diferente
+            Destroy(staff);
+            UpdatedBoxStaff(staffEquiped);
+            staff = ItemBank.CreateStaffBasicById(staffEquiped, this.gameObject);
+            staff.transform.SetParent(handForStaff.transform);
+        }   
         // Grimore
         for (byte i = 0; i < grimoresEquiped.Length; i++) {
             if (grimoresEquiped[i] != 0 && grimores[i] == null) {
                 UpdatedGrimore(i, grimoresEquiped[i]);
                 grimores[i] = ItemBank.CreateGrimoreBasicById(grimoresEquiped[i]);
+                grimores[i].transform.SetParent(handForGrimores.transform);
+                if (!inOrbit) {
+                    StartCoroutine(orbitPlayer());
+                }
             }
             else if (grimoresEquiped[i] == 0 && grimores[i] != null) {
                 UpdatedGrimore(i, 0);
                 Destroy(grimores[i]);
                 grimores[i] = null;
             }
+            else if (grimoresEquiped[i] != 0 && grimores[i]?.GetComponent<IGrimore>().getIdItem() != grimoresEquiped[i]) {
+                Destroy(grimores[i]);
+                UpdatedGrimore(i, grimoresEquiped[i]);
+                grimores[i] = ItemBank.CreateGrimoreBasicById(grimoresEquiped[i]);
+                grimores[i].transform.SetParent(handForGrimores.transform);
+                if (!inOrbit) { // so para garantir
+                    StartCoroutine(orbitPlayer());
+                }
+            }
         }
     }
+    private void updateAtributes(bool awaking = false) {
+        // Primeiro o base
+        maxLife = playerBase.maxLife;
+        maxMana = playerBase.maxMana;
+        manaPerSecond = playerBase.manaPerSecond;
+        atack = playerBase.atack;
+        speed = playerBase.speed;
+        luck = playerBase.luck;
+        MFire = playerBase.MFire;
+        MWater = playerBase.MWater;
+        MWind = playerBase.MWind;
+        MEarth = playerBase.MEarth;
+        mVoid = playerBase.MVoid;
 
+        if (staffEquiped != 0) {
+            StaffBase o = ItemBank.GetItemAs<StaffBase>(staffEquiped);
+            MFire += o.MFire;
+            MWater += o.MWater;
+            MWind += o.MWind;
+            MEarth += o.MEarth;
+            mVoid += o.MVoid;
+        }
+        foreach (var equipament in equipaments) {
+            if (equipament != 0) {
+                EquipmentBase o = ItemBank.GetItemAs<EquipmentBase>(equipament);
+                maxLife += o.HP;
+                maxMana += o.Mana;
+                manaPerSecond += o.ManaPerSecond;
+                atack += o.Atack;
+                speed += o.Speed;
+                luck += o.Luck;
+                MFire += o.MFire;
+                MWater += o.MWater;
+                MWind += o.MWind;
+                MEarth += o.MEarth;
+                mVoid += o.MVoid;
+            }
+        }
+        foreach (var ring in rings) {
+            if (ring != 0) {
+                EquipmentBase o = ItemBank.GetItemAs<EquipmentBase>(ring);
+                maxLife += o.HP;
+                maxMana += o.Mana;
+                manaPerSecond += o.ManaPerSecond;
+                atack += o.Atack;
+                speed += o.Speed;
+                luck += o.Luck;
+                MFire += o.MFire;
+                MWater += o.MWater;
+                MWind += o.MWind;
+                MEarth += o.MEarth;
+                mVoid += o.MVoid;
+            }
+        }
+        if (!awaking) {
+            if (maxLife < life) {
+                life = maxLife;
+            }
+            if (maxMana < mana) {
+                mana = maxMana;
+            }
 
+            UpdatedBar(life, maxLife, HPorMana.HP);
+            UpdatedBar(mana, maxMana, HPorMana.Mana);
+        }
+        else {
+            life = maxLife;
+            mana = maxMana;
+        }
+    }
     #region InputManager
     private void getInput() {
         dirPlayer = input.PlayerGame.Movement.ReadValue<Vector2>();
@@ -320,29 +500,91 @@ public class Player : MonoBehaviour {
         }
     }
     #endregion
-}
 
+    #region Atributes Comunique
+    public float CalculateSpeed() {
+        return this.speed;
+    }
 
-
-
-
-
-
-
-/* //Codigo para pegar wand
-            if (itemNear.tag == "wand") {
-                if (wand != null) { // dropa a wanda atual
-                    wand.transform.rotation = Quaternion.Euler(0, 0, 0);
-                    wand.transform.position = transform.position;
-                    wand.GetComponent<IActionsWand>().dropWand();
-                    wand.GetComponent<CircleCollider2D>().enabled = true;
-                    wand.transform.SetParent(null);
+    public int CalculateAtack(Element project, Element enemy) {
+        int extra = 0;
+        /*
+        switch (project) {
+            case Element.Void:
+                extra = mVoid;
+                break;
+            case Element.Earth:
+                switch (enemy) {
+                    case Element.Earth:
+                        extra = MEarth / 2;
+                        break;
+                    case Element.Wind:
+                        extra = MEarth * 2;
+                        break;
+                    default:
+                        extra = MEarth;
+                        break;
                 }
-                wand = itemNear;
-                wand.GetComponent<CircleCollider2D>().enabled = false;
-                wand.transform.SetParent(this.transform);
-                wand.GetComponent<IActionsWand>().getWand();
-                StartCoroutine(delayForGetItem());
-            }
-            */
+                break;
+            case Element.Fire:
+                switch (enemy) {
+                    case Element.Earth:
+                        extra = MEarth / 2;
+                        break;
+                    case Element.Wind:
+                        extra = MEarth * 2;
+                        break;
+                    default:
+                        extra = MEarth;
+                        break;
+                }
+                break;
+            case Element.Wind:
+                switch (enemy) {
+                    case Element.Earth:
+                        extra = 0;
+                        break;
+                    case Element.Wind:
+                        extra = MEarth / 2;
+                        break;
+                    default:
+                        extra = MEarth;
+                        break;
+                }
+                break;
+            case Element.Water:
+                switch (enemy) {
+                    case Element.Earth:
+                        extra = MEarth / 2;
+                        break;
+                    case Element.Wind:
+                        extra = MEarth * 2;
+                        break;
+                    default:
+                        extra = MEarth;
+                        break;
+                }
+                break;
+            case Element.Magma:
+                break;
+            case Element.Electric:
+                break;
+            case Element.Ice:
+                break;
+            case Element.Leaf:
+                break;
+            case Element.Blood:
+                break;
+            case Element.Iron:
+                break;
+            case Element.Soul:
+                break;
+            case Element.Poison:
+                break;
+        }
+        */
+        return atack + extra;
+    }
+    #endregion
+}
 

@@ -8,23 +8,22 @@ public static class ProjectileBank {
     private static ProjectileBase[] projectsBase;
     public static void IntiProjectileBank() {
         projectile = Resources.Load<GameObject>("LoadPrefab/Projects/ProjectileBase");
-        projectsBase = Resources.LoadAll<ProjectileBase>("SrcObj/Projectiles");
+        projectsBase = Resources.LoadAll<ProjectileBase>("ScrObj/Projectiles");
     }
 
-    public static GameObject GetProject(String nameProject) {
+    public static ProjectileBase GetProject(String nameProject) {
         ProjectileBase pb = GetProjectBaseByName(nameProject);
         if (pb != null) {
-            GameObject obj = projectile;
-            obj.GetComponent<Project>().insertProjectBase(pb);
-            return obj;
+            return pb;
         }
         return null;
     }
+    public static GameObject GetMoldProject() {
+        return projectile;
+    }
     private static ProjectileBase GetProjectBaseByName(String nameProject) {
-        Debug.Log(projectsBase.Length);
         foreach (var b in projectsBase) {
-            Debug.Log(b.name);
-            if (b.name == nameProject) return b;
+            if (b.NameProject == nameProject) return b;
         }
         return null;
     }
