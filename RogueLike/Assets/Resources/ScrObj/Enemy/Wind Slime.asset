@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce51a7f0f06ceea4b91e77096e5c86f2, type: 3}
-  m_Name: Slime
+  m_Name: Wind Slime
   m_EditorClassIdentifier: 
-  nameEnemy: Slime
-  rumAnim: {fileID: 9100000, guid: b5a52ea8671c5c944b0c087ac6f79fca, type: 2}
+  nameEnemy: Wind Slime
+  rumAnim: {fileID: -8665935847900249853, guid: 38f3c3a4fd08753448463fc59e7559d0, type: 3}
   totalLife: 5
   speed: 2
   attack: 3

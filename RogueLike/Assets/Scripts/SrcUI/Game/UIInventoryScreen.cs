@@ -240,7 +240,7 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
     }
     private void updateBoxHeld(bool active) {
         HeldBox.gameObject.SetActive(active);
-        HeldBox.transform.Find("Sprite").GetComponent<Image>().sprite = itemHeld != 0? ItemBank.GetSpriteFromId(itemHeld) : null;
+        HeldBox.transform.Find("Sprite").GetComponent<Image>().sprite = itemHeld != 0 ? ItemBank.GetSpriteFromId(itemHeld) : null;
         updatePosBoxHeld();
     }
     private void updatePosBoxHeld() {
@@ -295,6 +295,7 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
                 itemDrop.transform.position = GotPosition();
                 listItems[getPosItemByIndex(indexItemX, indexItemY)] = 0;
                 updateSpriteInBoxByIndex(indexItemX, indexItemY, 0);
+                activeSpriteTypeItem(getPosItemByIndex(indexItemX, indexItemY), true);
             }
         }
     }

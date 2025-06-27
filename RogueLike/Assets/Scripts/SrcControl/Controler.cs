@@ -24,6 +24,7 @@ public class Controler : MonoBehaviour {
     void Awake() {
         ItemBank.IntiItemBank();
         MagicBank.InitMagics();
+        EnemyBank.InitEnemyBank();
     }
     void Start() {
         if (isGeneretedProceduralInStart) {
