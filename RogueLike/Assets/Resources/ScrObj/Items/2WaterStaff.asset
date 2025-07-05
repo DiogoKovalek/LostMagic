@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: "Cajado perfeito para magias de \xE1gua."
   TypeItem: 0
   Sprite: {fileID: 4561662366866398610, guid: 1d0d2102897bfb145935a95523958ff4, type: 3}
-  chanceToDrop: 0
+  chanceToDrop: 50
   runAnim: {fileID: -2753146534031626556, guid: e6280d1bf503f3d42a62a1d75e8435b6, type: 3}
   Element: 4
   MFire: 0

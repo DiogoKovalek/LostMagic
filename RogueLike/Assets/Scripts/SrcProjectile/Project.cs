@@ -42,6 +42,10 @@ public class Project : MonoBehaviour, IProject {
     void OnTriggerEnter2D(Collider2D collision) {
         if (collision.gameObject.tag == "Enemy") {
             collision.GetComponent<Enemy>().CauseDamageInEnemy(comunique.CalculateAtack(projectBase.element, Element.Void)); // void é para quebrar o galho
+            Destroy(this.gameObject);
+        }
+        if (collision.gameObject.tag == "Wall") {
+            Destroy(this.gameObject);
         }
     }
 }

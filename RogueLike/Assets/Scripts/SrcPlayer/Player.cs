@@ -16,6 +16,8 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
     private float timeForInvunerable = 1.1f;
     private float timeRecoil = 0.1f;
 
+    private Controler controler;
+
     // Status ==============================
     public PlayerBase playerBase;
     private int maxLife;
@@ -56,10 +58,10 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
 
     // Itens config ======================
     private float rayCollect = 2.0f;
-    private int layerForCollect = 1 << 6; // or 0b1000000
-    private GameObject itemNear;
-    private bool allowedForGetItem = true;
-    private float timeDeleyForGetItem = 0.3f;
+    private int layerItem = 1 << 6; // or 0b1000000
+    private GameObject interactionNear;
+    private bool allowedForInteraction = true;
+    private float timeDeleyForInteraction = 0.3f;
     //====================================
 
     // UI ================================
@@ -73,6 +75,8 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
     public event UpdateGrimote UpdatedGrimore;
     public delegate void UpdateGrimoreSelect(byte newInd, byte oldInd = 3);
     public event UpdateGrimoreSelect UpdatedGrimoreSelect;
+    public delegate void NextLevel();
+    public event NextLevel NextedLevel;
     //====================================
 
     // Inventory =========================
@@ -110,13 +114,36 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
 
         //Para teste
         for (int i = 0; i < 8; i++) {
-            inventory[i] = i+1;
+            inventory[i] = i + 1;
         }
     }
-    void Start() {
+
+    #region OnDisable
+    void OnDisable() {
+        isRechargeMana = false;
+        allowedForUsingMagic = true;
+        inOrbit = false;
+        allowedForInteraction = true;
+
+        //Recarrega mana
+        mana = maxMana;
+
+        try {
+            TradedScreen(UIType.None);
+        }
+        catch { }
+
+        Transform projects = transform.Find("Projects");
+        foreach (Transform proj in projects.transform) {
+            Destroy(proj.gameObject);
+        }
+    }
+    void OnEnable() {
         // inty Events =========================================
-        GameObject controler = GameObject.Find("Controler");
-        controler.GetComponent<Controler>().EventStartPlayer();
+        if (controler == null) {
+            controler = GameObject.Find("Controler").GetComponent<Controler>();
+            controler.EventStartPlayer();
+        }
         //======================================================
         // inty UI =============================================
         TradedScreen(UIType.Game);
@@ -125,9 +152,20 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
         UpdatedBar(mana, maxMana, HPorMana.Mana);
 
         UpdatedGrimoreSelect(0);
-
         //======================================================
+
+        foreach (int num in grimoresEquiped) {
+            if (num != 0) {
+                StartCoroutine(orbitPlayer());
+                break;
+            }
+        }
+
     }
+    #endregion
+
+
+
     void Update() {
 
         getInput();
@@ -144,8 +182,8 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
         #endregion
 
         #region GetItem and drop
-        if (allowedForGetItem && itemNear != null && actInteract) {
-            getItem();
+        if (allowedForInteraction && interactionNear != null && actInteract) {
+            interaction();
         }
         #endregion
 
@@ -169,33 +207,42 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
         }
         #endregion
 
-        #region Itens colision
-        Collider2D[] circleCollect = Physics2D.OverlapCircleAll(transform.position, rayCollect, layerForCollect);
+        #region Interaction colision
+        Collider2D[] circleCollect = Physics2D.OverlapCircleAll(transform.position, rayCollect, layerItem);
         if (circleCollect.Length > 0) {
-            itemNear = getColNearFromThePlayer(circleCollect).gameObject;
+            interactionNear = getColNearFromThePlayer(circleCollect).gameObject;
         }
         else {
-            itemNear = null;
+            interactionNear = null;
         }
         #endregion
     }
-    /*
+
     // Para desenhar o circulo de colisao de item
-    void OnDrawGizmos()
-    {
+    void OnDrawGizmos() {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, rayCollect);
     }
-    */
-    private void getItem() {
-        if (inventory.Contains(0) && allowedForGetItem) {
+    private void interaction() {
+        if (allowedForInteraction && interactionNear.CompareTag("Item")) { // tirei o contains
             for (int i = 0; i < inventory.Length; i++) {
                 if (inventory[i] == 0) {
-                    inventory[i] = itemNear.GetComponent<ItemForColect>().GetItem(); // Guarda item no inventory
-                    StartCoroutine(delayForGetItem());
+                    inventory[i] = interactionNear.GetComponent<ItemForColect>().GetItem(); // Guarda item no inventory
+                    StartCoroutine(delayForInteraction());
                     break;
                 }
             }
+        }
+        else if (allowedForInteraction && interactionNear.CompareTag("Chest")) {
+            interactionNear?.GetComponent<IChest>().OpenChest();
+        }
+        else if (allowedForInteraction && interactionNear.CompareTag("Portal")) {
+            IPortal port = interactionNear?.GetComponent<IPortal>();
+            if (port != null && port.ableForInteract()) {
+                NextedLevel();
+                this.gameObject.SetActive(false);
+            }
+
         }
     }
     private void usingStaff() {
@@ -215,7 +262,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
         return mana;
     }
     public IEnumerator rechargeMana() {
-        isRechargeMana = true;      
+        isRechargeMana = true;
         while (mana < maxMana) {
             yield return new WaitForSeconds(1.0f);
             if (mana + manaPerSecond > maxMana) mana = maxMana;
@@ -279,10 +326,10 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
         return Math.Sqrt(Math.Pow(col.transform.position.x - this.transform.position.x, 2) + Math.Pow(col.transform.position.y - this.transform.position.y, 2));
     }
 
-    private IEnumerator delayForGetItem() {
-        allowedForGetItem = false;
-        yield return new WaitForSeconds(timeDeleyForGetItem);
-        allowedForGetItem = true;
+    private IEnumerator delayForInteraction() {
+        allowedForInteraction = false;
+        yield return new WaitForSeconds(timeDeleyForInteraction);
+        allowedForInteraction = true;
     }
     private IEnumerator delayForInvunerable() {
         isInvunerable = true;
@@ -362,7 +409,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
         return str;
     }
     public Vector3 OnGetPosition() {
-        return this.transform.position;
+        return this.gameObject.transform.position;
     }
     private void insertItems() { // depois que inserir todos os items no inventario, adiciona staff, grimore e outros no jogo
         // Staff Prescisa substituir
@@ -381,7 +428,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
             UpdatedBoxStaff(staffEquiped);
             staff = ItemBank.CreateStaffBasicById(staffEquiped, this.gameObject);
             staff.transform.SetParent(handForStaff.transform);
-        }   
+        }
         // Grimore
         for (byte i = 0; i < grimoresEquiped.Length; i++) {
             if (grimoresEquiped[i] != 0 && grimores[i] == null) {

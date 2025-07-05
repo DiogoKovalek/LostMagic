@@ -9,19 +9,55 @@ public static class ItemBank {
     private static GameObject ItemBasic;
     private static GameObject staffBasic;
     private static GameObject grimoreBasic;
+    private static GameObject chest;
+
+    // Drop Rate =============================================
+    private static Dictionary<int, float> dicStaffRandom = new Dictionary<int, float>();
+    private static Dictionary<int, float> dicGrimoreRandom = new Dictionary<int, float>();
+    private static Dictionary<int, float> dicEquipmentRandom = new Dictionary<int, float>();
+    private static Dictionary<int, float> dicConsumableRandom = new Dictionary<int, float>();
+
+
+
+    //Nestes a soma de todos devem dar 100
+    private static float chanceToDropStaff = 50; // 10
+    private static float chanceToDropGrimore = 50; // 10
+    private static float chanceToDropEquipment = 0; // 30
+    private static float chanceToDropConsumable = 0; // 40
+    // =======================================================
     public static void IntiItemBank() {
         ItemBase[] items = Resources.LoadAll<ItemBase>("ScrObj/Items");//Carrega tudo da pasta Resources/Items
         ItemBase[] aux = new ItemBase[items.Length];
         foreach (var item in items) {
             aux[item.id - 1] = item;
+            switch (item.TypeItem) {
+                case TypeItem.Staff:
+                    dicStaffRandom.Add(item.id, item.chanceToDrop);
+                    break;
+                case TypeItem.Grimore:
+                    dicGrimoreRandom.Add(item.id, item.chanceToDrop);
+                    break;
+                case TypeItem.Equipment:
+                    dicEquipmentRandom.Add(item.id, item.chanceToDrop);
+                    break;
+                case TypeItem.Comsumable:
+                    dicConsumableRandom.Add(item.id, item.chanceToDrop);
+                    break;
+            }
         }
         if (aux.Contains(null)) { // Significa que algum scriptable tem o mesmo id
             Debug.LogWarning("Items with same id");
         }
         listOfItens = aux;
+        dicStaffRandom = rearrangeChanceInDict(dicStaffRandom);
+        dicGrimoreRandom = rearrangeChanceInDict(dicGrimoreRandom);
+        dicEquipmentRandom = rearrangeChanceInDict(dicEquipmentRandom);
+        dicConsumableRandom = rearrangeChanceInDict(dicConsumableRandom);
+
         ItemBasic = Resources.Load<GameObject>("LoadPrefab/Items/ItemBasic");
         staffBasic = Resources.Load<GameObject>("LoadPrefab/Items/StaffBasic");
         grimoreBasic = Resources.Load<GameObject>("LoadPrefab/Items/GrimoreBasic");
+        chest = Resources.Load<GameObject>("LoadPrefab/Chest/Chest");
     }
     public static ItemBase GetItemFromId(int id) {
         if (id == 0) {
@@ -41,7 +77,7 @@ public static class ItemBank {
         return null;
     }
     public static GameObject CreateItemBasicById(int id) {
-        if (id != 0) {
+        if (id != 0 && id <= listOfItens.Length) {
             GameObject item = GameObject.Instantiate(ItemBasic);
             item.GetComponent<ItemForColect>().inserId(id);
             return item;
@@ -68,4 +104,63 @@ public static class ItemBank {
         }
         return null;
     }
+    private static Dictionary<int, float> rearrangeChanceInDict(Dictionary<int, float> dic) {
+        Dictionary<int, float> auxDic = new Dictionary<int, float>();
+        float sumChance = 0;
+        foreach (var d in dic) {
+            sumChance += d.Value;
+        }
+        foreach (var item in dic) {
+            auxDic.Add(item.Key, (item.Value * 100) / sumChance);
+        }
+        auxDic = relocateDict(auxDic);
+        return auxDic;
+    }
+    private static Dictionary<int, float> relocateDict(Dictionary<int, float> dic) {
+        Dictionary<int, float> auxDic = new Dictionary<int, float>();
+        Dictionary<int, float> dicParts = dic;
+        while (dicParts.Count > 0) {
+            int chose = Random.Range(0, dicParts.Count);
+            var i = dicParts.ElementAt(chose);
+            auxDic.Add(i.Key, i.Value);
+            dicParts.Remove(i.Key);
+        }
+        return auxDic;
+    }
+    public static void relocateAllDict() {
+        dicStaffRandom = relocateDict(dicStaffRandom);
+        dicGrimoreRandom = relocateDict(dicGrimoreRandom);
+        dicEquipmentRandom = relocateDict(dicEquipmentRandom);
+        dicConsumableRandom = relocateDict(dicConsumableRandom);
+    }
+    private static int sortItem() {
+        int id = 0;
+        Dictionary<int, float> dic = new Dictionary<int, float>();
+        float type = Random.Range(0.0f, 100.0f);
+        float count = chanceToDropStaff;
+        dic = (type <= count) ? dicStaffRandom :
+        (type <= count + chanceToDropGrimore) ? dicGrimoreRandom :
+        (type <= count + chanceToDropGrimore + chanceToDropEquipment) ? dicEquipmentRandom :
+        (type <= count + chanceToDropGrimore + chanceToDropEquipment + chanceToDropConsumable) ? dicConsumableRandom : null;
+
+        if (dic.Count != 0) {
+            float numberSorted = Random.Range(0.0f, 100.0f);
+            count = 0;
+            foreach (var item in dic) {
+                count += item.Value;
+                if (numberSorted <= count) {
+                    id = item.Key;
+                    break;
+                }
+            }
+        }
+        return id;
+    }
+
+    public static GameObject CreateChest(Vector2 position) {
+        GameObject aux = GameObject.Instantiate(chest, position, chest.transform.rotation);
+        aux?.GetComponent<IChest>().AddChest(sortItem());
+        return aux;
+    }
+
 }

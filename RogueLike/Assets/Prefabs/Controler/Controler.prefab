@@ -46,12 +46,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69c04ae32aaadf4438fea30f433e0bbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isGeneretedProceduralInStart: 1
   floor: {fileID: 8388215533402142449}
   listRooms:
-  - {fileID: 3511357694683753439, guid: fb3ab3d90c8cbc945a9b00b931d48abd, type: 3}
-  - {fileID: 3511357694683753439, guid: fb3ab3d90c8cbc945a9b00b931d48abd, type: 3}
+  - {fileID: 2646448392674062187, guid: e2b7a2cb0604c014e83e09c8625f881f, type: 3}
   eventManager: {fileID: 2178264014949581104}
-  wand: {fileID: 4926015767782907712, guid: 76ee5aaf55fd0e440bc328232f951083, type: 3}
 --- !u!1 &8388215533402142449
 GameObject:
   m_ObjectHideFlags: 0

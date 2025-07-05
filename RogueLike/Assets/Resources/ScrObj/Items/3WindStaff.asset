@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: Cajado perfeito para magias de Vento.
   TypeItem: 0
   Sprite: {fileID: 3996908502189079786, guid: aa913aae7b7efa547b8080afaa50a460, type: 3}
-  chanceToDrop: 0
+  chanceToDrop: 50
   runAnim: {fileID: -1546774593758772582, guid: 9f2c370691911a44b8393b482972ff20, type: 3}
   Element: 3
   MFire: 0

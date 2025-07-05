@@ -2553,6 +2553,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   doorOrWall: {fileID: 4467297481785419488, guid: 6abeb6527329cb24abc49cda62ca4e31, type: 3}
   enemyRoomManage: {fileID: 7608430666468071994, guid: d7ed0c1b8801dd044b34d4a7341601e8, type: 3}
+  portal: {fileID: 8948590913602981718, guid: ec64a7add8f296443b773fe755699321, type: 3}
 --- !u!1 &3446700918191554763
 GameObject:
   m_ObjectHideFlags: 0
@@ -2567,7 +2568,7 @@ GameObject:
   - component: {fileID: 9024721746682417230}
   m_Layer: 0
   m_Name: Wall
-  m_TagString: Untagged
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

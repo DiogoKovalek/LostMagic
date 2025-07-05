@@ -82,7 +82,7 @@ public class UIGameScreen : MonoBehaviour, ISetScreen {
     }
     public void SetScreen(bool active = false, bool input = false) {
         // Ativar ou destivar a UI
-        this.gameObject.SetActive(active);
+        this?.gameObject.SetActive(active);
         // Ativar ou desativar input do Player
         SetActivedInput(input);
     }

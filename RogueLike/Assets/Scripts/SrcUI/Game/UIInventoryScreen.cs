@@ -285,6 +285,7 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
         if (dropItemHeld) {
             GameObject itemDrop = ItemBank.CreateItemBasicById(itemHeld);
             itemDrop.transform.position = GotPosition();
+            itemDrop.transform.SetParent(GameObject.Find("Controler").transform.Find("Floor"));
             itemHeld = 0;
             updateBoxHeld(false);
         }
@@ -293,6 +294,7 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
             if (idItem != 0) {
                 GameObject itemDrop = ItemBank.CreateItemBasicById(idItem);
                 itemDrop.transform.position = GotPosition();
+                itemDrop.transform.SetParent(GameObject.Find("Controler").transform.Find("Floor"));
                 listItems[getPosItemByIndex(indexItemX, indexItemY)] = 0;
                 updateSpriteInBoxByIndex(indexItemX, indexItemY, 0);
                 activeSpriteTypeItem(getPosItemByIndex(indexItemX, indexItemY), true);

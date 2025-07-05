@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: "Lan\xE7a uma bola de \xE1gua."
   TypeItem: 1
   Sprite: {fileID: -6279148222498914612, guid: 628966e90c3541349b4233d41894bd4b, type: 3}
-  chanceToDrop: 0
+  chanceToDrop: 50
   Element: 4
   GrimoreMagic: 4
   DelayMagic: 0.2

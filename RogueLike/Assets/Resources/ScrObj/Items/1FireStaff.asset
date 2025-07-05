@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: Cajado perfeito para magias de Fogo.
   TypeItem: 0
   Sprite: {fileID: 6424023050141186662, guid: 15630ed730bafcb459224c816006348f, type: 3}
-  chanceToDrop: 0
+  chanceToDrop: 50
   runAnim: {fileID: -8304068617120561011, guid: c9d0dbd64dca03e46a68c03e3d84e8db, type: 3}
   Element: 2
   MFire: 3

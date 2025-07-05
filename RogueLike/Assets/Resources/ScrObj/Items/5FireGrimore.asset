@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: "Lan\xE7a uma bola de fogo."
   TypeItem: 1
   Sprite: {fileID: 6605510690671983695, guid: ce47463a0a6d632408360abfebf9efde, type: 3}
-  chanceToDrop: 0
+  chanceToDrop: 50
   Element: 2
   GrimoreMagic: 1
   DelayMagic: 0.2

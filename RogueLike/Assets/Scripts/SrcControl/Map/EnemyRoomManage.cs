@@ -33,6 +33,7 @@ public class EnemyRoomManage : MonoBehaviour {
         while (transform.childCount > 0) { // espera todos os inimigos morrerem
             yield return new WaitForFixedUpdate();
         }
+        spawnChest();
         controlerRoomConfig.OpenOrCloseAllDoors();
     }
     public void initEnemyRoomManage(byte widthRoom, byte heightRoom, int level, RoomConfig roomConfig, RoomConfigAplicate controler) { // Depois tem que colocar as portas
@@ -88,6 +89,13 @@ public class EnemyRoomManage : MonoBehaviour {
                 }
             }
             listOfEnemysInRoom.RemoveAt(listOfEnemysInRoom.Count - 1);
+        }
+    }
+
+    private void spawnChest() {
+        if (controlerRoomConfig.GetTypeRoom() == TypeRoom.basicWithChest) {
+            GameObject chest = ItemBank.CreateChest(this.transform.position);
+            chest.transform.SetParent(this.transform.parent);
         }
     }
 }

@@ -23,6 +23,10 @@ public class UIManager : MonoBehaviour {
 
     public void OnTradeScreen(UIType uis){
         switch(uis){
+            case UIType.None:
+                uiGameScreen.SetScreen();
+                uiInventoryScreen.SetScreen();
+                break;
             case UIType.Game:
                 uiGameScreen.SetScreen(true, true);
                 uiInventoryScreen.SetScreen();
@@ -33,16 +37,23 @@ public class UIManager : MonoBehaviour {
                 break;
             case UIType.Pause:
                 break;
+            case UIType.Death:
+                break;
+            case UIType.Loading:
+                break;
             default:
                 Debug.LogWarning("UIManager default UIScreen");
                 break;
         }
     }
 }
-public enum UIType{
+public enum UIType {
+    None,
     Game,
     Inventory,
-    Pause
+    Pause,
+    Death,
+    Loading,
 }
 
 public enum HPorMana {

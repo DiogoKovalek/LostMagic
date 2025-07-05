@@ -11,6 +11,8 @@ TagManager:
   - Staff
   - Item
   - Grimore
+  - Chest
+  - Portal
   layers:
   - Default
   - TransparentFX
@@ -18,14 +20,14 @@ TagManager:
   - Player
   - Water
   - UI
-  - Collectible
+  - Interactive
   - Enemy
   - Projectile
   - Wall
   - EnemyIgnoreCollision
   - Staff
   - Grimore
-  - 
+  - Chest
   - 
   - 
   - 
