@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7638c19539ffb0e4bb71d8b0ab87c3dd, type: 3}
+  m_Name: 15Cloack
+  m_EditorClassIdentifier: 
+  id: 15
+  NameItem: Manto Magico
+  Description: "Manto b\xE1sico de todo mago, parece at\xE9 que est\xE1 vinculado
+    ao mago por alguma magia"
+  TypeItem: 2
+  Sprite: {fileID: 7052150773634491610, guid: 3a34d8d47d5f92e468af04a306bf8c65, type: 3}
+  chanceToDrop: 0
+  CategoryEquipment: 2
+  HP: 5
+  Mana: 2
+  ManaPerSecond: 1
+  Atack: 1
+  Speed: 0
+  Luck: 0
+  MFire: 0
+  MWater: 0
+  MWind: 0
+  MEarth: 0
+  MVoid: 5
+  equipmentScript: 0

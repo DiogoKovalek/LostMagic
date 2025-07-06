@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7638c19539ffb0e4bb71d8b0ab87c3dd, type: 3}
+  m_Name: 25FireHat
+  m_EditorClassIdentifier: 
+  id: 25
+  NameItem: Chapeu de Fogo
+  Description: Chapeu com um pouco de energia de fogo
+  TypeItem: 2
+  Sprite: {fileID: -6971819762265663198, guid: 7152501bd80f65047aa75e557fd7342e, type: 3}
+  chanceToDrop: 50
+  CategoryEquipment: 0
+  HP: 1
+  Mana: 1
+  ManaPerSecond: 0
+  Atack: 0
+  Speed: 0
+  Luck: 0
+  MFire: 1
+  MWater: 0
+  MWind: 0
+  MEarth: 0
+  MVoid: 0
+  equipmentScript: 0

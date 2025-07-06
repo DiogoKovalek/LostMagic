@@ -20,9 +20,9 @@ public static class ItemBank {
 
 
     //Nestes a soma de todos devem dar 100
-    private static float chanceToDropStaff = 50; // 10
-    private static float chanceToDropGrimore = 50; // 10
-    private static float chanceToDropEquipment = 0; // 30
+    private static float chanceToDropStaff = 10; // 10
+    private static float chanceToDropGrimore = 10; // 10
+    private static float chanceToDropEquipment = 80; // 30
     private static float chanceToDropConsumable = 0; // 40
     // =======================================================
     public static void IntiItemBank() {

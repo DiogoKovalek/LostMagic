@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7638c19539ffb0e4bb71d8b0ab87c3dd, type: 3}
+  m_Name: 16Hat
+  m_EditorClassIdentifier: 
+  id: 16
+  NameItem: Chapeu Magico
+  Description: "Chapeu b\xE1sico de todo mago, parece at\xE9 que est\xE1 vinculado
+    ao mago por alguma magia"
+  TypeItem: 2
+  Sprite: {fileID: 260550021590019116, guid: cbe665b6a27e30d4ea59fd812798c4d6, type: 3}
+  chanceToDrop: 0
+  CategoryEquipment: 0
+  HP: 1
+  Mana: 1
+  ManaPerSecond: 0
+  Atack: 0
+  Speed: 0
+  Luck: 0
+  MFire: 0
+  MWater: 0
+  MWind: 0
+  MEarth: 0
+  MVoid: 1
+  equipmentScript: 0
