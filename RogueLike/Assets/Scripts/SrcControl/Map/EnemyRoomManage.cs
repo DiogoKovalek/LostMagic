@@ -59,7 +59,7 @@ public class EnemyRoomManage : MonoBehaviour {
         byte numOfEnemys = (byte)Random.Range(1, maxOfEnemys + 1);
         for (byte i = 0; i < numOfEnemys; i++) {
             // instanciar os inimigos dentro da lista
-            listOfEnemysInRoom.Add(EnemyBank.CreateRandomEnemy());
+            listOfEnemysInRoom.Add(EnemyBank.GetRandomEnemy());
         }
     }
 
@@ -69,14 +69,13 @@ public class EnemyRoomManage : MonoBehaviour {
         while (listOfEnemysInRoom.Count > 0) {
             int count = 0; // Evitar por enquanto não ter espaço na sala
             while (count < 5) {
-                EnemyBase ene = listOfEnemysInRoom[listOfEnemysInRoom.Count - 1];
-                float eneCircleRadius = ene.raiHitBox;
+                GameObject ene = listOfEnemysInRoom[listOfEnemysInRoom.Count - 1].EnemyPrefab;
+                float eneCircleRadius = ene.GetComponent<CircleCollider2D>().radius;
                 float posX = Random.Range(transform.position.x - (widthSpawn - eneCircleRadius), transform.position.x + (widthSpawn - eneCircleRadius));
                 float posY = Random.Range(transform.position.y - (heightSpawn - eneCircleRadius), transform.position.y + (heightSpawn - eneCircleRadius));
                 Vector2 posSpaw = new Vector2(posX, posY);
                 if (Physics2D.OverlapCircle(posSpaw, eneCircleRadius - 0.05f) == null) {
-                    GameObject e = EnemyBank.InstantiateEnemyByBase(ene);
-                    e.transform.position = posSpaw;
+                    GameObject e = Instantiate(ene, posSpaw, ene.transform.rotation);
                     e.transform.SetParent(this.transform);
                     break;
                 }

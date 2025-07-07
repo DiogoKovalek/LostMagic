@@ -26,38 +26,40 @@ public static class ItemBank {
     private static float chanceToDropConsumable = 0; // 40
     // =======================================================
     public static void IntiItemBank() {
-        ItemBase[] items = Resources.LoadAll<ItemBase>("ScrObj/Items");//Carrega tudo da pasta Resources/Items
-        ItemBase[] aux = new ItemBase[items.Length];
-        foreach (var item in items) {
-            aux[item.id - 1] = item;
-            switch (item.TypeItem) {
-                case TypeItem.Staff:
-                    dicStaffRandom.Add(item.id, item.chanceToDrop);
-                    break;
-                case TypeItem.Grimore:
-                    dicGrimoreRandom.Add(item.id, item.chanceToDrop);
-                    break;
-                case TypeItem.Equipment:
-                    dicEquipmentRandom.Add(item.id, item.chanceToDrop);
-                    break;
-                case TypeItem.Comsumable:
-                    dicConsumableRandom.Add(item.id, item.chanceToDrop);
-                    break;
+        if (listOfItens?.Length == null) {
+            ItemBase[] items = Resources.LoadAll<ItemBase>("ScrObj/Items");//Carrega tudo da pasta Resources/Items
+            ItemBase[] aux = new ItemBase[items.Length];
+            foreach (var item in items) {
+                aux[item.id - 1] = item;
+                switch (item.TypeItem) {
+                    case TypeItem.Staff:
+                        dicStaffRandom.Add(item.id, item.chanceToDrop);
+                        break;
+                    case TypeItem.Grimore:
+                        dicGrimoreRandom.Add(item.id, item.chanceToDrop);
+                        break;
+                    case TypeItem.Equipment:
+                        dicEquipmentRandom.Add(item.id, item.chanceToDrop);
+                        break;
+                    case TypeItem.Comsumable:
+                        dicConsumableRandom.Add(item.id, item.chanceToDrop);
+                        break;
+                }
             }
-        }
-        if (aux.Contains(null)) { // Significa que algum scriptable tem o mesmo id
-            Debug.LogWarning("Items with same id");
-        }
-        listOfItens = aux;
-        dicStaffRandom = rearrangeChanceInDict(dicStaffRandom);
-        dicGrimoreRandom = rearrangeChanceInDict(dicGrimoreRandom);
-        dicEquipmentRandom = rearrangeChanceInDict(dicEquipmentRandom);
-        dicConsumableRandom = rearrangeChanceInDict(dicConsumableRandom);
+            if (aux.Contains(null)) { // Significa que algum scriptable tem o mesmo id
+                Debug.LogWarning("Items with same id");
+            }
+            listOfItens = aux;
+            dicStaffRandom = rearrangeChanceInDict(dicStaffRandom);
+            dicGrimoreRandom = rearrangeChanceInDict(dicGrimoreRandom);
+            dicEquipmentRandom = rearrangeChanceInDict(dicEquipmentRandom);
+            dicConsumableRandom = rearrangeChanceInDict(dicConsumableRandom);
 
-        ItemBasic = Resources.Load<GameObject>("LoadPrefab/Items/ItemBasic");
-        staffBasic = Resources.Load<GameObject>("LoadPrefab/Items/StaffBasic");
-        grimoreBasic = Resources.Load<GameObject>("LoadPrefab/Items/GrimoreBasic");
-        chest = Resources.Load<GameObject>("LoadPrefab/Chest/Chest");
+            ItemBasic = Resources.Load<GameObject>("LoadPrefab/Items/ItemBasic");
+            staffBasic = Resources.Load<GameObject>("LoadPrefab/Items/StaffBasic");
+            grimoreBasic = Resources.Load<GameObject>("LoadPrefab/Items/GrimoreBasic");
+            chest = Resources.Load<GameObject>("LoadPrefab/Chest/Chest");
+        }
     }
     public static ItemBase GetItemFromId(int id) {
         if (id == 0) {

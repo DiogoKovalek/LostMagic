@@ -13,14 +13,22 @@ public class Controler : MonoBehaviour {
     private RoomConfig[,] mapGenerated;
     private byte roomWidth = 26;
     private byte roomHeight = 14;
-    private int mapSize2D = 10;
+    private int mapSize2D = 10; // Não pode ser mudado a qualquer momento, tem que mudar na UIGameScreen
     private int lengthBranch;
     private int levelEnemy;
     private int level = 1;
+    private int[] posPlayer = new int[2];
     //==============================================
 
     // EventManager ================================
     [SerializeField] EventManager eventManager;
+    private bool eventsDeclarate = false;
+    //==============================================
+    //Events =======================================
+    public delegate void SendMapForUI(RoomConfig[,] map);
+    public event SendMapForUI SentMapForUI;
+    public delegate void TradeRoomUI(int x, int y);
+    public event TradeRoomUI TradedRoomUI;
     //==============================================
 
     void Awake() {
@@ -30,6 +38,7 @@ public class Controler : MonoBehaviour {
         setDificult();
     }
     void Start() {
+        EventStartPlayer();
         if (isGeneretedProceduralInStart) {
             initiLevel();
         }
@@ -37,6 +46,10 @@ public class Controler : MonoBehaviour {
 
     private void initiLevel() {
         createMapProcedural();
+        SentMapForUI(mapGenerated);
+        posPlayer[0] = mapSize2D / 2;
+        posPlayer[1] = mapSize2D / 2;
+        TradedRoomUI(posPlayer[0], posPlayer[1]);
     }
     private void createMapProcedural() {
         mapGenerated = procedural.generateMapProcedural(mapSize2D, lengthBranch, listRooms.Length);
@@ -115,14 +128,24 @@ public class Controler : MonoBehaviour {
     }
 
     public void EventStartPlayer() {
-        //Teste ===============
-        UIManager ui = FindObjectOfType<UIManager>();
-        Player playerScr = player.GetComponent<Player>();
-        //=====================
-        eventManager.addPlayer(playerScr);
-        eventManager.addUIManager(ui);
-        eventManager.addControler(this);
-        eventManager.startConectionPlayerWithUI();
-        eventManager.startConectionPlayerWithControler();
+        if (!eventsDeclarate) {
+            //Teste ===============
+            UIManager ui = FindObjectOfType<UIManager>();
+            Player playerScr = player.GetComponent<Player>();
+            //=====================
+            eventManager.addPlayer(playerScr);
+            eventManager.addUIManager(ui);
+            eventManager.addControler(this);
+            eventManager.startConectionPlayerWithUI();
+            eventManager.startConectionPlayerWithControler();
+            eventManager.startConectionCotrolerWithUI();
+            eventsDeclarate = true;
+        }
+    }
+
+    public void UpdatePosition(short[] direction) {
+        posPlayer[0] += direction[0];
+        posPlayer[1] -= direction[1];
+        TradedRoomUI(posPlayer[0], posPlayer[1]);
     }
 }

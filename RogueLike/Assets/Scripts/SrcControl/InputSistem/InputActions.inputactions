@@ -507,6 +507,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "GameOver",
+            "id": "3d13e680-225b-44f5-9c1d-a9e59a3cc0d3",
+            "actions": [
+                {
+                    "name": "Enter",
+                    "type": "Button",
+                    "id": "d7dc7c16-b473-4d77-9270-ccda91d31797",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "0f5eae1c-147e-4284-afdf-1d3021c7b567",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Enter",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

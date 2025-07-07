@@ -7,8 +7,10 @@ public static class ProjectileBank {
     private static GameObject projectile;
     private static ProjectileBase[] projectsBase;
     public static void IntiProjectileBank() {
-        projectile = Resources.Load<GameObject>("LoadPrefab/Projects/ProjectileBase");
-        projectsBase = Resources.LoadAll<ProjectileBase>("ScrObj/Projectiles");
+        if (projectsBase?.Length == null) {
+            projectile = Resources.Load<GameObject>("LoadPrefab/Projects/ProjectileBase");
+            projectsBase = Resources.LoadAll<ProjectileBase>("ScrObj/Projectiles");
+        }
     }
 
     public static ProjectileBase GetProject(String nameProject) {

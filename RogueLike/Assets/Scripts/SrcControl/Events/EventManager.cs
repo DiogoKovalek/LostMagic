@@ -26,6 +26,7 @@ public class EventManager : MonoBehaviour {
             player.UpdatedBoxStaff += ui.uiGameScreen.OnUpdateBoxStaff;
             player.UpdatedGrimore += ui.uiGameScreen.OnUpdateGrimore;
             player.UpdatedGrimoreSelect += ui.uiGameScreen.OnUpdateGrimoreIndex;
+            player.UIForInteracted += ui.uiGameScreen.OnUIForInterct;
 
             //Game Screen
             ui.uiGameScreen.SetActivedInput += player.OnSetActiveInput;
@@ -41,5 +42,9 @@ public class EventManager : MonoBehaviour {
 
     public void startConectionPlayerWithControler() {
         player.NextedLevel += controler.OnNextLevel;
+    }
+    public void startConectionCotrolerWithUI() {
+        controler.SentMapForUI += ui.uiGameScreen.OnSendMapForUI;
+        controler.TradedRoomUI += ui.uiGameScreen.OnTradeRoomUI;
     }
 }

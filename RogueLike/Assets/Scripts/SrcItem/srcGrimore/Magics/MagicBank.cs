@@ -9,10 +9,11 @@ public static class MagicBank {
         else return null;
     }
     public static void InitMagics() {
-        ProjectileBank.IntiProjectileBank();
+        if (magics?.Count == null) {
+            ProjectileBank.IntiProjectileBank();
 
-        Dictionary<Magic, IMagic> dict;
-        dict = new Dictionary<Magic, IMagic> {
+            Dictionary<Magic, IMagic> dict;
+            dict = new Dictionary<Magic, IMagic> {
             { Magic.Teste, new MagicTest()},
             {Magic.Fire, new Fire()},
             {Magic.FireAutoRemote, new FireAutoRemote()},
@@ -27,7 +28,8 @@ public static class MagicBank {
             {Magic.EarthAutoRemote, new EarthAutoRemote()},
             {Magic.EarthAllDirection, new EarthAllDirection()}
         };
-        magics = dict;
+            magics = dict;
+        }
     }
 }
 

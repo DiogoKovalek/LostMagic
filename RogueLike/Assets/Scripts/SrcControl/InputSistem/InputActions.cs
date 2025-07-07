@@ -529,6 +529,34 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""GameOver"",
+            ""id"": ""3d13e680-225b-44f5-9c1d-a9e59a3cc0d3"",
+            ""actions"": [
+                {
+                    ""name"": ""Enter"",
+                    ""type"": ""Button"",
+                    ""id"": ""d7dc7c16-b473-4d77-9270-ccda91d31797"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""0f5eae1c-147e-4284-afdf-1d3021c7b567"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Enter"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -562,6 +590,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         // Pause
         m_Pause = asset.FindActionMap("Pause", throwIfNotFound: true);
         m_Pause_ExitPause = m_Pause.FindAction("ExitPause", throwIfNotFound: true);
+        // GameOver
+        m_GameOver = asset.FindActionMap("GameOver", throwIfNotFound: true);
+        m_GameOver_Enter = m_GameOver.FindAction("Enter", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -869,6 +900,52 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         }
     }
     public PauseActions @Pause => new PauseActions(this);
+
+    // GameOver
+    private readonly InputActionMap m_GameOver;
+    private List<IGameOverActions> m_GameOverActionsCallbackInterfaces = new List<IGameOverActions>();
+    private readonly InputAction m_GameOver_Enter;
+    public struct GameOverActions
+    {
+        private @InputActions m_Wrapper;
+        public GameOverActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Enter => m_Wrapper.m_GameOver_Enter;
+        public InputActionMap Get() { return m_Wrapper.m_GameOver; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(GameOverActions set) { return set.Get(); }
+        public void AddCallbacks(IGameOverActions instance)
+        {
+            if (instance == null || m_Wrapper.m_GameOverActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_GameOverActionsCallbackInterfaces.Add(instance);
+            @Enter.started += instance.OnEnter;
+            @Enter.performed += instance.OnEnter;
+            @Enter.canceled += instance.OnEnter;
+        }
+
+        private void UnregisterCallbacks(IGameOverActions instance)
+        {
+            @Enter.started -= instance.OnEnter;
+            @Enter.performed -= instance.OnEnter;
+            @Enter.canceled -= instance.OnEnter;
+        }
+
+        public void RemoveCallbacks(IGameOverActions instance)
+        {
+            if (m_Wrapper.m_GameOverActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IGameOverActions instance)
+        {
+            foreach (var item in m_Wrapper.m_GameOverActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_GameOverActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public GameOverActions @GameOver => new GameOverActions(this);
     private int m_KeyboardSchemeIndex = -1;
     public InputControlScheme KeyboardScheme
     {
@@ -903,5 +980,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     public interface IPauseActions
     {
         void OnExitPause(InputAction.CallbackContext context);
+    }
+    public interface IGameOverActions
+    {
+        void OnEnter(InputAction.CallbackContext context);
     }
 }

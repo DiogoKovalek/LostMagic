@@ -8,6 +8,7 @@ public class ItemForColect : MonoBehaviour {
     private float speedAnim = 0.004f;
     private float quantMoved = 0;
     private bool isUp = true;
+    [SerializeField] Transform shadow;
     void Start() {
         initItem();
     }
@@ -16,6 +17,7 @@ public class ItemForColect : MonoBehaviour {
             if (quantMoved < distAnim) {
                 quantMoved += speedAnim;
                 this.transform.Translate(new Vector3(0, speedAnim, 0), Space.World);
+                shadow.Translate(new Vector3(0,-speedAnim,0), Space.World);
             }
             else {
                 isUp = false;
@@ -25,6 +27,7 @@ public class ItemForColect : MonoBehaviour {
             if (quantMoved > -distAnim) {
                 quantMoved -= speedAnim;
                 this.transform.Translate(new Vector3(0, -speedAnim, 0), Space.World);
+                shadow.Translate(new Vector3(0,speedAnim,0), Space.World);
             }
             else {
                 isUp = true;

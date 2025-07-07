@@ -13,6 +13,8 @@ public class DoorTransition : MonoBehaviour
     void OnTriggerEnter2D(Collider2D other){
         if(other.gameObject.tag == "Player"){
             short[] direction = getDirectionDoor();
+            Controler controler = GameObject.Find("Controler")?.GetComponent<Controler>();
+            controler.UpdatePosition(direction);
             Camera.main.transform.position += new Vector3(widthRoom*direction[0],heightRoom*direction[1],-10);
             other.transform.position = transform.position + new Vector3(deslocPlayer*direction[0], deslocPlayer*direction[1], 0);
         }

@@ -14,6 +14,7 @@ public class UIManager : MonoBehaviour {
     //References Screens =============================
     public UIGameScreen uiGameScreen;
     public UIInventoryScreen uiInventoryScreen;
+    public UIGameOver uiGameOver;
     //================================================
 
     void Start() {
@@ -38,6 +39,9 @@ public class UIManager : MonoBehaviour {
             case UIType.Pause:
                 break;
             case UIType.Death:
+                uiGameScreen.SetScreen();
+                uiInventoryScreen.SetScreen();
+                uiGameOver.SetScreen(true, true);
                 break;
             case UIType.Loading:
                 break;

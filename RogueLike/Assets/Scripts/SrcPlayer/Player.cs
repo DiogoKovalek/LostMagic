@@ -77,6 +77,8 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
     public event UpdateGrimoreSelect UpdatedGrimoreSelect;
     public delegate void NextLevel();
     public event NextLevel NextedLevel;
+    public delegate void UIForInteract(GameObject interact);
+    public event UIForInteract UIForInteracted;
     //====================================
 
     // Inventory =========================
@@ -211,9 +213,11 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
         Collider2D[] circleCollect = Physics2D.OverlapCircleAll(transform.position, rayCollect, layerItem);
         if (circleCollect.Length > 0) {
             interactionNear = getColNearFromThePlayer(circleCollect).gameObject;
+            UIForInteracted(interactionNear);
         }
         else {
             interactionNear = null;
+            UIForInteracted(null);
         }
         #endregion
     }
@@ -349,6 +353,9 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
             this.life -= attack;
             if (UpdatedBar != null) {
                 UpdatedBar(life, maxLife, HPorMana.HP);
+            }
+            if (life <= 0) {
+                TradedScreen(UIType.Death);
             }
             StartCoroutine(delayForInvunerable());
         }

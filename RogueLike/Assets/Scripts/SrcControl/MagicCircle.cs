@@ -20,6 +20,7 @@ public class MagicCircle : MonoBehaviour, IPortal {
         typePortal = type;
         switch (typePortal) {
             case TypePortal.Spawn:
+                this.gameObject.layer = 0;
                 StartCoroutine(invokePlayer());
                 break;
             case TypePortal.NextLevel:
