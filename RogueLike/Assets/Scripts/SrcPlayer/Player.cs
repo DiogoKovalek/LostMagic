@@ -222,6 +222,12 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
         #endregion
     }
 
+    void OnTriggerStay2D(Collider2D collision) {
+        if (collision.tag == "Spike" && !isInvunerable) {
+            CauseDamageInPlayer(3);
+        }
+    }
+
     // Para desenhar o circulo de colisao de item
     void OnDrawGizmos() {
         Gizmos.color = Color.red;

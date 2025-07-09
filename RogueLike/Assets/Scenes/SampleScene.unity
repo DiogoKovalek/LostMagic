@@ -3411,6 +3411,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3587110730716350478, guid: 7e75fe0b9d3f2a74082dcecc34e0d1a5, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4476015785355260853, guid: 7e75fe0b9d3f2a74082dcecc34e0d1a5, type: 3}
       propertyPath: m_TileSpriteArray.Array.data[12].m_Data
       value: 
@@ -3709,17 +3713,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 129120573850701029, guid: 566a6c9859d278041a9874610daa2708, type: 3}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 4867041219291827886, guid: 566a6c9859d278041a9874610daa2708, type: 3}
       propertyPath: m_Name
       value: Eye
-      objectReference: {fileID: 0}
-    - target: {fileID: 4867041219291827886, guid: 566a6c9859d278041a9874610daa2708, type: 3}
-      propertyPath: m_Layer
-      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8215148316682447892, guid: 566a6c9859d278041a9874610daa2708, type: 3}
       propertyPath: m_LocalPosition.x
