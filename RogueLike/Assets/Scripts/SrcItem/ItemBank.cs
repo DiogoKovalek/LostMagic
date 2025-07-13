@@ -8,7 +8,6 @@ public static class ItemBank {
     private static ItemBase[] listOfItens;
     private static GameObject ItemBasic;
     private static GameObject staffBasic;
-    private static GameObject grimoreBasic;
     private static GameObject chest;
 
     // Drop Rate =============================================
@@ -57,7 +56,6 @@ public static class ItemBank {
 
             ItemBasic = Resources.Load<GameObject>("LoadPrefab/Items/ItemBasic");
             staffBasic = Resources.Load<GameObject>("LoadPrefab/Items/StaffBasic");
-            grimoreBasic = Resources.Load<GameObject>("LoadPrefab/Items/GrimoreBasic");
             chest = Resources.Load<GameObject>("LoadPrefab/Chest/Chest");
         }
     }
@@ -100,7 +98,7 @@ public static class ItemBank {
     public static GameObject CreateGrimoreBasicById(int id) {
         if (GetItemFromId(id).TypeItem == TypeItem.Grimore) {
             GrimoreBase grimoreBase = GetItemAs<GrimoreBase>(id);
-            GameObject grimore = GameObject.Instantiate(grimoreBasic);
+            GameObject grimore = GameObject.Instantiate(grimoreBase.PrefGrimore);
             grimore.GetComponent<IGrimore>().initGrimore(grimoreBase);
             return grimore;
         }

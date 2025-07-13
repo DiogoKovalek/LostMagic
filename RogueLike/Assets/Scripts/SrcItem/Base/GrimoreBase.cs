@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Grimore", menuName = "Base/Item/Grimore")]
 public class GrimoreBase : ItemBase {
     public Element Element;
-    public Magic GrimoreMagic;
+    public GameObject PrefGrimore;
     public float DelayMagic;
     public int ManaExpend;
 

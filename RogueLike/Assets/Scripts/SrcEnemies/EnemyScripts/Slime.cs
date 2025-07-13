@@ -59,14 +59,14 @@ public class Slime : MonoBehaviour {
     private void attackColision() {
         Collider2D areaAttack = Physics2D.OverlapCircle(this.transform.position, this.GetComponent<CircleCollider2D>().radius, 1 << targetPlayer.gameObject.layer);
         if (areaAttack != null) {
-            Player scriptPlayer = areaAttack.GetComponent<Player>();
+            IPlayer scriptPlayer = areaAttack.GetComponent<IPlayer>();
             // Se estiver atacando
             if (isAttaking) {
-                scriptPlayer.CauseDamageInPlayer(scrEnemy.atack);
+                scriptPlayer.TakeDamage(scrEnemy.atack);
             }
             else {
                 scriptPlayer.RecoilAttack(this.transform.position, forceRecoilPlayer);
-                scriptPlayer.CauseDamageInPlayer(scrEnemy.atack); // se auto transforma em int
+                scriptPlayer.TakeDamage(scrEnemy.atack); // se auto transforma em int
             }
         }
     }

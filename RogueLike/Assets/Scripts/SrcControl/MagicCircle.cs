@@ -21,7 +21,6 @@ public class MagicCircle : MonoBehaviour, IPortal {
         switch (typePortal) {
             case TypePortal.Spawn:
                 this.gameObject.layer = 0;
-                StartCoroutine(invokePlayer());
                 break;
             case TypePortal.NextLevel:
                 StartCoroutine(nextLevel());
@@ -31,6 +30,9 @@ public class MagicCircle : MonoBehaviour, IPortal {
     public bool ableForInteract() {
         if (typePortal == TypePortal.Spawn) return false;
         return true;
+    }
+    public void initSpawnPlayer() {
+        StartCoroutine(invokePlayer());
     }
     private IEnumerator invokePlayer() {
         yield return new WaitForSeconds(timeToStay);
@@ -78,6 +80,7 @@ public class MagicCircle : MonoBehaviour, IPortal {
 public interface IPortal {
     void initiPortal(TypePortal type);
     bool ableForInteract();
+    void initSpawnPlayer();
 }
 public enum TypePortal {
     Spawn,

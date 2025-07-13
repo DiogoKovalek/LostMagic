@@ -46,5 +46,11 @@ public class EventManager : MonoBehaviour {
     public void startConectionCotrolerWithUI() {
         controler.SentMapForUI += ui.uiGameScreen.OnSendMapForUI;
         controler.TradedRoomUI += ui.uiGameScreen.OnTradeRoomUI;
+        controler.TradedScreen += ui.OnTradeScreen;
+        controler.GotTimeForInitLoad += ui.uiLoad.OnGettTimeForInitLoad;
+        controler.AbledForLightenScreen += ui.uiLoad.OnAbleForLightenScreen;
+        
+        ui.uiLoad.AbledForSpawnPlayer += controler.OnAbleForSpawnPlayer;
+
     }
 }

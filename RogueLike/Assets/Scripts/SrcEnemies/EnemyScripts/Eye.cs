@@ -37,7 +37,7 @@ public class Eye : MonoBehaviour {
         isShoting = true;
         yield return new WaitForSeconds(delayForShot);
         GameObject proj = Instantiate(projectPrefab, (Vector2) this.transform.position + (direction * distSpawn), projectPrefab.transform.rotation);
-        proj.GetComponent<SimpleProject>().initMoviment(direction, speedProject, scrEnemy.atack);
+        proj.GetComponent<SimpleProject>().initMoviment(direction, speedProject, scrEnemy.atack, false);
         proj.transform.SetParent(this.transform);
         isShoting = false;
     }

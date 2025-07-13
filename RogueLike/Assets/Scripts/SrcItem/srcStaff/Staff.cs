@@ -14,8 +14,8 @@ public class Staff : MonoBehaviour, IStaff {
         anim.runtimeAnimatorController = this.staffBase.runAnim;
         this.playerLinked = playerLinked;
     }
-    public void attack(GameObject grimore) {
-        grimore?.GetComponent<IGrimore>().magic(this.gameObject);
+    public void attack(GameObject grimore, Vector2 direction) {
+        grimore?.GetComponent<IGrimore>().conjureMagic(direction);
     }
 
     public GameObject GetPlayerLinked() {

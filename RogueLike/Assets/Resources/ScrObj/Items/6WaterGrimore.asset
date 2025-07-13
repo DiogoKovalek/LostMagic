@@ -19,6 +19,6 @@ MonoBehaviour:
   Sprite: {fileID: -6279148222498914612, guid: 628966e90c3541349b4233d41894bd4b, type: 3}
   chanceToDrop: 50
   Element: 4
-  GrimoreMagic: 4
+  PrefGrimore: {fileID: 8978614819860300193, guid: 4b829253452240640b30dfd33cc7ded4, type: 3}
   DelayMagic: 0.2
   ManaExpend: 1

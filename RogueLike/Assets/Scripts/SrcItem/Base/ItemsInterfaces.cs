@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public interface IStaff {
     int getIdItem();
     void initStaff(StaffBase staffBase, GameObject playerLinked);
-    void attack(GameObject grimore);
+    void attack(GameObject grimore, Vector2 direction);
     GameObject GetPlayerLinked();
 }
 public interface IConsumable
@@ -20,15 +21,12 @@ public interface IEquipment
 public interface IGrimore
 {
     int getIdItem();
+    GrimoreBase getGrimoreBase();
     void initGrimore(GrimoreBase grimoreBase);
-    void magic(GameObject staff);
+    void conjureMagic(Vector2 direction);
 }
 
 public interface IMagic {
-    void magic(GameObject staff);
-    Magic getEMagic();
-}
-public interface IProject {
-    void initMoviment(Vector2 direction);
-    void insertProjectBase(ProjectileBase pb, GameObject player);
+    void addConfigInMagic(Transform center);
+    void castMagic(Vector2 direction);
 }

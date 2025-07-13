@@ -12,7 +12,6 @@ public class BatLoco : MonoBehaviour {
     void Start() {
         rig = GetComponent<Rigidbody2D>();
         scrEnemy = GetComponent<Enemy>();
-        Debug.Log("Aqui");
     }
 
     void FixedUpdate() {
@@ -23,10 +22,10 @@ public class BatLoco : MonoBehaviour {
 
             Collider2D areaAttack = Physics2D.OverlapCircle(this.transform.position, this.GetComponent<CircleCollider2D>().radius, 1 << targetPlayer.gameObject.layer);
             if (areaAttack != null) {
-                Player scriptPlayer = areaAttack.GetComponent<Player>();
+                IPlayer scriptPlayer = areaAttack.GetComponent<IPlayer>();
 
                 scriptPlayer.RecoilAttack(this.transform.position, forceRecoilPlayer);
-                scriptPlayer.CauseDamageInPlayer(scrEnemy.atack); // se auto transforma em int
+                scriptPlayer.TakeDamage(scrEnemy.atack); // se auto transforma em int
             }
         }
         else {

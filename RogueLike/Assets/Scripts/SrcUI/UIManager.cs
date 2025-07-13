@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour {
     public UIGameScreen uiGameScreen;
     public UIInventoryScreen uiInventoryScreen;
     public UIGameOver uiGameOver;
+    public UILoad uiLoad;
     //================================================
 
     void Start() {
@@ -23,27 +24,26 @@ public class UIManager : MonoBehaviour {
     }
 
     public void OnTradeScreen(UIType uis){
-        switch(uis){
-            case UIType.None:
-                uiGameScreen.SetScreen();
-                uiInventoryScreen.SetScreen();
+        uiGameScreen?.SetScreen();
+        uiInventoryScreen?.SetScreen();
+        uiLoad?.SetScreen();
+        uiGameOver?.SetScreen();
+        switch (uis) {
+            case UIType.None:         
                 break;
             case UIType.Game:
                 uiGameScreen.SetScreen(true, true);
-                uiInventoryScreen.SetScreen();
                 break;
             case UIType.Inventory:
-                uiGameScreen.SetScreen();
-                uiInventoryScreen.SetScreen(true,true);
+                uiInventoryScreen.SetScreen(true, true);
                 break;
             case UIType.Pause:
                 break;
             case UIType.Death:
-                uiGameScreen.SetScreen();
-                uiInventoryScreen.SetScreen();
                 uiGameOver.SetScreen(true, true);
                 break;
             case UIType.Loading:
+                uiLoad.SetScreen(true, true);
                 break;
             default:
                 Debug.LogWarning("UIManager default UIScreen");

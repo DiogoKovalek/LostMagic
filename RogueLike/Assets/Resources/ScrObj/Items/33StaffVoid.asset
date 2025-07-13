@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49da394581cb0a049ba99c46dc320d69, type: 3}
+  m_Name: 33StaffVoid
+  m_EditorClassIdentifier: 
+  id: 33
+  NameItem: Cajado de Mana
+  Description: "Cajado b\xE1sico, foi meu av\xF3 que me deu"
+  TypeItem: 0
+  Sprite: {fileID: 2896476949401243961, guid: 54210868943ff3f459cf4e9d4337e28a, type: 3}
+  chanceToDrop: 0
+  runAnim: {fileID: 7293026766454915011, guid: 78751d9df30ec9049b5fc90716be179f, type: 3}
+  Element: 0
+  MFire: 0
+  MWater: 0
+  MWind: 0
+  MEarth: 0
+  MVoid: 3
+  staffScript: 0

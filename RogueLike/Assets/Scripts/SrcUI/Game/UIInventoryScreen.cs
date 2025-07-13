@@ -126,7 +126,7 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
             writeAtributes();
         }
 
-        this.input = new InputActions();
+        if (this.input == null) this.input = new InputActions();
         if (input) {
             this.input.Inventory.Enable();
         }

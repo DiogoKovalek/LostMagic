@@ -9,8 +9,9 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
+public class Player : MonoBehaviour, IAtributesComunique, IManaManager,IPlayer {
     private Rigidbody2D rig;
+    private Animator anim;
     private bool isInvunerable = false;
     private bool freeForMove = true;
     private float timeForInvunerable = 1.1f;
@@ -32,7 +33,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
     private int MWater;
     private int MWind;
     private int MEarth;
-    private int mVoid;
+    private int MVoid;
     //======================================
 
     //Mana recharge ========================
@@ -42,6 +43,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
     // Varibles for Staff ==================
     private GameObject staff;
     private Vector2 mousePosition;
+    private Vector2 directionPlayer;
     private float distanStaff = 0.4f;
     private bool allowedForUsingMagic = true;
     private GameObject handForStaff;
@@ -106,6 +108,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
     // Start is called before the first frame update
     void Awake() {
         rig = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
         input = new InputActions();
         handForStaff = transform.Find("HandForStaff").gameObject;
         handForGrimores = transform.Find("Grimores").gameObject;
@@ -114,10 +117,15 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
     private void awakeStats() {
         updateAtributes(true);
 
+        /*
         //Para teste
         for (int i = 0; i < 8; i++) {
             inventory[i] = i + 1;
         }
+        */
+
+        staffEquiped = 33;
+        grimoresEquiped[0] = 34;
     }
 
     #region OnDisable
@@ -129,11 +137,6 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
 
         //Recarrega mana
         mana = maxMana;
-
-        try {
-            TradedScreen(UIType.None);
-        }
-        catch { }
 
         Transform projects = transform.Find("Projects");
         foreach (Transform proj in projects.transform) {
@@ -166,7 +169,9 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
     }
     #endregion
 
-
+    void Start() {
+        insertItems();
+    }
 
     void Update() {
 
@@ -175,10 +180,10 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
         #region Mouse and wand tranform
         if (staff != null) {
             mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Vector2 circleInMouseForPlayer = (mousePosition - (Vector2)handForStaff.transform.position).normalized;
+            directionPlayer = (mousePosition - (Vector2)handForStaff.transform.position).normalized;
 
-            staff.transform.position = (Vector2)handForStaff.transform.position + circleInMouseForPlayer * distanStaff;
-            float angleMouse = Mathf.Atan2(circleInMouseForPlayer.y, circleInMouseForPlayer.x) * Mathf.Rad2Deg;
+            staff.transform.position = (Vector2)handForStaff.transform.position + directionPlayer * distanStaff;
+            float angleMouse = Mathf.Atan2(directionPlayer.y, directionPlayer.x) * Mathf.Rad2Deg;
             staff.transform.rotation = Quaternion.Euler(0, 0, angleMouse);
         }
         #endregion
@@ -201,13 +206,31 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
         #region Grimore Menu
         switchGrimore();
         #endregion
+        if (actConsumable) {
+            NextedLevel();
+            this.gameObject.SetActive(false);
+        }
     }
     void FixedUpdate() {
         #region Movment in FixedUpdate / aplicate velocity
         if (freeForMove) {
             rig.velocity = dirPlayer * speed;
+            if (anim.GetBool("isWalking") && dirPlayer == new Vector2(0,0)) {// personagem parado
+                anim.SetBool("isWalking", false);
+            }
+            else if (!anim.GetBool("isWalking") && dirPlayer != new Vector2(0,0)) {//personagem andando
+                anim.SetBool("isWalking", true);
+            }
         }
         #endregion
+        #region Flip Player
+        if (this.transform.rotation.y == 1 && directionPlayer.x > 0) {
+            this.transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (this.transform.rotation.y == 0 && directionPlayer.x <= 0) {
+            this.transform.rotation = Quaternion.Euler(0, -180, 0);
+        }
+        #endregion 
 
         #region Interaction colision
         Collider2D[] circleCollect = Physics2D.OverlapCircleAll(transform.position, rayCollect, layerItem);
@@ -224,7 +247,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
 
     void OnTriggerStay2D(Collider2D collision) {
         if (collision.tag == "Spike" && !isInvunerable) {
-            CauseDamageInPlayer(3);
+            TakeDamage(3);
         }
     }
 
@@ -259,7 +282,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
         if (allowedForUsingMagic && staff != null) {
             IStaff staffInter = staff.GetComponent<IStaff>();
             if (actAtack) {
-                staffInter.attack(grimores[indexGrimoreActive]);
+                staffInter.attack(grimores[indexGrimoreActive], directionPlayer);
             }
         }
     }
@@ -354,9 +377,9 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
         yield return new WaitForSeconds(timeRecoil);
         freeForMove = true;
     }
-    public void CauseDamageInPlayer(int attack) {
+    public void TakeDamage(int atack) {
         if (!isInvunerable) {
-            this.life -= attack;
+            this.life -= atack;
             if (UpdatedBar != null) {
                 UpdatedBar(life, maxLife, HPorMana.HP);
             }
@@ -418,7 +441,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
         MWater.ToString(),
         MWind.ToString(),
         MEarth.ToString(),
-        mVoid.ToString()};
+        MVoid.ToString()};
         return str;
     }
     public Vector3 OnGetPosition() {
@@ -448,6 +471,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
                 UpdatedGrimore(i, grimoresEquiped[i]);
                 grimores[i] = ItemBank.CreateGrimoreBasicById(grimoresEquiped[i]);
                 grimores[i].transform.SetParent(handForGrimores.transform);
+                grimores[i]?.GetComponent<IMagic>().addConfigInMagic(handForStaff.transform);
                 if (!inOrbit) {
                     StartCoroutine(orbitPlayer());
                 }
@@ -462,6 +486,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
                 UpdatedGrimore(i, grimoresEquiped[i]);
                 grimores[i] = ItemBank.CreateGrimoreBasicById(grimoresEquiped[i]);
                 grimores[i].transform.SetParent(handForGrimores.transform);
+                grimores[i]?.GetComponent<IMagic>().addConfigInMagic(handForStaff.transform);
                 if (!inOrbit) { // so para garantir
                     StartCoroutine(orbitPlayer());
                 }
@@ -480,7 +505,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
         MWater = playerBase.MWater;
         MWind = playerBase.MWind;
         MEarth = playerBase.MEarth;
-        mVoid = playerBase.MVoid;
+        MVoid = playerBase.MVoid;
 
         if (staffEquiped != 0) {
             StaffBase o = ItemBank.GetItemAs<StaffBase>(staffEquiped);
@@ -488,7 +513,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
             MWater += o.MWater;
             MWind += o.MWind;
             MEarth += o.MEarth;
-            mVoid += o.MVoid;
+            MVoid += o.MVoid;
         }
         foreach (var equipament in equipaments) {
             if (equipament != 0) {
@@ -503,7 +528,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
                 MWater += o.MWater;
                 MWind += o.MWind;
                 MEarth += o.MEarth;
-                mVoid += o.MVoid;
+                MVoid += o.MVoid;
             }
         }
         foreach (var ring in rings) {
@@ -519,7 +544,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
                 MWater += o.MWater;
                 MWind += o.MWind;
                 MEarth += o.MEarth;
-                mVoid += o.MVoid;
+                MVoid += o.MVoid;
             }
         }
         if (!awaking) {
@@ -553,10 +578,10 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
     }
     public void OnSetActiveInput(bool isActive) {
         if (isActive) {
-            input.PlayerGame.Enable();
+            input?.PlayerGame.Enable();
         }
         else {
-            input.PlayerGame.Disable();
+            input?.PlayerGame.Disable();
         }
     }
     #endregion
@@ -566,85 +591,26 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager {
         return this.speed;
     }
 
-    public int CalculateAtack(Element project, Element enemy) {
+    public int CalculateAtack(Element element) {
         int extra = 0;
-        /*
-        switch (project) {
+        switch (element) { // Fazer outros elementos
             case Element.Void:
-                extra = mVoid;
+                extra = MVoid;
                 break;
             case Element.Earth:
-                switch (enemy) {
-                    case Element.Earth:
-                        extra = MEarth / 2;
-                        break;
-                    case Element.Wind:
-                        extra = MEarth * 2;
-                        break;
-                    default:
-                        extra = MEarth;
-                        break;
-                }
+                extra = MEarth;
                 break;
             case Element.Fire:
-                switch (enemy) {
-                    case Element.Earth:
-                        extra = MEarth / 2;
-                        break;
-                    case Element.Wind:
-                        extra = MEarth * 2;
-                        break;
-                    default:
-                        extra = MEarth;
-                        break;
-                }
+                extra = MFire;
                 break;
             case Element.Wind:
-                switch (enemy) {
-                    case Element.Earth:
-                        extra = 0;
-                        break;
-                    case Element.Wind:
-                        extra = MEarth / 2;
-                        break;
-                    default:
-                        extra = MEarth;
-                        break;
-                }
+                extra = MWind;
                 break;
             case Element.Water:
-                switch (enemy) {
-                    case Element.Earth:
-                        extra = MEarth / 2;
-                        break;
-                    case Element.Wind:
-                        extra = MEarth * 2;
-                        break;
-                    default:
-                        extra = MEarth;
-                        break;
-                }
-                break;
-            case Element.Magma:
-                break;
-            case Element.Electric:
-                break;
-            case Element.Ice:
-                break;
-            case Element.Leaf:
-                break;
-            case Element.Blood:
-                break;
-            case Element.Iron:
-                break;
-            case Element.Soul:
-                break;
-            case Element.Poison:
+                extra = MWater;
                 break;
         }
-        */
         return atack + extra;
     }
     #endregion
 }
-

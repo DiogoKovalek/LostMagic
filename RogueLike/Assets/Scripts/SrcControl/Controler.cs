@@ -19,6 +19,10 @@ public class Controler : MonoBehaviour {
     private int level = 1;
     private int[] posPlayer = new int[2];
     //==============================================
+    //Load Varibles=================================
+    private IPortal scrPortalSpawn;
+    private bool ableForSpawnPlayer = true;
+    //==============================================
 
     // EventManager ================================
     [SerializeField] EventManager eventManager;
@@ -29,11 +33,19 @@ public class Controler : MonoBehaviour {
     public event SendMapForUI SentMapForUI;
     public delegate void TradeRoomUI(int x, int y);
     public event TradeRoomUI TradedRoomUI;
+    public delegate void TradeScreen(UIType uiType);
+    public event TradeScreen TradedScreen;
+    public delegate float GetTimeForInitLoad();
+    public event GetTimeForInitLoad GotTimeForInitLoad;
+    public delegate void AbleForLightenScreen();
+    public event AbleForLightenScreen AbledForLightenScreen;
     //==============================================
 
     void Awake() {
-        ItemBank.IntiItemBank();
+        ItemBank.IntiItemBank(); // FUTURAMENTE COLOCAR PARA DESATIVAR O ITEM BANK
+        /*
         MagicBank.InitMagics();
+        */
         EnemyBank.InitEnemyBank();
         setDificult();
     }
@@ -43,14 +55,51 @@ public class Controler : MonoBehaviour {
             initiLevel();
         }
     }
+    #region Trade Level
+    public void OnNextLevel() {
+        TradedScreen(UIType.Loading);
+        StartCoroutine(initiAtributes(GotTimeForInitLoad()));
+    }
+    private IEnumerator initiAtributes(float seconds) {
+        yield return new WaitForSeconds(seconds);
 
+        //Update Varibles
+        level += 1;
+        scrPortalSpawn = null;
+
+        //Clean Level
+        foreach (Transform child in floor.transform) {
+            Destroy(child.gameObject);
+        }
+        setDificult();
+        initiLevel();
+    }
     private void initiLevel() {
         createMapProcedural();
+
+        Camera.main.transform.position = new Vector3(roomWidth * mapSize2D / 2, roomHeight * (mapSize2D - 2) / 2, -10);
+
         SentMapForUI(mapGenerated);
         posPlayer[0] = mapSize2D / 2;
         posPlayer[1] = mapSize2D / 2;
         TradedRoomUI(posPlayer[0], posPlayer[1]);
+
+        // Finalizado
+        AbledForLightenScreen();
+        StartCoroutine(StayForInitSpawnPlayer());
     }
+    private IEnumerator StayForInitSpawnPlayer() {
+        while (!ableForSpawnPlayer) {
+            yield return new WaitForEndOfFrame();
+        }
+        TradedScreen(UIType.None);
+        scrPortalSpawn.initSpawnPlayer();
+        ableForSpawnPlayer = false;
+    }
+    public void OnAbleForSpawnPlayer() {
+        ableForSpawnPlayer = true;
+    }
+    #endregion
     private void createMapProcedural() {
         mapGenerated = procedural.generateMapProcedural(mapSize2D, lengthBranch, listRooms.Length);
         for (int y = 0; y < mapGenerated.GetLength(0); y++) { // Y
@@ -64,20 +113,15 @@ public class Controler : MonoBehaviour {
                     if (rca != null) {
                         rca.ApplySettings(roomWidth, roomHeight, level, mapGenerated[x, y]);
                     }
+                    if (scrPortalSpawn == null && mapGenerated[x, y].TypeRoom == TypeRoom.initial) {
+                        scrPortalSpawn = room.GetComponentInChildren<IPortal>();
+                    }
                 }
             }
         }
-        Camera.main.transform.position = new Vector3(roomWidth * mapSize2D / 2, roomHeight * (mapSize2D - 2) / 2, -10); // Teste
     }
 
-    public void OnNextLevel() {
-        level += 1;
-        foreach (Transform child in floor.transform) {
-            Destroy(child.gameObject);
-        }
-        setDificult();
-        initiLevel();
-    }
+    
     private void setDificult() {
         switch (level) {
             case 1:
