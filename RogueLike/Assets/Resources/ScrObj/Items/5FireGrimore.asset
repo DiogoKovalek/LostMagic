@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Magia Basica de Fogo
   Description: "Lan\xE7a uma bola de fogo."
   TypeItem: 1
-  Sprite: {fileID: 6605510690671983695, guid: ce47463a0a6d632408360abfebf9efde, type: 3}
+  Sprite: {fileID: -3227368100416741865, guid: 1d187e0951266c94daa3fb99b572c6a7, type: 3}
   chanceToDrop: 50
   Element: 2
   PrefGrimore: {fileID: 5661358113826155650, guid: 5d8928866a4301442be2a13c5c576c6f, type: 3}

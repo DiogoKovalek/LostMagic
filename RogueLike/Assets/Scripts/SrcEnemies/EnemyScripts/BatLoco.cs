@@ -25,7 +25,7 @@ public class BatLoco : MonoBehaviour {
                 IPlayer scriptPlayer = areaAttack.GetComponent<IPlayer>();
 
                 scriptPlayer.RecoilAttack(this.transform.position, forceRecoilPlayer);
-                scriptPlayer.TakeDamage(scrEnemy.atack); // se auto transforma em int
+                scriptPlayer.TakeDamage(scrEnemy.atack, scrEnemy.element); // se auto transforma em int
             }
         }
         else {

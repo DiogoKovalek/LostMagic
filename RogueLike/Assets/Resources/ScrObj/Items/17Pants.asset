@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: "Cal\xE7a b\xE1sica de todo mago, parece at\xE9 que est\xE1 vinculado
     ao mago por alguma magia"
   TypeItem: 2
-  Sprite: {fileID: 1142668145225052364, guid: 88bc4e4c0b8373f4ea15c0cc9714af86, type: 3}
+  Sprite: {fileID: -5406648540129001861, guid: e38f756ef3a62b54abcded8fbaa36f58, type: 3}
   chanceToDrop: 0
   CategoryEquipment: 3
   HP: 1

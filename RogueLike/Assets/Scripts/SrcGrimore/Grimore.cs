@@ -12,7 +12,9 @@ public class Grimore : MonoBehaviour,IGrimore
 
     private bool enebleForMagic = true;
 
-
+    void OnDisable() {
+        enebleForMagic = true;
+    }
     public int getIdItem() {
         return grimoreBase.id;
     }

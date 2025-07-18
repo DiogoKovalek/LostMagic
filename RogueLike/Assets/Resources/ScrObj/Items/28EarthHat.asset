@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Chapeu de Terra
   Description: Chapeu com um pouco de energia de terra
   TypeItem: 2
-  Sprite: {fileID: 6255894845680514202, guid: 66af8d1ed5c03154aafc57757e863f1a, type: 3}
+  Sprite: {fileID: 6192280529044935699, guid: ff8a9cd0fb7684042b061c98002ae247, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 0
   HP: 1

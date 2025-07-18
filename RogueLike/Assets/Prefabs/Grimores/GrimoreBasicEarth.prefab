@@ -13,9 +13,21 @@ PrefabInstance:
       value: GrimoreBasicEarth
       objectReference: {fileID: 0}
     - target: {fileID: 2647226459984764826, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
+      propertyPath: m_Size.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647226459984764826, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
+      propertyPath: m_Size.y
+      value: 0.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647226459984764826, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 6283731257237028791, guid: 30a60b640c5b1504f97e436d72cf3e3e, type: 3}
+      objectReference: {fileID: 377360836721009345, guid: 2f811bde9a3b758429fd41e056412f79, type: 3}
+    - target: {fileID: 2647226459984764826, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5886478643660653257, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -92,4 +104,5 @@ MonoBehaviour:
   posCenter: {fileID: 0}
   rayForSpawn: 1
   prefabProject: {fileID: 6882621539903793020, guid: 5900366656bd74a4aa738c01a2551815, type: 3}
+  speedProject: 1
   isPlayer: 1

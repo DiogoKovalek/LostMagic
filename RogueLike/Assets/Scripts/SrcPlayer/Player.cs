@@ -9,9 +9,10 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public class Player : MonoBehaviour, IAtributesComunique, IManaManager,IPlayer {
+public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer {
     private Rigidbody2D rig;
     private Animator anim;
+    SpriteRenderer spRen;
     private bool isInvunerable = false;
     private bool freeForMove = true;
     private float timeForInvunerable = 1.1f;
@@ -57,6 +58,10 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager,IPlayer {
     private bool inOrbit = false;
     private GameObject handForGrimores;
     //====================================
+    // Variables for Consumable ==========
+    private GameObject consumable;
+    private GameObject localConsumable;
+    //====================================
 
     // Itens config ======================
     private float rayCollect = 2.0f;
@@ -75,6 +80,8 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager,IPlayer {
     public event UpdateBoxStaff UpdatedBoxStaff;
     public delegate void UpdateGrimote(byte idBox, int idItem);
     public event UpdateGrimote UpdatedGrimore;
+    public delegate void UpdateBoxConsumable(int idItem);
+    public event UpdateBoxConsumable UpdatedBoxConsumable;
     public delegate void UpdateGrimoreSelect(byte newInd, byte oldInd = 3);
     public event UpdateGrimoreSelect UpdatedGrimoreSelect;
     public delegate void NextLevel();
@@ -109,23 +116,25 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager,IPlayer {
     void Awake() {
         rig = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+        spRen = GetComponent<SpriteRenderer>();
         input = new InputActions();
         handForStaff = transform.Find("HandForStaff").gameObject;
         handForGrimores = transform.Find("Grimores").gameObject;
+        localConsumable = transform.Find("Consumable").gameObject;
         awakeStats();
     }
     private void awakeStats() {
         updateAtributes(true);
 
-        /*
+
         //Para teste
-        for (int i = 0; i < 8; i++) {
-            inventory[i] = i + 1;
+        for (int i = 0; i < 6; i++) {
+            inventory[i] = i + 35;
         }
-        */
 
         staffEquiped = 33;
         grimoresEquiped[0] = 34;
+        grimoresEquiped[1] = 38;
     }
 
     #region OnDisable
@@ -137,11 +146,6 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager,IPlayer {
 
         //Recarrega mana
         mana = maxMana;
-
-        Transform projects = transform.Find("Projects");
-        foreach (Transform proj in projects.transform) {
-            Destroy(proj.gameObject);
-        }
     }
     void OnEnable() {
         // inty Events =========================================
@@ -156,7 +160,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager,IPlayer {
         UpdatedBar(life, maxLife, HPorMana.HP);
         UpdatedBar(mana, maxMana, HPorMana.Mana);
 
-        UpdatedGrimoreSelect(0);
+        UpdatedGrimoreSelect(indexGrimoreActive);
         //======================================================
 
         foreach (int num in grimoresEquiped) {
@@ -165,7 +169,6 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager,IPlayer {
                 break;
             }
         }
-
     }
     #endregion
 
@@ -207,28 +210,28 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager,IPlayer {
         switchGrimore();
         #endregion
         if (actConsumable) {
-            NextedLevel();
-            this.gameObject.SetActive(false);
+            usingConsumable();
         }
     }
     void FixedUpdate() {
         #region Movment in FixedUpdate / aplicate velocity
         if (freeForMove) {
-            rig.velocity = dirPlayer * speed;
-            if (anim.GetBool("isWalking") && dirPlayer == new Vector2(0,0)) {// personagem parado
+            rig.linearVelocity = dirPlayer * speed;
+            if (anim.GetBool("isWalking") && dirPlayer == new Vector2(0, 0)) {// personagem parado
                 anim.SetBool("isWalking", false);
             }
-            else if (!anim.GetBool("isWalking") && dirPlayer != new Vector2(0,0)) {//personagem andando
+            else if (!anim.GetBool("isWalking") && dirPlayer != new Vector2(0, 0)) {//personagem andando
                 anim.SetBool("isWalking", true);
             }
         }
         #endregion
         #region Flip Player
-        if (this.transform.rotation.y == 1 && directionPlayer.x > 0) {
-            this.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+        if (spRen.flipX == true && directionPlayer.x > 0) {
+            spRen.flipX = false;
         }
-        else if (this.transform.rotation.y == 0 && directionPlayer.x <= 0) {
-            this.transform.rotation = Quaternion.Euler(0, -180, 0);
+        else if (spRen.flipX == false && directionPlayer.x <= 0) {
+            spRen.flipX = true;
         }
         #endregion 
 
@@ -247,7 +250,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager,IPlayer {
 
     void OnTriggerStay2D(Collider2D collision) {
         if (collision.tag == "Spike" && !isInvunerable) {
-            TakeDamage(3);
+            TakeDamage(3, Element.Void);
         }
     }
 
@@ -283,6 +286,18 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager,IPlayer {
             IStaff staffInter = staff.GetComponent<IStaff>();
             if (actAtack) {
                 staffInter.attack(grimores[indexGrimoreActive], directionPlayer);
+            }
+        }
+    }
+
+    private void usingConsumable() {
+        if (consumable != null) {
+            consumable?.GetComponent<IConsumable>().action();
+
+            if (!consumable.GetComponent<IConsumable>().isExist()) {
+                consumable = null;
+                consumableEquiped = 0;
+                UpdatedBoxConsumable(0);
             }
         }
     }
@@ -373,11 +388,11 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager,IPlayer {
     private IEnumerator recoilAttack(Vector2 posE, float force) {
         freeForMove = false;
         Vector2 direction = ((Vector2)transform.position - posE).normalized;
-        rig.velocity = direction * force;
+        rig.linearVelocity = direction * force;
         yield return new WaitForSeconds(timeRecoil);
         freeForMove = true;
     }
-    public void TakeDamage(int atack) {
+    public void TakeDamage(int atack, Element element) {
         if (!isInvunerable) {
             this.life -= atack;
             if (UpdatedBar != null) {
@@ -388,6 +403,10 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager,IPlayer {
             }
             StartCoroutine(delayForInvunerable());
         }
+    }
+    public void AddHP(int HPRecover) {
+        this.life = this.life + HPRecover <= maxLife ? this.life + HPRecover : maxLife;
+        UpdatedBar(life, maxLife, HPorMana.HP);
     }
     public void RecoilAttack(Vector2 posE, float force) {
         if (!isInvunerable) {
@@ -492,6 +511,26 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager,IPlayer {
                 }
             }
         }
+
+
+        // Consumable
+        if (consumableEquiped != 0 && consumable == null) {
+            UpdatedBoxConsumable(consumableEquiped);
+            consumable = ItemBank.CreateConsumableById(consumableEquiped);
+            consumable.transform.SetParent(localConsumable.transform);
+        }
+        else if (consumableEquiped == 0 && consumable != null) {
+            Destroy(consumable);
+            UpdatedBoxConsumable(0);
+            consumable = null;
+        }
+        else if (consumableEquiped != 0 && consumable?.GetComponent<IConsumable>().getIdItem() != consumableEquiped) {
+            Destroy(consumable);
+            UpdatedBoxConsumable(consumableEquiped);
+            consumable = ItemBank.CreateConsumableById(consumableEquiped);
+            consumable.transform.SetParent(localConsumable.transform);
+        }
+
     }
     private void updateAtributes(bool awaking = false) {
         // Primeiro o base
@@ -612,5 +651,6 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager,IPlayer {
         }
         return atack + extra;
     }
+
     #endregion
 }

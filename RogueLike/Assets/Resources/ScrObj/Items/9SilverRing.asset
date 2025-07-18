@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Anel de Prata
   Description: Anel comum
   TypeItem: 2
-  Sprite: {fileID: 5852146119034855546, guid: d0454a995243d57499289cc636ffa4c6, type: 3}
+  Sprite: {fileID: 2304206297180450591, guid: bd8dc51e363b95c4cb2434d5de20f3a8, type: 3}
   chanceToDrop: 60
   CategoryEquipment: 5
   HP: 1

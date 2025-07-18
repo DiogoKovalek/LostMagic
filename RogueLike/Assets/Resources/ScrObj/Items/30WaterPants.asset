@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: "Cal\xE7a de \xC1gua"
   Description: "Cal\xE7a com um pouco de energia de \xE1gua"
   TypeItem: 2
-  Sprite: {fileID: -8040960656927410439, guid: e25c0dccde3fb2d4987e23db2acccb87, type: 3}
+  Sprite: {fileID: -498533558984017552, guid: b2822230cff66ce46aeb42e3ca560df5, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 3
   HP: 1

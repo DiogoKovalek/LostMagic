@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: "Chapeu b\xE1sico de todo mago, parece at\xE9 que est\xE1 vinculado
     ao mago por alguma magia"
   TypeItem: 2
-  Sprite: {fileID: 260550021590019116, guid: cbe665b6a27e30d4ea59fd812798c4d6, type: 3}
+  Sprite: {fileID: 2968893562172575709, guid: 2c034de9eb07ceb4a9e493b23dfc2dc6, type: 3}
   chanceToDrop: 0
   CategoryEquipment: 0
   HP: 1

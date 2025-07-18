@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: "Cal\xE7a de Terra"
   Description: "Cal\xE7a com um pouco de energia de terra"
   TypeItem: 2
-  Sprite: {fileID: 4541500624788544262, guid: be938ece076b5324b85714deef7e68cd, type: 3}
+  Sprite: {fileID: -6510810230977267715, guid: c2b3698b2814b8f49b2a69c69c8e9e91, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 3
   HP: 1

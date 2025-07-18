@@ -13,9 +13,21 @@ PrefabInstance:
       value: GrimoreBasicWater
       objectReference: {fileID: 0}
     - target: {fileID: 2647226459984764826, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
+      propertyPath: m_Size.x
+      value: 0.9375
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647226459984764826, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
+      propertyPath: m_Size.y
+      value: 0.96875
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647226459984764826, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -6279148222498914612, guid: 628966e90c3541349b4233d41894bd4b, type: 3}
+      objectReference: {fileID: -6567959218404219674, guid: fc18906f242ee9b4480bc7ab2f160279, type: 3}
+    - target: {fileID: 2647226459984764826, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5886478643660653257, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -92,4 +104,5 @@ MonoBehaviour:
   posCenter: {fileID: 0}
   rayForSpawn: 1
   prefabProject: {fileID: 204594126759916526, guid: 1d84b10326a0c554a92d8dda4e8e0dbc, type: 3}
+  speedProject: 1
   isPlayer: 1

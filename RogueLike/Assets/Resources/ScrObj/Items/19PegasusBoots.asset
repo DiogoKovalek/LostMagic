@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Botas de Pegasus
   Description: "Botas perfeitas para andar r\xE1pido"
   TypeItem: 2
-  Sprite: {fileID: -8641911717484303815, guid: 1c6dce834455406408a84bb9bea134eb, type: 3}
+  Sprite: {fileID: -7645848894950229042, guid: 9bbd24359db9a5247b647d1c79c70ef6, type: 3}
   chanceToDrop: 30
   CategoryEquipment: 4
   HP: 0

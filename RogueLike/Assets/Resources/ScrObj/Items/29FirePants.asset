@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: "Cal\xE7a de Fogo"
   Description: "Cal\xE7a com um pouco de energia de fogo"
   TypeItem: 2
-  Sprite: {fileID: 2549830751920556102, guid: 505e5fb0bc83dcd4ba2f4a5664f2912f, type: 3}
+  Sprite: {fileID: -1370008236542508557, guid: d634bfa896cc2224785096fc5a39498b, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 3
   HP: 1

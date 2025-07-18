@@ -26,6 +26,7 @@ public class EventManager : MonoBehaviour {
             player.UpdatedBoxStaff += ui.uiGameScreen.OnUpdateBoxStaff;
             player.UpdatedGrimore += ui.uiGameScreen.OnUpdateGrimore;
             player.UpdatedGrimoreSelect += ui.uiGameScreen.OnUpdateGrimoreIndex;
+            player.UpdatedBoxConsumable += ui.uiGameScreen.OnUpdateConsumable;
             player.UIForInteracted += ui.uiGameScreen.OnUIForInterct;
 
             //Game Screen

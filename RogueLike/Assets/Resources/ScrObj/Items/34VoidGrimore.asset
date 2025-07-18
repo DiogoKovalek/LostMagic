@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Magia de Projetil de Mana
   Description: "Lan\xE7a um projetil de mana"
   TypeItem: 1
-  Sprite: {fileID: 7957575051607335316, guid: e30fb7e74aab3a741886fff259f3be34, type: 3}
+  Sprite: {fileID: -7804356074487050283, guid: 2621e4fabc7424e40903d96250a7bbeb, type: 3}
   chanceToDrop: 0
   Element: 0
   PrefGrimore: {fileID: 8816513842709694502, guid: 85c30d05fc281f741b8f0b5029c9e146, type: 3}

@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Manto de Vento
   Description: Manto com um pouco de energia de vento
   TypeItem: 2
-  Sprite: {fileID: -5796313646701118469, guid: fa728419e12e7c64b83fa3489a911d29, type: 3}
+  Sprite: {fileID: 1107486155327708586, guid: 1c131dc91c36dc8489232b35f1b1d2c7, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 2
   HP: 5

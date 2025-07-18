@@ -49,6 +49,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -73,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: -5058319635155802024, guid: 4fe1f320ff91fee4f86d7b03923ea830, type: 3}
+  m_Sprite: {fileID: -858610884609757166, guid: a07a6faeb285b884bb0102ca8d07a766, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -161,12 +164,24 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_Size.x
+      value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_Size.y
+      value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -5058319635155802024, guid: 4fe1f320ff91fee4f86d7b03923ea830, type: 3}
+      objectReference: {fileID: -858610884609757166, guid: a07a6faeb285b884bb0102ca8d07a766, type: 3}
     - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

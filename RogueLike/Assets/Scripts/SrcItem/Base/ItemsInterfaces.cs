@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public interface IStaff {
@@ -9,9 +8,11 @@ public interface IStaff {
     void attack(GameObject grimore, Vector2 direction);
     GameObject GetPlayerLinked();
 }
-public interface IConsumable
-{
-    void init();
+public interface IConsumable {
+    int getIdItem();
+    void init(ConsumableBase consumableBase);
+    void action();
+    bool isExist();
 }
 public interface IEquipment
 {

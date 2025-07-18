@@ -30,7 +30,7 @@ public class Slime : MonoBehaviour {
     void Update() {
         if (freeForMove && targetPlayer != null) {
             Vector2 direction = (targetPlayer.position - this.transform.position).normalized;
-            rig.velocity = direction * scrEnemy.speed;
+            rig.linearVelocity = direction * scrEnemy.speed;
         }
         else if (targetPlayer == null) {
             targetPlayer = scrEnemy.GetTarget();
@@ -62,11 +62,11 @@ public class Slime : MonoBehaviour {
             IPlayer scriptPlayer = areaAttack.GetComponent<IPlayer>();
             // Se estiver atacando
             if (isAttaking) {
-                scriptPlayer.TakeDamage(scrEnemy.atack);
+                scriptPlayer.TakeDamage(scrEnemy.atack, scrEnemy.element);
             }
             else {
                 scriptPlayer.RecoilAttack(this.transform.position, forceRecoilPlayer);
-                scriptPlayer.TakeDamage(scrEnemy.atack); // se auto transforma em int
+                scriptPlayer.TakeDamage(scrEnemy.atack, scrEnemy.element); // se auto transforma em int
             }
         }
     }
@@ -75,7 +75,7 @@ public class Slime : MonoBehaviour {
         nearPlayer = false;
         freeForMove = false;
         freeForAttack = false;
-        rig.velocity = new Vector2(0, 0); // zera a velocidade
+        rig.linearVelocity = new Vector2(0, 0); // zera a velocidade
         this.gameObject.layer = (int)Math.Log(scrEnemy.layerIgnore, 2);
         yield return new WaitForSeconds(timeForAtack);
         // Attack
@@ -84,7 +84,7 @@ public class Slime : MonoBehaviour {
         rig.AddForce(direction * forceJump, ForceMode2D.Impulse);
         yield return new WaitForSeconds(delayForAttack);
         this.gameObject.layer = (int)Math.Log(scrEnemy.layerBase, 2);
-        rig.velocity = new Vector2(0, 0); // para o pulo
+        rig.linearVelocity = new Vector2(0, 0); // para o pulo
         isAttaking = false;
         yield return new WaitForSeconds(delayForBackWalk);
         // BackWalk

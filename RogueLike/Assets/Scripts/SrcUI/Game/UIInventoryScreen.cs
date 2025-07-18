@@ -93,7 +93,6 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
         if (actGetTrowItem) {
             GetOrTrowItem();
         }
-
         if (actDropItem) {
             dropItem();
         }
@@ -141,38 +140,46 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
         byte point = 0;
 
         for (int i = 0; i < InventoryBoxes.Length; i++) {
-            drawSpriteBox(InventoryBoxes[i], aux[point]);
+            drawSpriteBox(InventoryBoxes[i], aux[point], point);
             point++;
         }
 
-        drawSpriteBox(StaffBox, aux[point]);
+        drawSpriteBox(StaffBox, aux[point], point);
         point++;
 
         for (int i = 0; i < GrimoreBoxes.Length; i++) {
-            drawSpriteBox(GrimoreBoxes[i], aux[point]);
+            drawSpriteBox(GrimoreBoxes[i], aux[point], point);
             point++;
         }
 
-        drawSpriteBox(ConsumableBox, aux[point]);
+        drawSpriteBox(ConsumableBox, aux[point], point);
         point++;
 
         for (int i = 0; i < EquipmentBoxes.Length; i++) {
-            drawSpriteBox(EquipmentBoxes[i], aux[point]);
+            drawSpriteBox(EquipmentBoxes[i], aux[point], point);
             point++;
         }
 
         for (int i = 0; i < RingBoxes.Length; i++) {
-            drawSpriteBox(RingBoxes[i], aux[point]);
+            drawSpriteBox(RingBoxes[i], aux[point], point);
             point++;
         }
     }
 
-    private void drawSpriteBox(GameObject box, int idSprite) {
+    private void drawSpriteBox(GameObject box, int idSprite, int idPointBox) {
+        Transform BoxSprite = box.transform.Find("Sprite");
         if (idSprite != 0) {
-            Image spriteBox = box.transform.Find("Sprite").GetComponent<Image>();
+            Image sprite = BoxSprite.GetComponent<Image>();
             Sprite spr = ItemBank.GetSpriteFromId(idSprite);
-            spriteBox.gameObject.SetActive(true);
-            spriteBox.sprite = spr;
+            sprite.gameObject.SetActive(true);
+            sprite.sprite = spr;
+            activeSpriteTypeItem(idPointBox, false);
+        }
+        else if (BoxSprite.gameObject.activeSelf && idSprite == 0) {
+            Image sprite = BoxSprite.GetComponent<Image>();
+            sprite.sprite = null;
+            BoxSprite.gameObject.SetActive(false);
+            activeSpriteTypeItem(idPointBox, true);
         }
     }
     private void updateSpriteInBoxByIndex(byte x, byte y, int idItem) {
@@ -303,9 +310,16 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
     }
     private void activeSpriteTypeItem(int id, bool active) {
         if (id >= 20) {
+            getBoxById(id).transform.Find("SpriteTypeItem").gameObject.SetActive(active);
+        }
+    }
+    /*
+    private void activeSpriteTypeItem(int id, bool active) {
+        if (id >= 20) {
             getBoxByIndex(indexItemX, indexItemY).transform.Find("SpriteTypeItem").gameObject.SetActive(active);
         }
     }
+    */
     private bool checkIfBoxTypeItem(int idItem, int itemBoxId) {
         //Verifica o tipo da box
         //Em inventario e Equipamento é diferente o modo de tratar
@@ -406,6 +420,25 @@ public class UIInventoryScreen : MonoBehaviour, ISetScreen {
             }
         }
         return id;
+    }
+    private GameObject getBoxById(int id) {
+        if (id < 20) {
+            return InventoryBoxes[id];
+        }
+        else if (id == 20) {
+            return StaffBox;
+        }
+        else if (id < 24) {
+            return GrimoreBoxes[id - 21];
+        }
+        else if (id == 24) {
+            return ConsumableBox;
+        }
+        else if (id < 30) {
+            return EquipmentBoxes[id - 25];
+        } else {
+            return RingBoxes[id - 30];
+        }
     }
     private void writeDescripitionByIndex() {
         String strN = "";

@@ -16,9 +16,9 @@ MonoBehaviour:
   NameItem: Cajado de Vento
   Description: Cajado perfeito para magias de Vento.
   TypeItem: 0
-  Sprite: {fileID: 3996908502189079786, guid: aa913aae7b7efa547b8080afaa50a460, type: 3}
+  Sprite: {fileID: -1864356187193849286, guid: 4722f027bfe01524d8f1ef16b5f0d0d1, type: 3}
   chanceToDrop: 50
-  runAnim: {fileID: -1546774593758772582, guid: 9f2c370691911a44b8393b482972ff20, type: 3}
+  runAnim: {fileID: -1546774593758772582, guid: cc137c7356f27d341af6c0041d688b1e, type: 3}
   Element: 3
   MFire: 0
   MWater: 0

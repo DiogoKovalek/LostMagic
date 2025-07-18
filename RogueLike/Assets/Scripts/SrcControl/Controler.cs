@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Controler : MonoBehaviour {
     public GameObject player;
+
+    public Transform ProjectsAba;
     //Procedural and Rooms ========================
     public bool isGeneretedProceduralInStart = true;
     [SerializeField] GameObject floor;
@@ -41,6 +43,10 @@ public class Controler : MonoBehaviour {
     public event AbleForLightenScreen AbledForLightenScreen;
     //==============================================
 
+    // Audio =======================================
+    public AudioControlerGame audioControl;
+    //==============================================
+
     void Awake() {
         ItemBank.IntiItemBank(); // FUTURAMENTE COLOCAR PARA DESATIVAR O ITEM BANK
         /*
@@ -57,6 +63,7 @@ public class Controler : MonoBehaviour {
     }
     #region Trade Level
     public void OnNextLevel() {
+        audioControl.Stop();
         TradedScreen(UIType.Loading);
         StartCoroutine(initiAtributes(GotTimeForInitLoad()));
     }
@@ -87,6 +94,8 @@ public class Controler : MonoBehaviour {
         // Finalizado
         AbledForLightenScreen();
         StartCoroutine(StayForInitSpawnPlayer());
+
+        audioControl.Play();
     }
     private IEnumerator StayForInitSpawnPlayer() {
         while (!ableForSpawnPlayer) {
@@ -121,7 +130,7 @@ public class Controler : MonoBehaviour {
         }
     }
 
-    
+
     private void setDificult() {
         switch (level) {
             case 1:
@@ -174,7 +183,7 @@ public class Controler : MonoBehaviour {
     public void EventStartPlayer() {
         if (!eventsDeclarate) {
             //Teste ===============
-            UIManager ui = FindObjectOfType<UIManager>();
+            UIManager ui = FindAnyObjectByType<UIManager>();
             Player playerScr = player.GetComponent<Player>();
             //=====================
             eventManager.addPlayer(playerScr);
@@ -191,5 +200,9 @@ public class Controler : MonoBehaviour {
         posPlayer[0] += direction[0];
         posPlayer[1] -= direction[1];
         TradedRoomUI(posPlayer[0], posPlayer[1]);
+    }
+
+    public Transform GetAbaProjects() {
+        return ProjectsAba;
     }
 }

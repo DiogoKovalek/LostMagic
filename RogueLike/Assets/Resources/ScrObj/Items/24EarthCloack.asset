@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Manto de Terra
   Description: Manto com um pouco de energia de terra
   TypeItem: 2
-  Sprite: {fileID: 1977473883821453100, guid: 37c3531c25bfdd045b8075a250e5f05e, type: 3}
+  Sprite: {fileID: 4943378798272662592, guid: b3f4da9c026393c49846de04ac7dbb46, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 2
   HP: 5

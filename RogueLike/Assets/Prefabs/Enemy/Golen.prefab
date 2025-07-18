@@ -8,6 +8,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: element
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6708203776749074349, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.5953346
@@ -63,7 +67,7 @@ PrefabInstance:
     - target: {fileID: 7057863509147627529, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: -8037092655589715693, guid: 75c469a641b758244970fb77dc71ac7d, type: 3}
+      objectReference: {fileID: 9100000, guid: 3e777b3a640c4824aa8251785fab9a40, type: 2}
     - target: {fileID: 7564328180830676239, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.8223774
@@ -85,9 +89,21 @@ PrefabInstance:
       value: Golen
       objectReference: {fileID: 0}
     - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_Size.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_Size.y
+      value: 1.875
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 9089572568385316119, guid: 75c469a641b758244970fb77dc71ac7d, type: 3}
+      objectReference: {fileID: -2065913192255776664, guid: 65f67daf832bd794ca273120d4c974e4, type: 3}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

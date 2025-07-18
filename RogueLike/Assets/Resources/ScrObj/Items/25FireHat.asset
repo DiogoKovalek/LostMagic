@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Chapeu de Fogo
   Description: Chapeu com um pouco de energia de fogo
   TypeItem: 2
-  Sprite: {fileID: -6971819762265663198, guid: 7152501bd80f65047aa75e557fd7342e, type: 3}
+  Sprite: {fileID: 6109295960452551659, guid: 7cd470337bbafb342a8c2a238892bb89, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 0
   HP: 1

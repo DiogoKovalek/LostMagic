@@ -12,14 +12,30 @@ PrefabInstance:
       propertyPath: element
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: -5143806373286836130, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+      propertyPath: Prefparticula
+      value: 
+      objectReference: {fileID: 2439332806533537526, guid: 4cc39d152a8ec1743a63123a01638a97, type: 3}
     - target: {fileID: 524419641881328911, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
       propertyPath: m_Name
       value: FireBasic
       objectReference: {fileID: 0}
     - target: {fileID: 3070916009053454095, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+      propertyPath: m_Size.x
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070916009053454095, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+      propertyPath: m_Size.y
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070916009053454095, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -2341225606305193412, guid: 7d945747f1bc33447822fad46a0be620, type: 3}
+      objectReference: {fileID: 8144153906185442966, guid: 1a0ca6f1eee95744e8846227665126a3, type: 3}
+    - target: {fileID: 3070916009053454095, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3783181720673696648, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.7
@@ -75,9 +91,46 @@ PrefabInstance:
     - target: {fileID: 7337245365401587633, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: -503663135583074204, guid: 7d945747f1bc33447822fad46a0be620, type: 3}
+      objectReference: {fileID: -503663135583074204, guid: 1a0ca6f1eee95744e8846227665126a3, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 524419641881328911, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -471997716238431777}
+    - targetCorrespondingSourceObject: {fileID: 524419641881328911, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7000745949395187794}
   m_SourcePrefab: {fileID: 100100000, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+--- !u!1 &6281443593268333753 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 524419641881328911, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+  m_PrefabInstance: {fileID: 5794786128573460918}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-471997716238431777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281443593268333753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56ef004294eee3943b5c8a0db27ae60d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PrefFire: {fileID: 9016404560440620652, guid: 3ffa28b8b0947be45a9a947811a1668b, type: 3}
+--- !u!114 &-7000745949395187794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6281443593268333753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07e593b23925a0948afd4f6e958f27c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PrefParticle: {fileID: 8367486766574566946, guid: 59f5ccdd954a8c643b1d2f12505c6637, type: 3}

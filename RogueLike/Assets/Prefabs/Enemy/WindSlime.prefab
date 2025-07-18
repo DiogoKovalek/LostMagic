@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: element
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: maxLife
@@ -83,7 +83,7 @@ PrefabInstance:
     - target: {fileID: 7057863509147627529, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: -8665935847900249853, guid: 38f3c3a4fd08753448463fc59e7559d0, type: 3}
+      objectReference: {fileID: -8665935847900249853, guid: ecb7d6487fa2e9a46ab101f5e4e91563, type: 3}
     - target: {fileID: 7823163935784981783, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Name
       value: WindSlime
@@ -93,12 +93,20 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_Size.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -711056113253830534, guid: 38f3c3a4fd08753448463fc59e7559d0, type: 3}
+      objectReference: {fileID: 1591063854969651089, guid: ecb7d6487fa2e9a46ab101f5e4e91563, type: 3}
     - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_SortingOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

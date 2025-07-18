@@ -16,9 +16,9 @@ MonoBehaviour:
   NameItem: Cajado de Fogo
   Description: Cajado perfeito para magias de Fogo.
   TypeItem: 0
-  Sprite: {fileID: 6424023050141186662, guid: 15630ed730bafcb459224c816006348f, type: 3}
+  Sprite: {fileID: 2428110220959569739, guid: 1c1d854abb1c02c44b41d957755f8cf5, type: 3}
   chanceToDrop: 50
-  runAnim: {fileID: -8304068617120561011, guid: c9d0dbd64dca03e46a68c03e3d84e8db, type: 3}
+  runAnim: {fileID: -8304068617120561011, guid: 1709d12df3916694ead12c7f983c8f2c, type: 3}
   Element: 2
   MFire: 3
   MWater: 0

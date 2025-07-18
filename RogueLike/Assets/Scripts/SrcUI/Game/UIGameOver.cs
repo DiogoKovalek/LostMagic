@@ -15,6 +15,7 @@ public class UIGameOver : MonoBehaviour, ISetScreen {
         getInput();
         if (actEnter) {
             SceneManager.LoadScene("MenuPrincipal");
+            input.Disable();
         }
     }
     void getInput() {

@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Magia Basica de Vento
   Description: "Lan\xE7a uma bola de vento."
   TypeItem: 1
-  Sprite: {fileID: 4495192636338911956, guid: b856c32106a24374785a7be824a8e0ae, type: 3}
+  Sprite: {fileID: -1719053212421346413, guid: 78c04123266c63944bc155efe97bbb56, type: 3}
   chanceToDrop: 50
   Element: 3
   PrefGrimore: {fileID: 3239484898103652224, guid: 30ec064831e80c844bd31903e84725fa, type: 3}

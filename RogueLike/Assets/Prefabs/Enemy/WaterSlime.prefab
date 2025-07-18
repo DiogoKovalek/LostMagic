@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: element
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: maxLife
@@ -83,7 +83,7 @@ PrefabInstance:
     - target: {fileID: 7057863509147627529, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 3959845634928483172, guid: 8ff4b9351a2ecbf44a0dcb7433e6c87e, type: 3}
+      objectReference: {fileID: 3959845634928483172, guid: 9ce973360bf2592468ef646c4bda719a, type: 3}
     - target: {fileID: 7823163935784981783, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Name
       value: WaterSlime
@@ -93,12 +93,20 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_Size.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -5538994071830519423, guid: 8ff4b9351a2ecbf44a0dcb7433e6c87e, type: 3}
+      objectReference: {fileID: 6628027152272520218, guid: 9ce973360bf2592468ef646c4bda719a, type: 3}
     - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_SortingOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

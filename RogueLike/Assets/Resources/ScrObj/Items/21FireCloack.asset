@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Manto de Fogo
   Description: Manto com um pouco de energia de fogo
   TypeItem: 2
-  Sprite: {fileID: -6403001723604325832, guid: c43300cd38f9f8e459e8cf03bf0d88cc, type: 3}
+  Sprite: {fileID: -3070026190223735670, guid: b2f96c322f8824b4a9aa5a0a603694ca, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 2
   HP: 5

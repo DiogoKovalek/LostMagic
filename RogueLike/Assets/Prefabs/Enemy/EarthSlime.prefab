@@ -30,7 +30,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: element
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: maxLife
@@ -83,7 +83,7 @@ PrefabInstance:
     - target: {fileID: 7057863509147627529, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: -7751549711286544637, guid: 0caf6848806d32b4499778e074d6edb3, type: 3}
+      objectReference: {fileID: -7751549711286544637, guid: 282a384c31daeda48adffe77c08005c2, type: 3}
     - target: {fileID: 7823163935784981783, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Name
       value: EarthSlime
@@ -93,12 +93,24 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_Size.x
+      value: 0.32
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_Size.y
+      value: 0.24
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2134794533524983106, guid: 0caf6848806d32b4499778e074d6edb3, type: 3}
+      objectReference: {fileID: 7131207983901484334, guid: 282a384c31daeda48adffe77c08005c2, type: 3}
     - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_SortingOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

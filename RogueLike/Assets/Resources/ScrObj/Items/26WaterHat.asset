@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: "Chapeu de \xC1gua"
   Description: "Chapeu com um pouco de energia de \xE1gua"
   TypeItem: 2
-  Sprite: {fileID: 3636109989764380958, guid: a7130c39d33448249bd5b501ab71ef79, type: 3}
+  Sprite: {fileID: 1524665797289430299, guid: 6ca8566ee7ab227409800d661125908a, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 0
   HP: 1

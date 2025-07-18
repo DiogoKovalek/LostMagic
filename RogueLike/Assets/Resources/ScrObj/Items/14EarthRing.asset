@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Anel de Terra
   Description: Esse anel possui uma energia de terra
   TypeItem: 2
-  Sprite: {fileID: 6750633730622977697, guid: 66c970cbe508deb4fb7a9b0104eab3b3, type: 3}
+  Sprite: {fileID: -1004861660317676125, guid: a027861181632a346a94147334edf75e, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 5
   HP: 1

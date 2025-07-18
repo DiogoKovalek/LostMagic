@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: "Cal\xE7a de Vento"
   Description: "Cal\xE7a com um pouco de energia de vento"
   TypeItem: 2
-  Sprite: {fileID: 3492806718412545889, guid: 4b62effcfff529148a637b9c3f9859dc, type: 3}
+  Sprite: {fileID: 5693736682656159498, guid: 8e656a7f56c328848833dcb40d513966, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 3
   HP: 1

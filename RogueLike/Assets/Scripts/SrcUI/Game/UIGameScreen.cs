@@ -41,6 +41,9 @@ public class UIGameScreen : MonoBehaviour, ISetScreen {
     //2 para sala descoberta porem não acessada
     //3 para sala acessada
     //================================================
+    // Consumable Box ================================
+    public GameObject ConsumableBox;
+    //================================================
     // event Player ==================================
     public delegate void SetActiveInput(bool isActive);
     public event SetActiveInput SetActivedInput;
@@ -78,7 +81,7 @@ public class UIGameScreen : MonoBehaviour, ISetScreen {
         }
         else {
             box.gameObject.SetActive(true);
-            box.sprite = ItemBank.GetItemFromId(idItem).Sprite;
+            box.sprite = ItemBank.GetSpriteFromId(idItem);
         }
     }
 
@@ -90,7 +93,7 @@ public class UIGameScreen : MonoBehaviour, ISetScreen {
         }
         else {
             boxSprite.gameObject.SetActive(true);
-            boxSprite.sprite = ItemBank.GetItemFromId(idItem).Sprite;
+            boxSprite.sprite = ItemBank.GetSpriteFromId(idItem);
         }
     }
     public void OnUpdateGrimoreIndex(byte newInd, byte oldInd = 3) {
@@ -99,6 +102,18 @@ public class UIGameScreen : MonoBehaviour, ISetScreen {
         if (oldInd < 3) {
             Image contourBoxOld = GrimoresBar[oldInd].transform.Find("Contour").GetComponent<Image>();
             contourBoxOld.color = cNormalIcon;
+        }
+    }
+
+    public void OnUpdateConsumable(int idItem) {
+        Image boxSprite = ConsumableBox.transform.Find("Sprite").GetComponent<Image>();
+        if (idItem == 0) {
+            boxSprite.sprite = null;
+            boxSprite.gameObject.SetActive(false);
+        }
+        else {
+            boxSprite.gameObject.SetActive(true);
+            boxSprite.sprite = ItemBank.GetSpriteFromId(idItem);
         }
     }
     public void OnUIForInterct(GameObject interact) {
@@ -176,6 +191,6 @@ public class UIGameScreen : MonoBehaviour, ISetScreen {
         // Ativar ou destivar a UI
         this?.gameObject.SetActive(active);
         // Ativar ou desativar input do Player
-        if(SetActivedInput != null) SetActivedInput(input);
+        if (SetActivedInput != null) SetActivedInput(input);
     }
 }

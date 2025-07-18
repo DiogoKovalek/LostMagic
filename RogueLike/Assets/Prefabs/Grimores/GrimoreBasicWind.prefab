@@ -13,9 +13,21 @@ PrefabInstance:
       value: GrimoreBasicWind
       objectReference: {fileID: 0}
     - target: {fileID: 2647226459984764826, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
+      propertyPath: m_Size.x
+      value: 0.9375
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647226459984764826, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
+      propertyPath: m_Size.y
+      value: 0.96875
+      objectReference: {fileID: 0}
+    - target: {fileID: 2647226459984764826, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 4495192636338911956, guid: b856c32106a24374785a7be824a8e0ae, type: 3}
+      objectReference: {fileID: -1719053212421346413, guid: 78c04123266c63944bc155efe97bbb56, type: 3}
+    - target: {fileID: 2647226459984764826, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5886478643660653257, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

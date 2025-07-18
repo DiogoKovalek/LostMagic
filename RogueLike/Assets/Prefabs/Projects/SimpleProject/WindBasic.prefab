@@ -12,14 +12,30 @@ PrefabInstance:
       propertyPath: element
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: -5143806373286836130, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+      propertyPath: Prefparticula
+      value: 
+      objectReference: {fileID: 2439332806533537526, guid: 1cec9053635a5974a8030fbf718259d2, type: 3}
     - target: {fileID: 524419641881328911, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
       propertyPath: m_Name
       value: WindBasic
       objectReference: {fileID: 0}
     - target: {fileID: 3070916009053454095, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+      propertyPath: m_Size.x
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070916009053454095, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+      propertyPath: m_Size.y
+      value: 0.16
+      objectReference: {fileID: 0}
+    - target: {fileID: 3070916009053454095, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -7905664179876940566, guid: 2731390d7418de143bdc4fa1d1a3d275, type: 3}
+      objectReference: {fileID: -3928765225591488059, guid: 1291ad15b30ce764eb50d8b6c4b60d9e, type: 3}
+    - target: {fileID: 3070916009053454095, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3783181720673696648, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.7
@@ -75,9 +91,48 @@ PrefabInstance:
     - target: {fileID: 7337245365401587633, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 2718665795640512917, guid: 2731390d7418de143bdc4fa1d1a3d275, type: 3}
+      objectReference: {fileID: 2718665795640512917, guid: 1291ad15b30ce764eb50d8b6c4b60d9e, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 524419641881328911, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7976121969997577139}
+    - targetCorrespondingSourceObject: {fileID: 524419641881328911, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1756654136452580952}
   m_SourcePrefab: {fileID: 100100000, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+--- !u!1 &3487667989555325398 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 524419641881328911, guid: 2431742a24f8e0c49bdbf99598665860, type: 3}
+  m_PrefabInstance: {fileID: 3972653623164327129}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-7976121969997577139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3487667989555325398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07e593b23925a0948afd4f6e958f27c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PrefParticle: {fileID: 4335526460445989322, guid: caeffc22eb003b74c8ac79788fc4ecdf, type: 3}
+--- !u!114 &1756654136452580952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3487667989555325398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c86fa23481e585a4bb18ef32a8b669af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RayRecoil: 1
+  forceRecoil: 40
+  layersRecoil: 1160

@@ -17,7 +17,7 @@ MonoBehaviour:
   Description: "Manto b\xE1sico de todo mago, parece at\xE9 que est\xE1 vinculado
     ao mago por alguma magia"
   TypeItem: 2
-  Sprite: {fileID: 7052150773634491610, guid: 3a34d8d47d5f92e468af04a306bf8c65, type: 3}
+  Sprite: {fileID: 4278097313321993276, guid: 32770d08a72a6ee4292a3c4b7a77c43f, type: 3}
   chanceToDrop: 0
   CategoryEquipment: 2
   HP: 5

@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Chapeu de Vento
   Description: Chapeu com um pouco de energia de vento
   TypeItem: 2
-  Sprite: {fileID: -1395821781310873417, guid: f140ff8c08cb1dd47a21244d14aa6a8e, type: 3}
+  Sprite: {fileID: -5375049994901937503, guid: 50c21f1f908c2444f87c662b7bda8b3b, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 0
   HP: 1

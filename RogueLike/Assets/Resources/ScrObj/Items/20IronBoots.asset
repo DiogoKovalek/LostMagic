@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Botas de Ferro
   Description: Desconfortavel, mas protege dos espinhos
   TypeItem: 2
-  Sprite: {fileID: -6565264735434274, guid: 924d11400c6ec2941ad37150dc6b5867, type: 3}
+  Sprite: {fileID: -6986404908295260899, guid: d377fc864d5999b4798271f0ac65e12e, type: 3}
   chanceToDrop: 10
   CategoryEquipment: 4
   HP: 5

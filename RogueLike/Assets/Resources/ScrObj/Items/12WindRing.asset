@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Anel de Vento
   Description: Esse anel possui uma energia de vento
   TypeItem: 2
-  Sprite: {fileID: -3200124256492865179, guid: 6370b693b2532c7418d0a7813505bff1, type: 3}
+  Sprite: {fileID: -763268143777716098, guid: 8877b11bc1e4fec489738c5f5a48f155, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 5
   HP: 1

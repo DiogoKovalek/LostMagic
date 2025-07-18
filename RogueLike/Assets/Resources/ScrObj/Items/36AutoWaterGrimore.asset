@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0034844fd317c494a831c97240cee05e, type: 3}
+  m_Name: 36AutoWaterGrimore
+  m_EditorClassIdentifier: 
+  id: 36
+  NameItem: "\xC1gua Viva"
+  Description: "Lan\xE7a uma bola de \xE1gua que segue o inimigo em uma curta distancia"
+  TypeItem: 1
+  Sprite: {fileID: -5501253230581525247, guid: 517a13366a79a6b41ae791f98c7c69cd, type: 3}
+  chanceToDrop: 40
+  Element: 4
+  PrefGrimore: {fileID: 1317347355783783769, guid: dfde9816ae91b9e4780c4a88b18ab164, type: 3}
+  DelayMagic: 0
+  ManaExpend: 0

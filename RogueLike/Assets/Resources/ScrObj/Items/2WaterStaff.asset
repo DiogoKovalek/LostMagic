@@ -16,9 +16,9 @@ MonoBehaviour:
   NameItem: "Cajado de \xC1gua"
   Description: "Cajado perfeito para magias de \xE1gua."
   TypeItem: 0
-  Sprite: {fileID: 4561662366866398610, guid: 1d0d2102897bfb145935a95523958ff4, type: 3}
+  Sprite: {fileID: -5200367587601470252, guid: b2d64cd5aa594c74b92467aedeef3ef1, type: 3}
   chanceToDrop: 50
-  runAnim: {fileID: -2753146534031626556, guid: e6280d1bf503f3d42a62a1d75e8435b6, type: 3}
+  runAnim: {fileID: -2753146534031626556, guid: 4f295981ecf74b7459aff70793ead5ce, type: 3}
   Element: 4
   MFire: 0
   MWater: 3

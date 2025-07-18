@@ -19,10 +19,10 @@ public static class ItemBank {
 
 
     //Nestes a soma de todos devem dar 100
-    private static float chanceToDropStaff = 10; // 10
-    private static float chanceToDropGrimore = 10; // 10
-    private static float chanceToDropEquipment = 80; // 30
-    private static float chanceToDropConsumable = 0; // 40
+    private static float chanceToDropStaff = 20; 
+    private static float chanceToDropGrimore = 20; 
+    private static float chanceToDropEquipment = 30; 
+    private static float chanceToDropConsumable = 30; 
     // =======================================================
     public static void IntiItemBank() {
         if (listOfItens?.Length == null) {
@@ -101,6 +101,15 @@ public static class ItemBank {
             GameObject grimore = GameObject.Instantiate(grimoreBase.PrefGrimore);
             grimore.GetComponent<IGrimore>().initGrimore(grimoreBase);
             return grimore;
+        }
+        return null;
+    }
+    public static GameObject CreateConsumableById(int id) {
+        if (GetItemFromId(id).TypeItem == TypeItem.Comsumable) {
+            ConsumableBase consumableBase = GetItemAs<ConsumableBase>(id);
+            GameObject consumable = GameObject.Instantiate(consumableBase.PrefConsumable);
+            consumable.GetComponent<IConsumable>().init(consumableBase);
+            return consumable;
         }
         return null;
     }

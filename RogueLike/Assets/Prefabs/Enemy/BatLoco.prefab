@@ -63,7 +63,7 @@ PrefabInstance:
     - target: {fileID: 7057863509147627529, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: -3521409967054113934, guid: 420a562feb36df443b4c62ed4e31cf62, type: 3}
+      objectReference: {fileID: -3521409967054113934, guid: 135de25dfd04abf428e9b0d86cef2b78, type: 3}
     - target: {fileID: 7564328180830676239, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.329328
@@ -89,9 +89,21 @@ PrefabInstance:
       value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_Size.x
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_Size.y
+      value: 0.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -7589117196930082441, guid: 420a562feb36df443b4c62ed4e31cf62, type: 3}
+      objectReference: {fileID: 201636482675805734, guid: 135de25dfd04abf428e9b0d86cef2b78, type: 3}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

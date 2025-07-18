@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: "Anel de \xC1gua"
   Description: "Esse anel possui uma energia de \xE1gua"
   TypeItem: 2
-  Sprite: {fileID: 2527998407556316535, guid: 34f149f3241203c4ea2f2280132d1993, type: 3}
+  Sprite: {fileID: -4789035568314979374, guid: 826524914f34aba4ba05bcbbc26cecd6, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 5
   HP: 1

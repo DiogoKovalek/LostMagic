@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Botas de Couro
   Description: "Botas boas para andar sem machucar os p\xE9s"
   TypeItem: 2
-  Sprite: {fileID: 6105902955670093678, guid: 62ebd139a0ce0784f96e3dcf2bccce4f, type: 3}
+  Sprite: {fileID: 8439721162917921550, guid: a0cd9e1b7fbc17a4eb01178bb1af8c08, type: 3}
   chanceToDrop: 0
   CategoryEquipment: 4
   HP: 0

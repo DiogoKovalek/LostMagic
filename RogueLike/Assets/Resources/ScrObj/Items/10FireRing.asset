@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: Anel de Fogo
   Description: Esse anel possui uma energia de fogo
   TypeItem: 2
-  Sprite: {fileID: -3941563521397172611, guid: 9cb9da78562907049b093daa1ee47e67, type: 3}
+  Sprite: {fileID: -8102530359129377868, guid: b7e6d5da8b705804fa4a12aa6c1abe6d, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 5
   HP: 1

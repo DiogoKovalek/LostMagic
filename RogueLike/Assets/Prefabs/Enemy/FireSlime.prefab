@@ -83,7 +83,7 @@ PrefabInstance:
     - target: {fileID: 7057863509147627529, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: -3856065554674331354, guid: 4e8958ea19cdac24bbba033f47811ca1, type: 3}
+      objectReference: {fileID: -3856065554674331354, guid: bcc8f384151886340af98336e9d8cfed, type: 3}
     - target: {fileID: 7823163935784981783, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Name
       value: FireSlime
@@ -93,12 +93,20 @@ PrefabInstance:
       value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_Size.y
+      value: 0.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2156163543509459198, guid: 4e8958ea19cdac24bbba033f47811ca1, type: 3}
+      objectReference: {fileID: 8831788897653513625, guid: bcc8f384151886340af98336e9d8cfed, type: 3}
     - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_SortingOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

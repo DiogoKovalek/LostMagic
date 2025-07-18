@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: "Manto de \xC1gua"
   Description: "Manto com um pouco de energia de \xE1gua"
   TypeItem: 2
-  Sprite: {fileID: -4050042966447209412, guid: 07d9c69e74834354ab685532a6ca46a7, type: 3}
+  Sprite: {fileID: -6338061224442013225, guid: 00f639f41e52fff49aa2d089f7b2b6d7, type: 3}
   chanceToDrop: 50
   CategoryEquipment: 2
   HP: 5

@@ -16,7 +16,7 @@ MonoBehaviour:
   NameItem: "Magia Basica de \xC1gua"
   Description: "Lan\xE7a uma bola de \xE1gua."
   TypeItem: 1
-  Sprite: {fileID: -6279148222498914612, guid: 628966e90c3541349b4233d41894bd4b, type: 3}
+  Sprite: {fileID: -6567959218404219674, guid: fc18906f242ee9b4480bc7ab2f160279, type: 3}
   chanceToDrop: 50
   Element: 4
   PrefGrimore: {fileID: 8978614819860300193, guid: 4b829253452240640b30dfd33cc7ded4, type: 3}

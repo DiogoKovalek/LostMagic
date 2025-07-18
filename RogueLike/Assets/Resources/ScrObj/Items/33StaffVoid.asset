@@ -16,9 +16,9 @@ MonoBehaviour:
   NameItem: Cajado de Mana
   Description: "Cajado b\xE1sico, foi meu av\xF3 que me deu"
   TypeItem: 0
-  Sprite: {fileID: 2896476949401243961, guid: 54210868943ff3f459cf4e9d4337e28a, type: 3}
+  Sprite: {fileID: -7509122967493541612, guid: 9a4a6b417d906ad4892c08fc84581fde, type: 3}
   chanceToDrop: 0
-  runAnim: {fileID: 7293026766454915011, guid: 78751d9df30ec9049b5fc90716be179f, type: 3}
+  runAnim: {fileID: 7293026766454915011, guid: 3f0ba82d6d3ab35439d37e78ef2050e1, type: 3}
   Element: 0
   MFire: 0
   MWater: 0
