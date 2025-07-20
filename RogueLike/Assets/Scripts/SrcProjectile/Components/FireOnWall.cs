@@ -5,6 +5,7 @@ public class FireOnWall : MonoBehaviour {
     public float timeToDesapear = 8.0f;
     public int damage = 3;
     private float ray;
+
     IEnumerator Start() {
         ray = (transform.localScale.x / 2) - 0.30f;
         yield return new WaitForSeconds(timeToDesapear);
@@ -17,15 +18,12 @@ public class FireOnWall : MonoBehaviour {
             Transform ent = c.transform;
             if (ent.tag == "Player") {
                 ent.GetComponent<IPlayer>().TakeDamage(damage, Element.Fire);
+                ent.GetComponent<StatusManager>().AplicateStatus(Element.Fire);
             }
             else if (ent.tag == "Enemy") {
                 ent.GetComponent<IEnemy>().TakeDamageFromComponents(damage, Element.Fire);
+                ent.GetComponent<StatusManager>().AplicateStatus(Element.Fire);
             }
         }
-    }
-
-    void OnDrawGizmos() {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(this.transform.position, ray);
     }
 }

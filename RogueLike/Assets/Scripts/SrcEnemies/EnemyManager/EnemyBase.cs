@@ -7,7 +7,7 @@ public class EnemyBase : ScriptableObject {
     public string NameEnemy;
     public GameObject EnemyPrefab;
     public int MinLevel = 1;
-    
+    public int MaxLevel = 0;
 }
 
 public enum ActionEnemyBehavior {

@@ -360,6 +360,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5780973304356220785, guid: 1e61f27e65190e449977041fe7bc05da, type: 3}
+      propertyPath: mute
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5780973304356220785, guid: 1e61f27e65190e449977041fe7bc05da, type: 3}
       propertyPath: musics.Array.size
       value: 3
       objectReference: {fileID: 0}

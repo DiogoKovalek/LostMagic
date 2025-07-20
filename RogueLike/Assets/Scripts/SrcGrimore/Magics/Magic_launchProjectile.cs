@@ -4,7 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 
 public class Magic_launchProjectile : MonoBehaviour, IMagic {
-    [SerializeField] Transform posCenter;
+    private Transform posCenter;
     [SerializeField] float rayForSpawn;
     [SerializeField] GameObject prefabProject;
     [SerializeField] float speedProject = 1;
@@ -20,7 +20,6 @@ public class Magic_launchProjectile : MonoBehaviour, IMagic {
             atributes = center.transform.parent.GetComponent<IAtributesComunique>();
         }
         else {
-
             element = GetComponent<Enemy>().element;
             atributes = center.GetComponent<IAtributesComunique>();
         }
@@ -34,6 +33,7 @@ public class Magic_launchProjectile : MonoBehaviour, IMagic {
     }
 }
 
-public interface IProjectBasic{
+public interface IProjectBasic {
     void initMoviment(Vector2 direction, float speed, int atack, bool isPlayer);
+    void AddSpeed(float speedAdd);
 }

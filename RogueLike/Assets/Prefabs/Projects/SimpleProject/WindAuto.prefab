@@ -89,7 +89,7 @@ PrefabInstance:
       addedObject: {fileID: -1536061111845528814}
     - targetCorrespondingSourceObject: {fileID: 3760963241806588133, guid: ec63fdce58f866f4598b9e67f27db1d4, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -6525339241965865953}
+      addedObject: {fileID: -4187360569159376523}
   m_SourcePrefab: {fileID: 100100000, guid: ec63fdce58f866f4598b9e67f27db1d4, type: 3}
 --- !u!1 &6539334739631127617 stripped
 GameObject:
@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrefParticle: {fileID: 4335526460445989322, guid: caeffc22eb003b74c8ac79788fc4ecdf, type: 3}
---- !u!114 &-6525339241965865953
+--- !u!114 &-4187360569159376523
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,9 +118,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6539334739631127617}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c86fa23481e585a4bb18ef32a8b669af, type: 3}
+  m_Script: {fileID: 11500000, guid: b7fef96de727efd49b9401f4749be9ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RayRecoil: 1
-  forceRecoil: 40
-  layersRecoil: 1160
+  speedAdd: 10

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0034844fd317c494a831c97240cee05e, type: 3}
+  m_Name: 43GrimoreShildWater
+  m_EditorClassIdentifier: 
+  id: 43
+  NameItem: Escudo de Agua
+  Description: "Bloqueia qualquer ataque enquanto ativo, por\xE9m possui um tempo
+    de recarga muito alto"
+  TypeItem: 1
+  Sprite: {fileID: -2491025783186545213, guid: 80f6b8b522bced046be6809ba96efc1c, type: 3}
+  chanceToDrop: 10
+  Element: 4
+  PrefGrimore: {fileID: 7135642146164652738, guid: 3e766bae9a08feb4097644742c5e9913, type: 3}

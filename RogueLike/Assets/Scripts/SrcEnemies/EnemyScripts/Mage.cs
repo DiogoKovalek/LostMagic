@@ -23,7 +23,7 @@ public class Mage : MonoBehaviour {
     // significa que ele pode atacar, ai ele vai parar e lançar as magias, quando terminar de fazer os ataques ele volta a se movimentar,
     public float distanceFromPlayer = 1;
     private float rayVisionObstacle = 0.8f;
-    private int layersObstacle = (1<<15) | (1<<14) | (1<<9);
+    private int layersObstacle = (1 << 15) | (1 << 14) | (1 << 9);
     private Vector2 deslocRayVision = new Vector2(0, -0.275f);
     private Vector2 dir;
     private Vector2[] dirPosible = {new Vector2(0,1), new Vector2(0.5f,0.5f).normalized, new Vector2(1,0), new Vector2(0.5f,-0.5f).normalized,
@@ -43,23 +43,28 @@ public class Mage : MonoBehaviour {
         dir = sortDir();
     }
     void FixedUpdate() {
-        // Verificar se esta liver para atacar
-        if (enemy.target != null) {
-            RaycastHit2D ray = Physics2D.Raycast(this.transform.position, enemy.directionForPlayer(), enemy.distanceForPlayer(), layersObstacle &~ 1<<14); // uma and de a com b com o b negado
-            if (!ray) {
-                atackMode = true;
+        if (enemy.isFreeForAction) {
+            // Verificar se esta liver para atacar
+            if (enemy.target != null) {
+                RaycastHit2D ray = Physics2D.Raycast(this.transform.position, enemy.directionForPlayer(), enemy.distanceForPlayer(), layersObstacle & ~1 << 14); // uma and de a com b com o b negado
+                if (!ray) {
+                    atackMode = true;
+                }
+                else {
+                    atackMode = false;
+                }
             }
-            else {
-                atackMode = false;
-            }
-        }
 
-        if (!isAtacking && enemy.target != null) {
-            MoveMode();
+            if (!isAtacking && enemy.target != null) {
+                MoveMode();
+            }
+            if (ableForAtack && atackMode && !isAtacking) {
+                CombatMode();
+                rig.linearVelocity = new Vector2(0, 0);
+            }
         }
-        if (ableForAtack && atackMode && !isAtacking) {
-            CombatMode();
-            rig.linearVelocity = new Vector2(0, 0);
+        else {
+            rig.linearVelocity = Vector2.zero;
         }
     }
 
@@ -68,7 +73,7 @@ public class Mage : MonoBehaviour {
         if (timerForTradeDir == null) {
             timerForTradeDir = StartCoroutine(TimerForTradeDir());
         }
-        
+
         //Colisao
         if (Physics2D.Raycast((Vector2)this.transform.position + deslocRayVision, dir, rayVisionObstacle, layersObstacle) == true) {//existe algo no caminho
             StopCoroutine(timerForTradeDir);
@@ -93,7 +98,7 @@ public class Mage : MonoBehaviour {
                 ableDir.Add(d);
             }
         }
-        direction = ableDir.Count > 0 ? ableDir[Random.Range(0, ableDir.Count)] : new Vector2(0,0);
+        direction = ableDir.Count > 0 ? ableDir[Random.Range(0, ableDir.Count)] : new Vector2(0, 0);
         return direction;
     }
     private void CombatMode() {

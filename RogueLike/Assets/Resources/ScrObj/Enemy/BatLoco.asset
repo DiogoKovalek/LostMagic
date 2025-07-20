@@ -15,3 +15,4 @@ MonoBehaviour:
   NameEnemy: BatLoco
   EnemyPrefab: {fileID: 8327121126335671258, guid: 2a3a5b46c4793374aaf953b165cef1ec, type: 3}
   MinLevel: 1
+  MaxLevel: 2

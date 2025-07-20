@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 70a822c15071b984abc63d01cc399fe9
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - iconBurning: {fileID: 7942765733802120919, guid: f72da1fd64599fd43982627156c0a746, type: 3}
+  - iconStunned: {fileID: 8259123820532403210, guid: 995989c6ae92fb54e896a1e61e4e8e2d, type: 3}
+  - iconWet: {fileID: 6910860819661001530, guid: f905c93510b913742ae83ef9d590f6a5, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

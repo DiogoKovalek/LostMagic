@@ -15,3 +15,4 @@ MonoBehaviour:
   NameEnemy: Eye
   EnemyPrefab: {fileID: 4867041219291827886, guid: 566a6c9859d278041a9874610daa2708, type: 3}
   MinLevel: 1
+  MaxLevel: 2

@@ -120,7 +120,7 @@ public class Controler : MonoBehaviour {
                     room.transform.SetParent(floor.transform);
                     RoomConfigAplicate rca = room.GetComponent<RoomConfigAplicate>();
                     if (rca != null) {
-                        rca.ApplySettings(roomWidth, roomHeight, level, mapGenerated[x, y]);
+                        rca.ApplySettings(roomWidth, roomHeight, levelEnemy, mapGenerated[x, y]);
                     }
                     if (scrPortalSpawn == null && mapGenerated[x, y].TypeRoom == TypeRoom.initial) {
                         scrPortalSpawn = room.GetComponentInChildren<IPortal>();
@@ -178,6 +178,11 @@ public class Controler : MonoBehaviour {
                 levelEnemy = 11;
                 break;
         }
+        ControlerDificultEnemy();
+    }
+
+    private void ControlerDificultEnemy() {
+        EnemyBank.InitListEnemysByLevel(levelEnemy);
     }
 
     public void EventStartPlayer() {

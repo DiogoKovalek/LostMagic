@@ -8,31 +8,31 @@ public class BatLoco : MonoBehaviour {
     private Enemy scrEnemy;
     private Transform targetPlayer;
     //============================================
-    private float forceRecoilPlayer = 15.0f;
     void Start() {
         rig = GetComponent<Rigidbody2D>();
         scrEnemy = GetComponent<Enemy>();
     }
 
     void FixedUpdate() {
+        if (scrEnemy.isFreeForAction) {
+            if (targetPlayer != null) {
+                // Move
+                rig.AddForce(getDirectionFromPlayer() * scrEnemy.speed);
 
-        if (targetPlayer != null) {
-            // Move
-            rig.AddForce(getDirectionFromPlayer() * scrEnemy.speed);
+                Collider2D areaAttack = Physics2D.OverlapCircle(this.transform.position, this.GetComponent<CircleCollider2D>().radius, 1 << targetPlayer.gameObject.layer);
+                if (areaAttack != null) {
+                    IPlayer scriptPlayer = areaAttack.GetComponent<IPlayer>();
 
-            Collider2D areaAttack = Physics2D.OverlapCircle(this.transform.position, this.GetComponent<CircleCollider2D>().radius, 1 << targetPlayer.gameObject.layer);
-            if (areaAttack != null) {
-                IPlayer scriptPlayer = areaAttack.GetComponent<IPlayer>();
-
-                scriptPlayer.RecoilAttack(this.transform.position, forceRecoilPlayer);
-                scriptPlayer.TakeDamage(scrEnemy.atack, scrEnemy.element); // se auto transforma em int
+                    scriptPlayer.TakeDamage(scrEnemy.atack, scrEnemy.element); // se auto transforma em int
+                }
+            }
+            else {
+                targetPlayer = scrEnemy.GetTarget();
             }
         }
         else {
-            targetPlayer = scrEnemy.GetTarget();
+            rig.linearVelocity = Vector2.zero;
         }
-
-
     }
 
     private Vector2 getDirectionFromPlayer() {

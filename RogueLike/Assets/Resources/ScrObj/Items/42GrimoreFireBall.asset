@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0034844fd317c494a831c97240cee05e, type: 3}
+  m_Name: 42GrimoreFireBall
+  m_EditorClassIdentifier: 
+  id: 42
+  NameItem: Bola de Fogo
+  Description: "Esta magia combina muito bem com um suco de maracuj\xE1. Cuidado
+    para n\xE3o se queimar"
+  TypeItem: 1
+  Sprite: {fileID: -5914618448148991591, guid: 43fe600dab687034f948d62800b86917, type: 3}
+  chanceToDrop: 10
+  Element: 2
+  PrefGrimore: {fileID: 4172394401380664293, guid: 9e7cc0a486f4a414c84dc8172e28e7f9, type: 3}

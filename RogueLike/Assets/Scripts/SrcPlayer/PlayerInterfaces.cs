@@ -11,6 +11,6 @@ public interface IManaManager {
 }
 public interface IPlayer {
     void TakeDamage(int atack, Element element);
-    void RecoilAttack(Vector2 posE, float force);
     void AddHP(int HPRecover);
+    void RestoreAllMana();
 }

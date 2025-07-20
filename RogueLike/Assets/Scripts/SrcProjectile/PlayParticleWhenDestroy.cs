@@ -2,8 +2,13 @@ using UnityEngine;
 
 public class PlayParticleWhenDestroy : MonoBehaviour {
     public ParticleSystem PrefParticle;
+    private bool isQuitting = false;
 
-    void OnDisable() {
+    void OnApplicationQuit() {
+        isQuitting = true;
+    }
+    void OnDestroy() {
+        if (isQuitting) return;
         ParticleSystem particle = Instantiate(PrefParticle, this.transform.position, PrefParticle.transform.rotation);
         particle.Play();
 

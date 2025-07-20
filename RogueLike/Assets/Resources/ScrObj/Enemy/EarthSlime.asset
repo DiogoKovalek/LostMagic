@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NameEnemy: Earth Slime
   EnemyPrefab: {fileID: 375997601995228428, guid: 5e9276615030d1740b6e098a827d813b, type: 3}
-  MinLevel: 1
+  MinLevel: 3
+  MaxLevel: 7

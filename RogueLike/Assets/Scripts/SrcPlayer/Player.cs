@@ -9,16 +9,17 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
-public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer {
+public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer, IStatusAplicate {
     private Rigidbody2D rig;
     private Animator anim;
     SpriteRenderer spRen;
     private bool isInvunerable = false;
     private bool freeForMove = true;
     private float timeForInvunerable = 1.1f;
-    private float timeRecoil = 0.1f;
 
     private Controler controler;
+
+    private bool isFreeForAction = true;
 
     // Status ==============================
     public PlayerBase playerBase;
@@ -35,6 +36,10 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer 
     private int MWind;
     private int MEarth;
     private int MVoid;
+    //======================================
+    //Status ===============================
+    public StatusView localStatus;
+    private List<Status> status = new List<Status>();
     //======================================
 
     //Mana recharge ========================
@@ -112,6 +117,10 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer 
     private bool actPause;
     //====================================
 
+    // Damege Number ======================
+    public GameObject prefabDamageNumber;
+    //=====================================
+
     // Start is called before the first frame update
     void Awake() {
         rig = GetComponent<Rigidbody2D>();
@@ -131,7 +140,9 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer 
         for (int i = 0; i < 6; i++) {
             inventory[i] = i + 35;
         }
-
+        inventory[6] = 41;
+        inventory[7] = 42;
+        inventory[8] = 43;
         staffEquiped = 33;
         grimoresEquiped[0] = 34;
         grimoresEquiped[1] = 38;
@@ -178,8 +189,8 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer 
 
     void Update() {
 
-        getInput();
-
+        if(isFreeForAction) getInput();
+        else dirPlayer = Vector2.zero;
         #region Mouse and wand tranform
         if (staff != null) {
             mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -251,6 +262,8 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer 
     void OnTriggerStay2D(Collider2D collision) {
         if (collision.tag == "Spike" && !isInvunerable) {
             TakeDamage(3, Element.Void);
+            GameObject dn = Instantiate(prefabDamageNumber, this.transform.position, this.transform.rotation, transform.parent);
+            dn.GetComponent<DamageNumberEditor>().Init(atack.ToString(), Element.Iron);
         }
     }
 
@@ -305,6 +318,10 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer 
         this.mana -= value;
         UpdatedBar(mana, maxMana, HPorMana.Mana);
         if (!isRechargeMana) StartCoroutine(rechargeMana());
+    }
+    public void RestoreAllMana() {
+        this.mana = maxMana;
+        UpdatedBar(mana, maxMana, HPorMana.Mana);
     }
     public int getTotalMana() {
         return mana;
@@ -384,17 +401,11 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer 
         yield return new WaitForSeconds(timeForInvunerable);
         isInvunerable = false;
     }
-
-    private IEnumerator recoilAttack(Vector2 posE, float force) {
-        freeForMove = false;
-        Vector2 direction = ((Vector2)transform.position - posE).normalized;
-        rig.linearVelocity = direction * force;
-        yield return new WaitForSeconds(timeRecoil);
-        freeForMove = true;
-    }
     public void TakeDamage(int atack, Element element) {
         if (!isInvunerable) {
             this.life -= atack;
+            GameObject dn = Instantiate(prefabDamageNumber, this.transform.position, this.transform.rotation, transform.parent);
+            dn.GetComponent<DamageNumberEditor>().Init(atack.ToString(), element);
             if (UpdatedBar != null) {
                 UpdatedBar(life, maxLife, HPorMana.HP);
             }
@@ -407,11 +418,6 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer 
     public void AddHP(int HPRecover) {
         this.life = this.life + HPRecover <= maxLife ? this.life + HPRecover : maxLife;
         UpdatedBar(life, maxLife, HPorMana.HP);
-    }
-    public void RecoilAttack(Vector2 posE, float force) {
-        if (!isInvunerable) {
-            StartCoroutine(recoilAttack(posE, force));
-        }
     }
 
     public int[] OnGetItemsFromPlayer() {
@@ -593,6 +599,9 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer 
             if (maxMana < mana) {
                 mana = maxMana;
             }
+            else if (mana < maxMana) {
+                if(!isRechargeMana)StartCoroutine(rechargeMana());
+            }
 
             UpdatedBar(life, maxLife, HPorMana.HP);
             UpdatedBar(mana, maxMana, HPorMana.Mana);
@@ -651,6 +660,40 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer 
         }
         return atack + extra;
     }
+    #endregion
 
+    #region Status Aplicate
+    public void managerStatus(Status status, bool aplicate) {
+        bool containStatus = this.status.Contains(status);
+        if (aplicate && !containStatus) {
+            this.status.Add(status);
+            localStatus.addStatus(status);
+        }
+        else if (!aplicate && containStatus) {
+            this.status.Remove(status);
+            localStatus.removeStatus(status);
+        }
+    }
+
+    public void damageBurning(int damage) {
+        TakeDamage(damage, Element.Fire);
+    }
+
+    public bool isBurning() {
+        return status.Contains(Status.Burning);
+    }
+
+    public void Stunned(bool isStuned) {
+        if (isStuned) {
+            isFreeForAction = false;
+        }
+        else {
+            isFreeForAction = true;
+        }
+    }
+
+    public void Wet() {
+        throw new NotImplementedException();
+    }
     #endregion
 }

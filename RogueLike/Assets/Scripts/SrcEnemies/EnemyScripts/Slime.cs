@@ -17,33 +17,38 @@ public class Slime : MonoBehaviour {
     private const float delayForBackWalk = 1.0f;
     private const float delayForBackAtack = 3.0f;
     private const float forceJump = 25.0f;
-    private const float forceRecoilPlayer = 15.0f;
     private bool nearPlayer = false;
     private bool freeForAttack = true; // trocar para true
     private bool freeForMove = false; // aqui trocar para true
-    private bool isAttaking = false;
     void Awake() {
         rig = GetComponent<Rigidbody2D>();
         scrEnemy = GetComponent<Enemy>();
     }
 
-    void Update() {
-        if (freeForMove && targetPlayer != null) {
-            Vector2 direction = (targetPlayer.position - this.transform.position).normalized;
-            rig.linearVelocity = direction * scrEnemy.speed;
-        }
-        else if (targetPlayer == null) {
-            targetPlayer = scrEnemy.GetTarget();
-            if (targetPlayer != null) {
-                freeForMove = true;
-                StartCoroutine(calcDistanceForPlayer());
+    void FixedUpdate() {
+        if (scrEnemy.isFreeForAction) {
+            if (scrEnemy.isFreeForAction) {
+                if (freeForMove && targetPlayer != null) {
+                    Vector2 direction = (targetPlayer.position - this.transform.position).normalized;
+                    rig.linearVelocity = direction * scrEnemy.speed;
+                }
+                else if (targetPlayer == null) {
+                    targetPlayer = scrEnemy.GetTarget();
+                    if (targetPlayer != null) {
+                        freeForMove = true;
+                        StartCoroutine(calcDistanceForPlayer());
+                    }
+                }
+                if (freeForAttack && nearPlayer) {
+                    StartCoroutine(attack());
+                }
+                if (targetPlayer != null) {
+                    attackColision();
+                }
             }
         }
-        if (freeForAttack && nearPlayer) {
-            StartCoroutine(attack());
-        }
-        if (targetPlayer != null) {
-            attackColision();
+        else {
+            rig.linearVelocity = Vector2.zero;
         }
     }
     private IEnumerator calcDistanceForPlayer() {
@@ -61,13 +66,9 @@ public class Slime : MonoBehaviour {
         if (areaAttack != null) {
             IPlayer scriptPlayer = areaAttack.GetComponent<IPlayer>();
             // Se estiver atacando
-            if (isAttaking) {
-                scriptPlayer.TakeDamage(scrEnemy.atack, scrEnemy.element);
-            }
-            else {
-                scriptPlayer.RecoilAttack(this.transform.position, forceRecoilPlayer);
-                scriptPlayer.TakeDamage(scrEnemy.atack, scrEnemy.element); // se auto transforma em int
-            }
+            scriptPlayer.TakeDamage(scrEnemy.atack, scrEnemy.element);
+
+
         }
     }
     private IEnumerator attack() {
@@ -79,13 +80,11 @@ public class Slime : MonoBehaviour {
         this.gameObject.layer = (int)Math.Log(scrEnemy.layerIgnore, 2);
         yield return new WaitForSeconds(timeForAtack);
         // Attack
-        isAttaking = true;
         Vector2 direction = (targetPlayer.position - this.transform.position).normalized;
         rig.AddForce(direction * forceJump, ForceMode2D.Impulse);
         yield return new WaitForSeconds(delayForAttack);
         this.gameObject.layer = (int)Math.Log(scrEnemy.layerBase, 2);
         rig.linearVelocity = new Vector2(0, 0); // para o pulo
-        isAttaking = false;
         yield return new WaitForSeconds(delayForBackWalk);
         // BackWalk
         freeForMove = true;

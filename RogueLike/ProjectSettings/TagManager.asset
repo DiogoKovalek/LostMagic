@@ -16,6 +16,7 @@ TagManager:
   - Spike
   - Obstacle
   - Fire
+  - Quicksand
   layers:
   - Default
   - TransparentFX

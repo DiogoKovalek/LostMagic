@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NameEnemy: Fire Slime
   EnemyPrefab: {fileID: 1751728411885409215, guid: 5074e11a3b8a8eb4784425d7606e4c54, type: 3}
-  MinLevel: 1
+  MinLevel: 3
+  MaxLevel: 7

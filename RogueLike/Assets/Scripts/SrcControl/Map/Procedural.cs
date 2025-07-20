@@ -9,8 +9,8 @@ public class Procedural {
 
     private float chanceForCreateTrapRoom = 30.0f; // number Between 0 and 100
     private float chanceForCreateDoubleTrapRoom = 15.0f;
-    private float chanceForAddNewDoorInRoom = 45.0f;
-    private float chanceForAddExtraNewDoorInRoom = 20.0f;
+    private float chanceForAddNewDoorInRoom = 70.0f;
+    private float chanceForAddExtraNewDoorInRoom = 30.0f;
     public RoomConfig[,] generateMapProcedural(int size2D, int numberOfRooms, int numberOfRoomsList) {
         // cria o array
         mapGenerateRooms = new RoomConfig[size2D, size2D];

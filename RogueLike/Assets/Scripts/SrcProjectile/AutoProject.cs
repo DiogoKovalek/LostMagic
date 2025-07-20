@@ -62,10 +62,12 @@ public class AutoProject : MonoBehaviour, IProjectBasic {
     void OnTriggerEnter2D(Collider2D collision) {
         if (!projectPlayer && collision.gameObject.tag == "Player") {
             collision.GetComponent<IPlayer>().TakeDamage(damage, element);
+            collision.GetComponent<StatusManager>().AplicateStatus(element);
             Destroy(this.gameObject);
         }
         else if (projectPlayer && collision.gameObject.tag == "Enemy") {
             collision.GetComponent<IEnemy>().TakeDamage(damage, element);
+            collision.GetComponent<StatusManager>().AplicateStatus(element);
             Destroy(this.gameObject);
         }
         if (collision.gameObject.tag == "Wall" || collision.gameObject.tag == "Obstacle") {
@@ -108,5 +110,11 @@ public class AutoProject : MonoBehaviour, IProjectBasic {
         transform.rotation = Quaternion.Euler(0, 0, angle);
 
         rb.linearVelocity = direction * speedProject;
+    }
+
+    public void AddSpeed(float speedAdd) {
+        speedProject += speedAdd;
+        speedRotation = speedAdd + speedRotation < 360? speedAdd + speedRotation : 360f ;
+        rb.linearVelocity = rb.linearVelocity.normalized * speedProject;
     }
 }

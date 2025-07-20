@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NameEnemy: Mage
   EnemyPrefab: {fileID: 5645379279495330752, guid: 055fd400dd92c114eafa0179b6ef2e1b, type: 3}
-  MinLevel: 1
+  MinLevel: 5
+  MaxLevel: 10
