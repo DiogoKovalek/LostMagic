@@ -57,6 +57,19 @@ public class RoomConfigAplicate : MonoBehaviour {
                 GameObject por = Instantiate(portal, this.transform.position, portal.transform.rotation);
                 por.transform.SetParent(this.transform);
                 por.GetComponent<IPortal>().initiPortal(TypePortal.Spawn);
+
+                //Add 4 chest initials
+                GameObject chest = ItemBank.CreateChest((Vector2)this.transform.position + new Vector2(4,3));
+                chest.transform.SetParent(this.transform);
+
+                chest = ItemBank.CreateChest((Vector2)this.transform.position + new Vector2(-4,3));
+                chest.transform.SetParent(this.transform);
+
+                chest = ItemBank.CreateChest((Vector2)this.transform.position + new Vector2(4,-3));
+                chest.transform.SetParent(this.transform);
+
+                chest = ItemBank.CreateChest((Vector2)this.transform.position + new Vector2(-4,-3));
+                chest.transform.SetParent(this.transform);
             }
             else if (typeRoom == TypeRoom.portalFinal) {
                 GameObject por = Instantiate(portal, this.transform.position, portal.transform.rotation);

@@ -20,8 +20,8 @@ MonoBehaviour:
   Sprite: {fileID: 2968893562172575709, guid: 2c034de9eb07ceb4a9e493b23dfc2dc6, type: 3}
   chanceToDrop: 0
   CategoryEquipment: 0
-  HP: 1
-  Mana: 1
+  HP: 0
+  Mana: 0
   ManaPerSecond: 0
   Atack: 0
   Speed: 0
@@ -30,5 +30,5 @@ MonoBehaviour:
   MWater: 0
   MWind: 0
   MEarth: 0
-  MVoid: 1
+  MVoid: 3
   equipmentScript: 0

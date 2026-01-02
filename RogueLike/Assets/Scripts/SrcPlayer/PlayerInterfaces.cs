@@ -13,4 +13,5 @@ public interface IPlayer {
     void TakeDamage(int atack, Element element);
     void AddHP(int HPRecover);
     void RestoreAllMana();
+    void BlInventory(bool isBlock);
 }

@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: atack
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: speed
@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: maxLife
-      value: 20
+      value: 200
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: rayVision
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delayForAtack: 3
   quantMagicsSequence: 5
-  delayMagicSequence: 0.3
+  delayMagicSequence: 1
   distanceFromPlayer: 1
   minTimeForTradeDir: 1.5
   maxTimeForTradeDir: 5
@@ -178,13 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e6e0330e1ebd26499593bf4aa8ea267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  posCenter: {fileID: 7299830868910408626}
   rayForSpawn: 0.5
   prefabProject: {fileID: 6123829557548171137, guid: 9cae93bd4a9b2f146a883396a1e71f26, type: 3}
   speedProject: 1
   isPlayer: 0
---- !u!4 &7299830868910408626 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6708203776749074349, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
-  m_PrefabInstance: {fileID: 4059545041156830239}
-  m_PrefabAsset: {fileID: 0}

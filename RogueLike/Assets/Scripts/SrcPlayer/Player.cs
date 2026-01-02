@@ -14,6 +14,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer,
     private Animator anim;
     SpriteRenderer spRen;
     private bool isInvunerable = false;
+    private Coroutine coroutineInvunerable = null;
     private bool freeForMove = true;
     private float timeForInvunerable = 1.1f;
 
@@ -93,9 +94,12 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer,
     public event NextLevel NextedLevel;
     public delegate void UIForInteract(GameObject interact);
     public event UIForInteract UIForInteracted;
+    public delegate void BlockInventory(bool isBlocked);
+    public event BlockInventory BlockedInventory;
     //====================================
 
     // Inventory =========================
+    private bool ableForOpenInventory = true;
     private int[] inventory = new int[20];
     private int staffEquiped;
     private int[] grimoresEquiped = new int[3];
@@ -135,7 +139,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer,
     private void awakeStats() {
         updateAtributes(true);
 
-
+        /*
         //Para teste
         for (int i = 0; i < 6; i++) {
             inventory[i] = i + 35;
@@ -143,9 +147,40 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer,
         inventory[6] = 41;
         inventory[7] = 42;
         inventory[8] = 43;
+        */
+
         staffEquiped = 33;
         grimoresEquiped[0] = 34;
-        grimoresEquiped[1] = 38;
+        equipaments[0] = 16;
+        equipaments[2] = 15;
+        equipaments[3] = 17;
+        equipaments[4] = 18;
+
+        staffEquiped = 1;
+        grimoresEquiped[0] = 42;
+        grimoresEquiped[1] = 41;
+        grimoresEquiped[2] = 43;
+
+        equipaments[0] = 25;
+        equipaments[1] = 49;
+        equipaments[2] = 21;
+        equipaments[3] = 29;
+        equipaments[4] = 19;
+
+        rings[0] = 52;
+        rings[1] = 52;
+        rings[2] = 52;
+        rings[3] = 51;
+        rings[4] = 51;
+        rings[5] = 51;
+        rings[6] = 10;
+        rings[7] = 10;
+        rings[8] = 10;
+        rings[9] = 10;
+
+        for (int i = 0; i < 11; i++) {
+            inventory[i] = 40;
+        }
     }
 
     #region OnDisable
@@ -185,6 +220,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer,
 
     void Start() {
         insertItems();
+        updateAtributes();
     }
 
     void Update() {
@@ -213,7 +249,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer,
         #endregion
 
         #region Open and close inventory
-        if (actOpenInventory) {
+        if (actOpenInventory && ableForOpenInventory) {
             TradedScreen(UIType.Inventory);
         }
         #endregion
@@ -261,9 +297,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer,
 
     void OnTriggerStay2D(Collider2D collision) {
         if (collision.tag == "Spike" && !isInvunerable) {
-            TakeDamage(3, Element.Void);
-            GameObject dn = Instantiate(prefabDamageNumber, this.transform.position, this.transform.rotation, transform.parent);
-            dn.GetComponent<DamageNumberEditor>().Init(atack.ToString(), Element.Iron);
+            TakeDamage(3, Element.Iron);
         }
     }
 
@@ -396,10 +430,18 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer,
         yield return new WaitForSeconds(timeDeleyForInteraction);
         allowedForInteraction = true;
     }
-    private IEnumerator delayForInvunerable() {
+    public void delayInvunerableByTime(float time) {
+        if (coroutineInvunerable != null) {
+            isInvunerable = false;
+            StopCoroutine(coroutineInvunerable);
+        }
+        StartCoroutine(delayForInvunerable(time));
+    }
+    private IEnumerator delayForInvunerable(float time) {
         isInvunerable = true;
-        yield return new WaitForSeconds(timeForInvunerable);
+        yield return new WaitForSeconds(time);
         isInvunerable = false;
+        coroutineInvunerable = null;
     }
     public void TakeDamage(int atack, Element element) {
         if (!isInvunerable) {
@@ -412,7 +454,7 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer,
             if (life <= 0) {
                 TradedScreen(UIType.Death);
             }
-            StartCoroutine(delayForInvunerable());
+            coroutineInvunerable = StartCoroutine(delayForInvunerable(timeForInvunerable));
         }
     }
     public void AddHP(int HPRecover) {
@@ -420,6 +462,12 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer,
         UpdatedBar(life, maxLife, HPorMana.HP);
     }
 
+    public void BlInventory(bool isBlock) {
+        /*
+        ableForOpenInventory = !isBlock;
+        BlockedInventory(isBlock);
+        */
+    }
     public int[] OnGetItemsFromPlayer() {
         int[] aux = new int[40];
         System.Array.Copy(inventory, 0, aux, 0, inventory.Length); // Copia de array para nao prescisar usar for
@@ -431,7 +479,6 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer,
 
         return aux;
     }
-
 
     public void OnUpdateItemsFromPlayer(int[] itemUpd) {
         try {

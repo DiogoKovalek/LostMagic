@@ -44,6 +44,9 @@ public class UIGameScreen : MonoBehaviour, ISetScreen {
     // Consumable Box ================================
     public GameObject ConsumableBox;
     //================================================
+    // Block Inventory Icon ==========================
+    public GameObject Block;
+    //================================================
     // event Player ==================================
     public delegate void SetActiveInput(bool isActive);
     public event SetActiveInput SetActivedInput;
@@ -186,6 +189,9 @@ public class UIGameScreen : MonoBehaviour, ISetScreen {
         }
         // posicao do player
         CirclePlayerMap.GetComponent<RectTransform>().anchoredPosition = new Vector2(mapPosElement[x], -mapPosElement[y]);
+    }
+    public void OnBlockInventory(bool isblocked) {
+        Block.SetActive(isblocked);
     }
     public void SetScreen(bool active = false, bool input = false) {
         // Ativar ou destivar a UI

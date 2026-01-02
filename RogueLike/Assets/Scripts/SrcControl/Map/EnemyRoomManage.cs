@@ -7,6 +7,7 @@ public class EnemyRoomManage : MonoBehaviour {
     private List<EnemyBase> listOfEnemysInRoom = new List<EnemyBase>();
     private int layerForCollider = (1 << 3) | (1 << 7) | (1 << 9) | (1 << 15); //Wall, Player, Enemy
     [SerializeField] LayerMask layerPlayer;
+    private IPlayer iPlayer;
     private Transform transformPlayer;
     private float distMinPlayer = 5;
     private byte widthRoom;
@@ -28,6 +29,8 @@ public class EnemyRoomManage : MonoBehaviour {
             Collider2D detectedPlayer = Physics2D.OverlapBox(this.transform.position, new Vector2(widthRoom, heightRoom), 0f, layerPlayer);
             if (detectedPlayer != null) {
                 transformPlayer = detectedPlayer.transform;
+                iPlayer = transformPlayer.GetComponent<IPlayer>();
+                iPlayer.BlInventory(true);
                 controlerRoomConfig.OpenOrCloseAllDoors();
                 break;
             }
@@ -36,7 +39,8 @@ public class EnemyRoomManage : MonoBehaviour {
         while (transform.childCount > 0) { // espera todos os inimigos morrerem
             yield return new WaitForFixedUpdate();
         }
-        transformPlayer.GetComponent<IPlayer>().RestoreAllMana();
+        iPlayer.BlInventory(false);
+        iPlayer.RestoreAllMana();
         spawnChest();
         controlerRoomConfig.OpenOrCloseAllDoors();
     }

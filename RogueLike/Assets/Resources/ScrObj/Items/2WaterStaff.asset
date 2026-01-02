@@ -21,7 +21,7 @@ MonoBehaviour:
   runAnim: {fileID: -2753146534031626556, guid: 4f295981ecf74b7459aff70793ead5ce, type: 3}
   Element: 4
   MFire: 0
-  MWater: 3
+  MWater: 5
   MWind: 0
   MEarth: 0
   MVoid: 0

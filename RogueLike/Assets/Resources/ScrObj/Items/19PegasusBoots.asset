@@ -23,7 +23,7 @@ MonoBehaviour:
   Mana: 0
   ManaPerSecond: 0
   Atack: 0
-  Speed: 4
+  Speed: 7
   Luck: 0
   MFire: 0
   MWater: 0

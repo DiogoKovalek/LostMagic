@@ -18,7 +18,7 @@ public class Controler : MonoBehaviour {
     private int mapSize2D = 10; // Não pode ser mudado a qualquer momento, tem que mudar na UIGameScreen
     private int lengthBranch;
     private int levelEnemy;
-    private int level = 1;
+    private int level = 6;
     private int[] posPlayer = new int[2];
     //==============================================
     //Load Varibles=================================

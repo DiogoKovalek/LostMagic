@@ -20,7 +20,7 @@ MonoBehaviour:
   chanceToDrop: 50
   runAnim: {fileID: -8304068617120561011, guid: 1709d12df3916694ead12c7f983c8f2c, type: 3}
   Element: 2
-  MFire: 3
+  MFire: 5
   MWater: 0
   MWind: 0
   MEarth: 0

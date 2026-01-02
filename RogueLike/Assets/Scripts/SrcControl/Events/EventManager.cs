@@ -28,7 +28,7 @@ public class EventManager : MonoBehaviour {
             player.UpdatedGrimoreSelect += ui.uiGameScreen.OnUpdateGrimoreIndex;
             player.UpdatedBoxConsumable += ui.uiGameScreen.OnUpdateConsumable;
             player.UIForInteracted += ui.uiGameScreen.OnUIForInterct;
-
+            player.BlockedInventory += ui.uiGameScreen.OnBlockInventory;
             //Game Screen
             ui.uiGameScreen.SetActivedInput += player.OnSetActiveInput;
 

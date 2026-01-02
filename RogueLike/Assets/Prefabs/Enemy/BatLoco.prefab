@@ -18,7 +18,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: maxLife
-      value: 3
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 6708203776749074349, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_LocalPosition.x

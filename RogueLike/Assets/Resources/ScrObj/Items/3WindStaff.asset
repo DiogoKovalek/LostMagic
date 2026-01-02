@@ -22,7 +22,7 @@ MonoBehaviour:
   Element: 3
   MFire: 0
   MWater: 0
-  MWind: 3
+  MWind: 5
   MEarth: 0
   MVoid: 0
   staffScript: 0

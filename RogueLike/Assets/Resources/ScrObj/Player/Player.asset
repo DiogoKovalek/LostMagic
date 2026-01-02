@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxLife: 10
   maxMana: 20
-  manaPerSecond: 1
+  manaPerSecond: 2
   atack: 2
-  speed: 5
+  speed: 2
   luck: 0
   MFire: 0
   MWater: 0
   MWind: 0
   MEarth: 0
-  MVoid: 3
+  MVoid: 0

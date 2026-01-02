@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 20
   NameItem: Botas de Ferro
-  Description: Desconfortavel, mas protege dos espinhos
+  Description: "Desconfort\xE1vel"
   TypeItem: 2
   Sprite: {fileID: -6986404908295260899, guid: d377fc864d5999b4798271f0ac65e12e, type: 3}
   chanceToDrop: 10
   CategoryEquipment: 4
-  HP: 5
+  HP: 7
   Mana: 0
   ManaPerSecond: 0
   Atack: 0
-  Speed: 0
+  Speed: 1
   Luck: 0
   MFire: 0
   MWater: 0

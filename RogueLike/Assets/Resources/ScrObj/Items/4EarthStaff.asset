@@ -23,6 +23,6 @@ MonoBehaviour:
   MFire: 0
   MWater: 0
   MWind: 0
-  MEarth: 3
+  MEarth: 5
   MVoid: 0
   staffScript: 0

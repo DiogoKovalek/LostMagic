@@ -58,7 +58,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7565964374584649953, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
       propertyPath: DelayMagic
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 7565964374584649953, guid: 49dea9196a2d0de429b5c58729598c94, type: 3}
       propertyPath: ManaExpend
@@ -91,3 +91,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefShild: {fileID: 5200584190849765702, guid: 21d375be61a4f3c47ba0b00da4afac4a, type: 3}
   posCenter: {fileID: 0}
+  isPlayer: 1

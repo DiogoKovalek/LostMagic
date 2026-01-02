@@ -24,6 +24,9 @@ public class StatusManager : MonoBehaviour {
     //Wet =============================
     //Quando estiver molhado, nao tera nenhum efeito negativo
     private bool isWet = false;
+    private bool ableForRemoveWet = true;
+
+    public int TimeForWet = 1;
     //=================================
     void Start() {
         statsEntity = GetComponent<IStatusAplicate>();
@@ -76,7 +79,6 @@ public class StatusManager : MonoBehaviour {
 
     }
     private IEnumerator Stunned(int timeStuned) {
-        Debug.Log("Inicio de Stunned");
         statsEntity.Stunned(true);
         while (countTimeInStunned < timeStuned) {
             countTimeInStunned++;
@@ -103,10 +105,19 @@ public class StatusManager : MonoBehaviour {
             StopCoroutine(coroutineStuned);
             coroutineStuned = null;
         }
+
+        StartCoroutine(Wet(TimeForWet));
     }
-    public void removeWet() {
-        isWet = false;
-        statsEntity.managerStatus(Status.Wet, false);
+    private IEnumerator Wet(int timeWet) {
+        yield return new WaitForSeconds(timeWet);
+        while (!ableForRemoveWet) {
+            yield return new WaitForSeconds(1f);
+        }
+            isWet = false;
+            statsEntity.managerStatus(Status.Wet, false);
+    }
+    public void setAbleForRemoveWet(bool able) {
+        ableForRemoveWet = able;
     }
     #endregion
 }

@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: maxLife
-      value: 20
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: rayVision
@@ -114,7 +114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7823163935784981783, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Name
-      value: MagWater
+      value: MageWater
       objectReference: {fileID: 0}
     - target: {fileID: 9027626583250879711, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: m_Size.x
@@ -143,11 +143,6 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 5045717346969743040}
   m_SourcePrefab: {fileID: 100100000, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
---- !u!4 &6152905243756848586 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6708203776749074349, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
-  m_PrefabInstance: {fileID: 611312466907632231}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7271808534823585648 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7823163935784981783, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
@@ -166,8 +161,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delayForAtack: 3
-  quantMagicsSequence: 5
-  delayMagicSequence: 0.3
+  quantMagicsSequence: 6
+  delayMagicSequence: 0.5
   distanceFromPlayer: 1
   minTimeForTradeDir: 1.5
   maxTimeForTradeDir: 5
@@ -183,7 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e6e0330e1ebd26499593bf4aa8ea267, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  posCenter: {fileID: 6152905243756848586}
   rayForSpawn: 0.5
   prefabProject: {fileID: 204594126759916526, guid: 1d84b10326a0c554a92d8dda4e8e0dbc, type: 3}
   speedProject: 1

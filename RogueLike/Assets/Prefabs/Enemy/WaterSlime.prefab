@@ -22,7 +22,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: atack
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: speed
@@ -34,7 +34,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: maxLife
-      value: 2
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 6036555718914478729, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       propertyPath: rayVision
@@ -119,6 +119,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7823163935784981783, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8144599761461614591}
+    - targetCorrespondingSourceObject: {fileID: 7823163935784981783, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -7561088575076004672}
   m_SourcePrefab: {fileID: 100100000, guid: 04fb00210f8802642a100b91ea440e59, type: 3}
 --- !u!1 &5838141647524339868 stripped
 GameObject:
@@ -135,5 +138,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6760df2a46fef5f45a6ff082acbb4f21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-7561088575076004672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5838141647524339868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13accb47834ee4b4b84eb9d3ffe40f4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
