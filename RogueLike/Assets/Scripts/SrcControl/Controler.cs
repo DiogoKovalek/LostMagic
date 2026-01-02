@@ -18,7 +18,7 @@ public class Controler : MonoBehaviour {
     private int mapSize2D = 10; // Não pode ser mudado a qualquer momento, tem que mudar na UIGameScreen
     private int lengthBranch;
     private int levelEnemy;
-    private int level = 6;
+    private int level = 1;
     private int[] posPlayer = new int[2];
     //==============================================
     //Load Varibles=================================
@@ -134,7 +134,7 @@ public class Controler : MonoBehaviour {
     private void setDificult() {
         switch (level) {
             case 1:
-                lengthBranch = 2;
+                lengthBranch = 1;
                 levelEnemy = 1;
                 break;
             case 2:
@@ -146,7 +146,7 @@ public class Controler : MonoBehaviour {
                 levelEnemy = 3;
                 break;
             case 4:
-                lengthBranch = 4;
+                lengthBranch = 3;
                 levelEnemy = 4;
                 break;
             case 5:
@@ -154,27 +154,27 @@ public class Controler : MonoBehaviour {
                 levelEnemy = 5;
                 break;
             case 6:
-                lengthBranch = 5;
+                lengthBranch = 4;
                 levelEnemy = 6;
                 break;
             case 7:
-                lengthBranch = 6;
+                lengthBranch = 5;
                 levelEnemy = 7;
                 break;
             case 8:
-                lengthBranch = 7;
+                lengthBranch = 5;
                 levelEnemy = 8;
                 break;
             case 9:
-                lengthBranch = 8;
+                lengthBranch = 6;
                 levelEnemy = 9;
                 break;
             case 10:
-                lengthBranch = 9;
+                lengthBranch = 6;
                 levelEnemy = 10;
                 break;
             default:
-                lengthBranch = 10;
+                lengthBranch = 7;
                 levelEnemy = 11;
                 break;
         }

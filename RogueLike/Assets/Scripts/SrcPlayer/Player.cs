@@ -156,31 +156,6 @@ public class Player : MonoBehaviour, IAtributesComunique, IManaManager, IPlayer,
         equipaments[3] = 17;
         equipaments[4] = 18;
 
-        staffEquiped = 1;
-        grimoresEquiped[0] = 42;
-        grimoresEquiped[1] = 41;
-        grimoresEquiped[2] = 43;
-
-        equipaments[0] = 25;
-        equipaments[1] = 49;
-        equipaments[2] = 21;
-        equipaments[3] = 29;
-        equipaments[4] = 19;
-
-        rings[0] = 52;
-        rings[1] = 52;
-        rings[2] = 52;
-        rings[3] = 51;
-        rings[4] = 51;
-        rings[5] = 51;
-        rings[6] = 10;
-        rings[7] = 10;
-        rings[8] = 10;
-        rings[9] = 10;
-
-        for (int i = 0; i < 11; i++) {
-            inventory[i] = 40;
-        }
     }
 
     #region OnDisable
